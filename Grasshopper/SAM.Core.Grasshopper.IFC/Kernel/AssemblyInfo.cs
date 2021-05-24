@@ -2,7 +2,7 @@
 using System;
 using System.Drawing;
 
-namespace SAM.Core.Grasshopper.TMP
+namespace SAM.Core.Grasshopper.IFC
 {
     public class AssemblyInfo : GH_AssemblyInfo
     {

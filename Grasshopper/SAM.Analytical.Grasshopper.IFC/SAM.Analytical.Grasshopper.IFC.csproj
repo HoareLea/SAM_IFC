@@ -15,11 +15,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A1DB5A5E-8118-4B86-8E0D-80FF61D80FEB}</ProjectGuid>
+    <ProjectGuid>{3B06FE13-BC4D-470C-A5F8-3F03D007F5FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SAM.Analytical.Grasshopper.TMP</RootNamespace>
-    <AssemblyName>SAM.Analytical.Grasshopper.TMP</AssemblyName>
+    <RootNamespace>SAM.Analytical.Grasshopper.IFC</RootNamespace>
+    <AssemblyName>SAM.Analytical.Grasshopper.IFC</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>

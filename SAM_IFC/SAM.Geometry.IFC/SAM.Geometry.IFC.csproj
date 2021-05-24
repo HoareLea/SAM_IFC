@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SAM.Geometry.IFC</RootNamespace>
     <AssemblyName>SAM.Geometry.IFC</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>false</Deterministic>
     <TargetFrameworkProfile />
@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SAM.Geometry">
+      <HintPath>..\..\..\SAM\build\SAM.Geometry.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -44,11 +47,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert\ToIFC\IfcAxis2Placement2D.cs" />
+    <Compile Include="Convert\ToIFC\IfcAxis2Placement3D.cs" />
+    <Compile Include="Convert\ToIFC\IfcParameterizedProfileDef.cs" />
+    <Compile Include="Convert\ToIFC\IfcRectangleProfileDef.cs" />
+    <Compile Include="Convert\ToIFC\IfcProfileDef.cs" />
+    <Compile Include="Convert\ToIFC\IfcExtrudedAreaSolid.cs" />
+    <Compile Include="Convert\ToIFC\IfcDirection.cs" />
+    <Compile Include="Convert\ToIFC\IfcCartesianPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Classes\" />
-    <Folder Include="Convert\" />
+    <Folder Include="Convert\ToSAM\" />
     <Folder Include="Create\" />
     <Folder Include="Enums\" />
     <Folder Include="Interfaces\" />
@@ -58,6 +69,9 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xbim.Geometry">
+      <Version>5.1.403</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

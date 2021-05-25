@@ -5,27 +5,27 @@ namespace SAM.Geometry.IFC
 {
     public static partial class Convert
     {
-        public static IfcCartesianPoint ToIFC(this Spatial.Point3D point3D, IfcStore ifcStore)
+        public static IfcCartesianPoint ToIFC(this Spatial.Point3D point3D, Xbim.Common.IModel model)
         {
-            if(point3D == null || ifcStore == null)
+            if(point3D == null || model == null)
             {
                 return null;
             }
 
-            IfcCartesianPoint result = ifcStore.Instances.New<IfcCartesianPoint>();
+            IfcCartesianPoint result = model.Instances.New<IfcCartesianPoint>();
             result.SetXYZ(point3D.X, point3D.Y, point3D.Z);
 
             return result;
         }
 
-        public static IfcCartesianPoint ToIFC(this Planar.Point2D point2D, IfcStore ifcStore)
+        public static IfcCartesianPoint ToIFC(this Planar.Point2D point2D, Xbim.Common.IModel model)
         {
-            if (point2D == null || ifcStore == null)
+            if (point2D == null || model == null)
             {
                 return null;
             }
 
-            IfcCartesianPoint result = ifcStore.Instances.New<IfcCartesianPoint>();
+            IfcCartesianPoint result = model.Instances.New<IfcCartesianPoint>();
             result.SetXY(point2D.X, point2D.Y);
 
             return result;

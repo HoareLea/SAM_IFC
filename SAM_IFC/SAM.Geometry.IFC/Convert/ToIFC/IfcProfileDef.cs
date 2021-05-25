@@ -6,7 +6,7 @@ namespace SAM.Geometry.IFC
 {
     public static partial class Convert
     {
-        public static IfcProfileDef ToIFC_IfcProfileDef(this Spatial.Face3D face3D, IfcStore ifcStore)
+        public static IfcProfileDef ToIFC_IfcProfileDef(this Spatial.Face3D face3D, Xbim.Common.IModel model)
         {
             throw new System.NotImplementedException();
         }

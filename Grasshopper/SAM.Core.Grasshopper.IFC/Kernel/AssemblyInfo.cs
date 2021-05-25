@@ -45,7 +45,7 @@ namespace SAM.Core.Grasshopper.IFC
         {
             get
             {
-                return new Guid("2ebace7b-7fe8-4a10-8534-64beaaad6454");
+                return new Guid("778890ea-2597-4806-9642-c4b601897694");
             }
         }
 

@@ -5,14 +5,15 @@ namespace SAM.Geometry.IFC
 {
     public static partial class Convert
     {
-        public static IfcRectangleProfileDef ToIFC_IfcRectangleProfileDef(this Planar.BoundingBox2D boundingBox2D, IfcStore ifcStore)
+        public static IfcRectangleProfileDef ToIFC_IfcRectangleProfileDef(this Planar.BoundingBox2D boundingBox2D, Xbim.Common.IModel model)
         {
-            if(boundingBox2D == null || ifcStore == null)
+            if(boundingBox2D == null || model == null)
             {
                 return null;
             }
 
-            IfcRectangleProfileDef result = ifcStore.Instances.New<IfcRectangleProfileDef>();
+            IfcRectangleProfileDef result = model.Instances.New<IfcRectangleProfileDef>();
+            result.Position = boundingBox2D.GetCentroid().ToIFC_IfcAxis2Placement2D(model);
 
             return result;
         }

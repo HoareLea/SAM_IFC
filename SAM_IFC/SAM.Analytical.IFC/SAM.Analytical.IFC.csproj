@@ -33,6 +33,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SAM.Analytical">
+      <HintPath>..\..\..\SAM\build\SAM.Analytical.dll</HintPath>
+    </Reference>
+    <Reference Include="SAM.Core, Version=1.0.7811.27139, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\SAM\build\SAM.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SAM.Geometry, Version=1.0.7811.27139, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\SAM\build\SAM.Geometry.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -44,12 +55,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert\ToIFC\IfcBuilding.cs" />
+    <Compile Include="Convert\ToIFC\IfcLocalPlacement.cs" />
+    <Compile Include="Convert\ToIFC\IfcWallStandardCase .cs" />
+    <Compile Include="Convert\ToIFC\IfcProject.cs" />
+    <Compile Include="Convert\ToIFC\IfcStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SAM.Core.IFC\SAM.Core.IFC.csproj">
       <Project>{E10BF13F-8F39-44FD-87DC-118F10221DE3}</Project>
       <Name>SAM.Core.IFC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SAM.Geometry.IFC\SAM.Geometry.IFC.csproj">
+      <Project>{26b0269a-5123-4d06-9af0-1c28c6d5d3dd}</Project>
+      <Name>SAM.Geometry.IFC</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

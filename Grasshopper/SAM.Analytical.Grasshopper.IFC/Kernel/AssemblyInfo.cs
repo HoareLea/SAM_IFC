@@ -45,7 +45,7 @@ namespace SAM.Analytical.Grasshopper.IFC
         {
             get
             {
-                return new Guid("1ae4f9c8-1b85-4407-814b-a74ada02d160");
+                return new Guid("1806d7e5-98a9-4093-95f9-2e7c533f0991");
             }
         }
 

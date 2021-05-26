@@ -17,7 +17,7 @@ namespace SAM.Analytical.IFC
             result.CompositionType = Xbim.Ifc4.Interfaces.IfcElementCompositionEnum.ELEMENT;
 
             Geometry.Spatial.Point3D point3D = Geometry.Spatial.Create.Point3D(0, 0, 0);
-            Xbim.Ifc4.GeometricConstraintResource.IfcLocalPlacement ifcLocalPlacement = ToIFC_IfcLocalPlacement(point3D, model);
+            Xbim.Ifc4.GeometricConstraintResource.IfcLocalPlacement ifcLocalPlacement = Geometry.IFC.Create.IfcLocalPlacement(model, point3D);
             result.ObjectPlacement = ifcLocalPlacement;
 
             return result;

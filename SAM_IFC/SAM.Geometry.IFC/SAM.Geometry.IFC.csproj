@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SAM.Core, Version=1.0.7815.22083, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\SAM\build\SAM.Core.dll</HintPath>
+    </Reference>
     <Reference Include="SAM.Geometry">
       <HintPath>..\..\..\SAM\build\SAM.Geometry.dll</HintPath>
     </Reference>
@@ -47,20 +51,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Convert\ToIFC\IfcAxis2Placement2D.cs" />
-    <Compile Include="Convert\ToIFC\IfcAxis2Placement3D.cs" />
-    <Compile Include="Convert\ToIFC\IfcParameterizedProfileDef.cs" />
-    <Compile Include="Convert\ToIFC\IfcRectangleProfileDef.cs" />
-    <Compile Include="Convert\ToIFC\IfcProfileDef.cs" />
+    <Compile Include="Convert\ToIFC\IfcCartesianPoints.cs" />
+    <Compile Include="Convert\ToIFC\IfcPolyline.cs" />
+    <Compile Include="Create\IfcArbitraryProfileDefWithVoids.cs" />
+    <Compile Include="Create\IfcAxis2Placement2D.cs" />
+    <Compile Include="Create\IfcAxis2Placement3D.cs" />
+    <Compile Include="Create\IfcArbitraryClosedProfileDef.cs" />
+    <Compile Include="Create\IfcProfileDef.cs" />
+    <Compile Include="Create\IfcRectangleProfileDef.cs" />
     <Compile Include="Convert\ToIFC\IfcExtrudedAreaSolid.cs" />
     <Compile Include="Convert\ToIFC\IfcDirection.cs" />
     <Compile Include="Convert\ToIFC\IfcCartesianPoint.cs" />
+    <Compile Include="Create\IfcLocalPlacement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Classes\" />
     <Folder Include="Convert\ToSAM\" />
-    <Folder Include="Create\" />
     <Folder Include="Enums\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Modify\" />

@@ -153,6 +153,6 @@ copy "%25SAM_DIR%25\$(ProjectName).dll" "%25SAM_DIR%25\$(ProjectName).gha"
     <StartArguments>
     </StartArguments>
     <StartAction>Program</StartAction>
-    <DocumentationFile>..\..\build\SAM.Analytical.Grasshopper.TMP.xml</DocumentationFile>
+    <DocumentationFile>..\..\build\SAM.Analytical.Grasshopper.IFC.xml</DocumentationFile>
   </PropertyGroup>
 </Project>

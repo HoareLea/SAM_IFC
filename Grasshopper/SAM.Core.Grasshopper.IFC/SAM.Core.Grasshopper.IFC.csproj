@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\GooIfcStore.cs" />
+    <Compile Include="Component\IFCOpen.cs" />
     <Compile Include="Component\IFCSave.cs" />
     <Compile Include="Kernel\AssemblyInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,6 +143,6 @@ copy "%25SAM_DIR%25\$(ProjectName).dll" "%25SAM_DIR%25\$(ProjectName).gha"
     <StartArguments>
     </StartArguments>
     <StartAction>Program</StartAction>
-    <DocumentationFile>..\..\build\SAM.Core.Grasshopper.TMP.xml</DocumentationFile>
+    <DocumentationFile>..\..\build\SAM.Core.Grasshopper.IFC.xml</DocumentationFile>
   </PropertyGroup>
 </Project>

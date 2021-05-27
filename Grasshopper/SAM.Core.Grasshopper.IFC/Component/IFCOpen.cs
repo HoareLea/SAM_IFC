@@ -1,18 +1,17 @@
 ﻿using Grasshopper.Kernel;
-using SAM.Analytical.Grasshopper.IFC.Properties;
-using SAM.Core.Grasshopper;
-using SAM.Core.Grasshopper.IFC;
+using SAM.Core.Grasshopper.IFC.Properties;
 using System;
 using System.Collections.Generic;
+using Xbim.Ifc;
 
-namespace SAM.Analytical.Grasshopper.IFC
+namespace SAM.Core.Grasshopper.IFC
 {
-    public class SAMAnalyticalIFC : GH_SAMVariableOutputParameterComponent
+    public class IFCOpen : GH_SAMVariableOutputParameterComponent
     {
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
-        public override Guid ComponentGuid => new Guid("ee49b7ed-f1a9-411a-bb1f-951baaad722d");
+        public override Guid ComponentGuid => new Guid("5ffb8840-5be3-4703-b70b-9770fdd5ee5b");
 
         /// <summary>
         /// The latest version of this component
@@ -27,9 +26,9 @@ namespace SAM.Analytical.Grasshopper.IFC
         /// <summary>
         /// Initializes a new instance of the SAM_point3D class.
         /// </summary>
-        public SAMAnalyticalIFC()
-          : base("SAMAnalytical.IFC", "SAMAnalytical.IFC",
-              "Convert SAM Analytical Object to IFC",
+        public IFCOpen()
+          : base("IFC.Open", "IFC.Open",
+              "Opens IFC",
               "SAM", "IFC")
         {
         }
@@ -42,7 +41,7 @@ namespace SAM.Analytical.Grasshopper.IFC
             get
             {
                 List<GH_SAMParam> result = new List<GH_SAMParam>();
-                result.Add(new GH_SAMParam(new GooAnalyticalModelParam() { Name = "_analyticalModel", NickName = "_analyticalModel", Description = "SAM AnalyticalModel", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
+                result.Add(new GH_SAMParam(new global::Grasshopper.Kernel.Parameters.Param_String() { Name = "_path", NickName = "_path", Description = "Path", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
 
                 global::Grasshopper.Kernel.Parameters.Param_Boolean param_Boolean = new global::Grasshopper.Kernel.Parameters.Param_Boolean() { Name = "_run", NickName = "_run", Description = "Run", Access = GH_ParamAccess.item };
                 param_Boolean.SetPersistentData(false);
@@ -77,13 +76,13 @@ namespace SAM.Analytical.Grasshopper.IFC
             int index_Successful = Params.IndexOfOutputParam("successful");
             if (index_Successful != -1)
             {
-                dataAccess.SetData(1, false);
+                dataAccess.SetData(index_Successful, false);
             }
 
             int index = -1;
 
             index = Params.IndexOfInputParam("_run");
-
+            
             bool run = false;
             if (!dataAccess.GetData(index, ref run))
             {
@@ -101,15 +100,7 @@ namespace SAM.Analytical.Grasshopper.IFC
                 return;
             }
 
-            AnalyticalModel analyticalModel = null;
-            index = Params.IndexOfInputParam("_analyticalModel");
-            if (index == -1 || !dataAccess.GetData(index, ref analyticalModel) || analyticalModel == null)
-            {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid data");
-                return;
-            }
-
-            Xbim.Ifc.IfcStore ifcStore = Analytical.IFC.Convert.ToIFC(analyticalModel);
+            IfcStore ifcStore = IfcStore.Open(path);
 
             index = Params.IndexOfOutputParam("ifcStore");
             if(index != -1)
@@ -117,12 +108,10 @@ namespace SAM.Analytical.Grasshopper.IFC
                 dataAccess.SetData(index, ifcStore);
             }
 
-            index = Params.IndexOfOutputParam("successful");
-            if (index != -1)
+            if (index_Successful != -1)
             {
-                dataAccess.SetData(index, ifcStore != null);
+                dataAccess.SetData(index_Successful, true);
             }
-
         }
     }
 }

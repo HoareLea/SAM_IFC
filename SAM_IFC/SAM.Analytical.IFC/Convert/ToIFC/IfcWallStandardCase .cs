@@ -7,7 +7,7 @@ namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcWallStandardCase ToIFC(this Panel panel, Xbim.Common.IModel model)
+        public static IfcWallStandardCase ToIFC_IfcWallStandardCase(this Panel panel, Xbim.Common.IModel model)
         {
             if(panel == null || model == null)
             {
@@ -15,7 +15,7 @@ namespace SAM.Analytical.IFC
             }
 
             IfcWallStandardCase result = model.Instances.New<IfcWallStandardCase>();
-            result.GlobalId = new Xbim.Ifc4.UtilityResource.IfcGloballyUniqueId(panel.Guid.ToString());
+            //result.GlobalId = new Xbim.Ifc4.UtilityResource.IfcGloballyUniqueId(panel.Guid.ToString());
 
             IfcGeometricRepresentationContext ifcGeometricRepresentationContext = model.Instances.OfType<IfcGeometricRepresentationContext>().FirstOrDefault();
 

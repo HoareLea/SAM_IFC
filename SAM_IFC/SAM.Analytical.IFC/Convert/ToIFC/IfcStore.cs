@@ -48,14 +48,61 @@ namespace SAM.Analytical.IFC
                 if(ifcBuilding != null)
                 {
 
-                    List<Panel> panels = analyticalModel.GetPanels();
-
-                    foreach(Panel panel in panels)
+                    AdjacencyCluster adjacencyCluster = analyticalModel.AdjacencyCluster;
+                    if(adjacencyCluster != null)
                     {
-                        IfcWallStandardCase ifcWallStandardCase = panel.ToIFC(result);
-                        ifcBuilding.AddElement(ifcWallStandardCase);
+                        List<Panel> panels = adjacencyCluster.GetPanels();
 
+                        Dictionary<System.Guid, Dictionary<PanelType, List<IfcBuildingElement>>> dictionary = new Dictionary<System.Guid, Dictionary<PanelType, List<IfcBuildingElement>>>();
+                        foreach (Panel panel in panels)
+                        {
+                            IfcBuildingElement ifcBuildingElement = panel.ToIFC(result);
+                            ifcBuilding.AddElement(ifcBuildingElement);
+
+                            System.Guid guid = panel.SAMTypeGuid;
+                            if(guid != System.Guid.Empty)
+                            {
+                                if (!dictionary.TryGetValue(guid, out Dictionary<PanelType, List<IfcBuildingElement>> dictionary_PanelType))
+                                {
+                                    dictionary_PanelType = new Dictionary<PanelType, List<IfcBuildingElement>>();
+                                    dictionary[guid] = dictionary_PanelType;
+                                }
+
+                                PanelType panelType = panel.PanelType;
+
+                                if(!dictionary_PanelType.TryGetValue(panelType, out List<IfcBuildingElement> ifcBuildingElements))
+                                {
+                                    ifcBuildingElements = new List<IfcBuildingElement>();
+                                    dictionary_PanelType[panelType] = ifcBuildingElements;
+                                }
+
+                                ifcBuildingElements.Add(ifcBuildingElement);
+                            }
+                        }
+
+                        List<Construction> constructions = adjacencyCluster.GetConstructions();
+                        foreach(Construction construction in constructions)
+                        {
+                            if(!dictionary.TryGetValue(construction.Guid, out Dictionary<PanelType, List<IfcBuildingElement>> dictionary_PanelType))
+                            {
+                                continue;
+                            }
+
+                            foreach(KeyValuePair<PanelType, List<IfcBuildingElement>> keyValuePair in dictionary_PanelType)
+                            {
+                                IfcBuildingElementType ifcBuildingElementType = construction.ToIFC(result, keyValuePair.Key);
+                                if(ifcBuildingElementType == null)
+                                {
+                                    continue;
+                                }
+
+                                //Add Implemenation for IfcBuildingElementType
+                                throw new System.NotImplementedException();
+                            }
+                        }
                     }
+                    
+
 
                 }
             }

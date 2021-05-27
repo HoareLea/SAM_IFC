@@ -55,6 +55,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert\ToIFC\IfcBuildingElement.cs" />
+    <Compile Include="Convert\ToIFC\IfcBuildingElementType.cs" />
+    <Compile Include="Convert\ToIFC\IfcRoofType.cs" />
+    <Compile Include="Convert\ToIFC\IfcSlabType.cs" />
+    <Compile Include="Convert\ToIFC\IfcCurtainWallType.cs" />
+    <Compile Include="Convert\ToIFC\IfcWall.cs" />
+    <Compile Include="Convert\ToIFC\IfcWallType.cs" />
     <Compile Include="Convert\ToIFC\IfcBuilding.cs" />
     <Compile Include="Convert\ToIFC\IfcWallStandardCase .cs" />
     <Compile Include="Convert\ToIFC\IfcProject.cs" />

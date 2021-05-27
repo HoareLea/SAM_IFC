@@ -6,7 +6,7 @@ namespace SAM.Analytical.IFC
 {
     public static partial class Create
     {
-        public static IfcProductDefinitionShape IfcProductDefinitionShape(this IfcGeometricRepresentationContext ifcGeometricRepresentationContext, Panel panel)
+        public static IfcProductDefinitionShape IfcProductDefinitionShape(this IfcGeometricRepresentationContext ifcGeometricRepresentationContext, Panel panel, double tolerance = Core.Tolerance.Distance)
         {
             Face3D face3D = panel?.GetFace3D();
             if(face3D == null)
@@ -20,31 +20,11 @@ namespace SAM.Analytical.IFC
                 return null;
             }
 
-            double thickness = 0;
-
-            Extrusion extrusion = null;
-
-            Construction construction = panel.Construction;
-            if (construction != null)
+            Extrusion extrusion = Query.Extrusion(panel, tolerance);
+            if(extrusion == null)
             {
-                thickness = construction.GetThickness();
+                return null;
             }
-
-            if (!double.IsNaN(thickness) && thickness != 0)
-            {
-                Plane plane = face3D.GetPlane();
-                Vector3D vector3D = plane.Normal * (thickness / 2);
-
-                BoundingBox3D boundingBox3D = face3D.GetBoundingBox();
-                if (boundingBox3D != null)
-                {
-
-                }
-
-            }
-
-            //Implement Conversion Panel to Extrusion
-            throw new System.NotImplementedException();
 
             IfcExtrudedAreaSolid ifcExtrudedAreaSolid = Geometry.IFC.Convert.ToIFC(extrusion, model);
 

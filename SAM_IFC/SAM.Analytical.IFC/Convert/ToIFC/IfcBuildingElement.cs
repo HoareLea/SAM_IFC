@@ -13,7 +13,7 @@ namespace SAM.Analytical.IFC
 
             if(panel.PanelType == PanelType.CurtainWall)
             {
-
+                return panel.ToIFC_IfcCurtainWall(model);
             }
 
             switch(panel.PanelGroup)
@@ -21,7 +21,11 @@ namespace SAM.Analytical.IFC
                 case PanelGroup.Wall:
                     return panel.ToIFC_IfcWall(model);
 
+                case PanelGroup.Floor:
+                    return panel.ToIFC_IfcSlab(model);
 
+                case PanelGroup.Roof:
+                    return panel.ToIFC_IfcRoof(model);
             }
 
             return null;

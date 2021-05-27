@@ -96,8 +96,13 @@ namespace SAM.Analytical.IFC
                                     continue;
                                 }
 
-                                //Add Implemenation for IfcBuildingElementType
-                                throw new System.NotImplementedException();
+                                IfcRelDefinesByType ifcRelDefinesByType = result.Instances.New<IfcRelDefinesByType>();
+                                ifcRelDefinesByType.RelatingType = ifcBuildingElementType;
+
+                                foreach (IfcBuildingElement ifcBuildingElement in keyValuePair.Value)
+                                {
+                                    ifcRelDefinesByType.RelatedObjects.Add(ifcBuildingElement);
+                                }
                             }
                         }
                     }

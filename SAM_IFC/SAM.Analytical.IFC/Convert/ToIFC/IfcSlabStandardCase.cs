@@ -7,14 +7,14 @@ namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcWallStandardCase ToIFC_IfcWallStandardCase(this Panel panel, Xbim.Common.IModel model)
+        public static IfcSlabStandardCase ToIFC_IfcSlabStandardCase(this Panel panel, Xbim.Common.IModel model)
         {
             if(panel == null || model == null)
             {
                 return null;
             }
 
-            IfcWallStandardCase result = model.Instances.New<IfcWallStandardCase>();
+            IfcSlabStandardCase result = model.Instances.New<IfcSlabStandardCase>();
             result.SetRepresentation(panel);
 
             return result;

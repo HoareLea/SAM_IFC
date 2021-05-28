@@ -5,9 +5,19 @@ namespace SAM.Core.IFC
 {
     public static partial class Modify
     {
-        public static void SetIfcPropertySets(this IfcObjectDefinition ifcObjectDefinition, SAMObject sAMObject)
+        public static void SetIfcPropertySets(this IfcProduct ifcProduct, SAMInstance sAMInstance)
         {
-            if(ifcObjectDefinition == null || sAMObject == null)
+            SetIfcPropertySets(ifcProduct, sAMInstance);
+        }
+
+        public static void SetIfcPropertySets(this IfcTypeProduct ifcTypeProduct, SAMType sAMType)
+        {
+            SetIfcPropertySets(ifcTypeProduct, sAMType);
+        }
+
+        private static void SetIfcPropertySets(this IfcObjectDefinition ifcObjectDefinition, SAMObject sAMObject)
+        {
+            if (ifcObjectDefinition == null || sAMObject == null)
             {
                 return;
             }
@@ -22,7 +32,7 @@ namespace SAM.Core.IFC
             if (parameterSets == null)
                 return;
 
-            foreach(ParameterSet parameterSet in parameterSets)
+            foreach (ParameterSet parameterSet in parameterSets)
             {
                 IfcPropertySet ifcPropertySet = parameterSet.ToIFC(model);
 
@@ -31,5 +41,6 @@ namespace SAM.Core.IFC
                 ifcRelDefinesByProperties.RelatingPropertyDefinition = ifcPropertySet;
             }
         }
+            
     }
 }

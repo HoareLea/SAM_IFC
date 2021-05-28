@@ -56,7 +56,6 @@ namespace SAM.Core.IFC
             return false;
         }
 
-
         public static bool SetValue(this IfcPropertySingleValue ifcPropertySingleValue, string value)
         {
             if (ifcPropertySingleValue == null || value == null)

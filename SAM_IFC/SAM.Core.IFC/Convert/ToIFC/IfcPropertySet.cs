@@ -18,7 +18,6 @@ namespace SAM.Core.IFC
             {
                 object value = parameterSet.ToObject(name);
                 result.SetValue(name, value);
-
             }
 
             return result;

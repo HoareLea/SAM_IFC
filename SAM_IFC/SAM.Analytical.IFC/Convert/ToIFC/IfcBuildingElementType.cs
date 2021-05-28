@@ -26,25 +26,32 @@ namespace SAM.Analytical.IFC
             if(panelType_Temp == PanelType.Undefined)
                 panelType_Temp = construction.PanelType();
 
-            if(panelType_Temp == PanelType.CurtainWall)
+            IfcBuildingElementType result = null;
+
+            if (panelType_Temp == PanelType.CurtainWall)
             {
-                return ToIFC_IfcCurtainWallType(construction, model);
+                result = ToIFC_IfcCurtainWallType(construction, model);
             }
-            
-            switch(panelType_Temp.PanelGroup())
+            else
             {
-                case PanelGroup.Wall:
-                    return ToIFC_IfcWallType(construction, model);
+                switch (panelType_Temp.PanelGroup())
+                {
+                    case PanelGroup.Wall:
+                        result = ToIFC_IfcWallType(construction, model);
+                        break;
 
-                case PanelGroup.Roof:
-                    return ToIFC_IfcRoofType(construction, model);
+                    case PanelGroup.Roof:
+                        result = ToIFC_IfcRoofType(construction, model);
+                        break;
 
-                case PanelGroup.Floor:
-                    return ToIFC_IfcSlabType(construction, model);
+                    case PanelGroup.Floor:
+                        result = ToIFC_IfcSlabType(construction, model);
+                        break;
 
+                }
             }
 
-            return null;
+            return result;
         }
     }
 }

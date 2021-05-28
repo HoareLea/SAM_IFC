@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Convert\ToIFC\IfcBuildingElement.cs" />
     <Compile Include="Convert\ToIFC\IfcBuildingElementType.cs" />
+    <Compile Include="Convert\ToIFC\IfcMaterialLayerSet.cs" />
     <Compile Include="Convert\ToIFC\IfcRoofType.cs" />
     <Compile Include="Convert\ToIFC\IfcRoof.cs" />
     <Compile Include="Convert\ToIFC\IfcSlabType.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Convert\ToIFC\IfcWallStandardCase .cs" />
     <Compile Include="Convert\ToIFC\IfcProject.cs" />
     <Compile Include="Convert\ToIFC\IfcStore.cs" />
+    <Compile Include="Convert\ToIFC\IfcMaterialLayerSetUsage.cs" />
     <Compile Include="Modify\SetRepresentation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Create\IfcProductDefinitionShape.cs" />

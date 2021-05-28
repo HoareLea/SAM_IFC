@@ -104,6 +104,7 @@ namespace SAM.Analytical.IFC
                         List<Construction> constructions = adjacencyCluster.GetConstructions();
                         using (ITransaction transaction = result.BeginTransaction("Create Building Element Types"))
                         {
+                            IfcRelAssociatesMaterial ifcRelAssociatesMaterial = null;
                             foreach (Construction construction in constructions)
                             {
                                 if (!dictionary.TryGetValue(construction.Guid, out Dictionary<PanelType, List<IfcBuildingElement>> dictionary_PanelType))
@@ -112,8 +113,10 @@ namespace SAM.Analytical.IFC
                                 }
 
                                 IfcMaterialLayerSetUsage materialLayerSetUsage = construction.ConstructionLayers.ToIFC_IfcMaterialLayerSetUsage(result);
-                                IfcRelAssociatesMaterial ifcRelAssociatesMaterial = null;
-                                if (ifcRelAssociatesMaterial != null)
+                                materialLayerSetUsage.ForLayerSet.LayerSetName = construction.Name;
+                                materialLayerSetUsage.ForLayerSet.Description = Core.IFC.Query.Description(construction);
+
+                                if (ifcRelAssociatesMaterial == null)
                                 {
                                     ifcRelAssociatesMaterial = result.Instances.New<IfcRelAssociatesMaterial>();
                                     ifcRelAssociatesMaterial.RelatingMaterial = materialLayerSetUsage;

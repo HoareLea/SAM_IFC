@@ -12,6 +12,7 @@ namespace SAM.Analytical.IFC
             }
 
             IfcWallStandardCase result = model.Instances.New<IfcWallStandardCase>();
+            result.SetIfcBuildingElement(panel);
             result.SetIfcProductRepresentation(panel);
             Core.IFC.Modify.SetIfcPropertySets(result, panel);
 

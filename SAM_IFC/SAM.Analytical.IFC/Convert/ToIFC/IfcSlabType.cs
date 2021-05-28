@@ -12,7 +12,7 @@ namespace SAM.Analytical.IFC
             }
 
             IfcSlabType result = model.Instances.New<IfcSlabType>();
-            result.Name = construction.Name;
+            result.SetIfcBuildingElementType(construction);
             Core.IFC.Modify.SetIfcPropertySets(result, construction);
 
             return result;

@@ -35,7 +35,6 @@ namespace SAM.Core.IFC
             foreach (ParameterSet parameterSet in parameterSets)
             {
                 IfcPropertySet ifcPropertySet = parameterSet.ToIFC(model);
-
                 IfcRelDefinesByProperties ifcRelDefinesByProperties = model.Instances.New<IfcRelDefinesByProperties>();
                 ifcRelDefinesByProperties.RelatedObjects.Add(ifcObjectDefinition);
                 ifcRelDefinesByProperties.RelatingPropertyDefinition = ifcPropertySet;

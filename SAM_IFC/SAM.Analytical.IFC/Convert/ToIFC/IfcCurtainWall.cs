@@ -15,6 +15,7 @@ namespace SAM.Analytical.IFC
             }
 
             IfcCurtainWall result = model.Instances.New<IfcCurtainWall>();
+            result.SetIfcBuildingElement(panel);
             result.SetIfcProductRepresentation(panel);
             Core.IFC.Modify.SetIfcPropertySets(result, panel);
 

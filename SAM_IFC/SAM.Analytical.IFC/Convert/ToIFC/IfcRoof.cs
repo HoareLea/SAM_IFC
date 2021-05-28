@@ -15,7 +15,8 @@ namespace SAM.Analytical.IFC
             }
 
             IfcRoof result = model.Instances.New<IfcRoof>();
-            result.SetRepresentation(panel);
+            result.SetIfcProductRepresentation(panel);
+            Core.IFC.Modify.SetIfcPropertySets(result, panel);
 
             return result;
         }

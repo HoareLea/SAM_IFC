@@ -17,7 +17,7 @@ namespace SAM.Core.IFC
             foreach(string name in parameterSet.Names)
             {
                 object value = parameterSet.ToObject(name);
-
+                result.SetValue(name, value);
 
             }
 

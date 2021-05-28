@@ -56,6 +56,7 @@
     <Compile Include="Create\IfcText.cs" />
     <Compile Include="Create\IfcPropertySingleValue.cs" />
     <Compile Include="Create\IfcLabel.cs" />
+    <Compile Include="Modify\SetIfcPropertySets.cs" />
     <Compile Include="Modify\SetValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\XbimEditorCredentials.cs" />

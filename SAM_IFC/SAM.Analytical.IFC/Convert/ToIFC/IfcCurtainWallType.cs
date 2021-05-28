@@ -13,6 +13,7 @@ namespace SAM.Analytical.IFC
 
             IfcCurtainWallType result = model.Instances.New<IfcCurtainWallType>();
             result.Name = construction.Name;
+            Core.IFC.Modify.SetIfcPropertySets(result, construction);
 
             return result;
         }

@@ -49,15 +49,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Convert\ToIFC\IfcMaterial.cs" />
+    <Compile Include="Convert\ToIFC\IfcPropertySet.cs" />
+    <Compile Include="Create\IfcReal.cs" />
+    <Compile Include="Create\IfcInteger.cs" />
+    <Compile Include="Create\IfcBoolean.cs" />
+    <Compile Include="Create\IfcText.cs" />
+    <Compile Include="Create\IfcPropertySingleValue.cs" />
+    <Compile Include="Create\IfcLabel.cs" />
+    <Compile Include="Modify\SetValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\XbimEditorCredentials.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Classes\" />
-    <Folder Include="Create\" />
     <Folder Include="Enums\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="Modify\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">

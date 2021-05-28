@@ -13,6 +13,8 @@ namespace SAM.Analytical.IFC
 
             IfcProject result = model.Instances.New<IfcProject>();
             result.Initialize(Xbim.Common.ProjectUnits.SIUnitsUK);
+            result.UnitsInContext.SetSiLengthUnits(Xbim.Ifc4.Interfaces.IfcSIUnitName.METRE, null);
+
             result.Name = analyticalModel.Name;
 
             return result;

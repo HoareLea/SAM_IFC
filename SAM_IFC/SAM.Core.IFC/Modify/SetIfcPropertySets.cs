@@ -7,12 +7,12 @@ namespace SAM.Core.IFC
     {
         public static void SetIfcPropertySets(this IfcProduct ifcProduct, SAMInstance sAMInstance)
         {
-            SetIfcPropertySets(ifcProduct, sAMInstance);
+            SetIfcPropertySets((IfcObjectDefinition)ifcProduct, (SAMObject)sAMInstance);
         }
 
         public static void SetIfcPropertySets(this IfcTypeProduct ifcTypeProduct, SAMType sAMType)
         {
-            SetIfcPropertySets(ifcTypeProduct, sAMType);
+            SetIfcPropertySets((IfcObjectDefinition)ifcTypeProduct, (SAMObject)sAMType);
         }
 
         private static void SetIfcPropertySets(this IfcObjectDefinition ifcObjectDefinition, SAMObject sAMObject)
@@ -41,6 +41,5 @@ namespace SAM.Core.IFC
                 ifcRelDefinesByProperties.RelatingPropertyDefinition = ifcPropertySet;
             }
         }
-            
     }
 }

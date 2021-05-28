@@ -93,14 +93,6 @@ namespace SAM.Analytical.Grasshopper.IFC
             if (!run)
                 return;
 
-            string path = null;
-            index = Params.IndexOfInputParam("_path");
-            if (index == -1 || !dataAccess.GetData(index, ref path) || string.IsNullOrWhiteSpace(path))
-            {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid data");
-                return;
-            }
-
             AnalyticalModel analyticalModel = null;
             index = Params.IndexOfInputParam("_analyticalModel");
             if (index == -1 || !dataAccess.GetData(index, ref analyticalModel) || analyticalModel == null)

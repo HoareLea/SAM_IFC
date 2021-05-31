@@ -65,41 +65,51 @@ namespace SAM.Analytical.IFC
                     AdjacencyCluster adjacencyCluster = analyticalModel.AdjacencyCluster;
                     if(adjacencyCluster != null)
                     {
-                        List<Panel> panels = adjacencyCluster.GetPanels();
-
                         Dictionary<System.Guid, Dictionary<PanelType, List<IfcBuildingElement>>> dictionary = new Dictionary<System.Guid, Dictionary<PanelType, List<IfcBuildingElement>>>();
 
+                        Dictionary<Architectural.Level, List<Panel>> dictionary_Levels = Query.LevelsDictionary(adjacencyCluster.GetPanels());
                         using (ITransaction transaction = result.BeginTransaction("Create Building Elements"))
                         {
-                            foreach (Panel panel in panels)
+                            IfcRelAggregates ifcRelAggregates = result.Instances.New<IfcRelAggregates>();
+                            ifcRelAggregates.RelatingObject = ifcBuilding;
+
+                            List<Architectural.Level> levels = dictionary_Levels.Keys.ToList();
+                            levels.Sort((x, y) => x.Elevation.CompareTo(y.Elevation));
+
+                            foreach (Architectural.Level level in levels)
                             {
-                                IfcBuildingElement ifcBuildingElement = panel.ToIFC(result);
-                                ifcBuilding.AddElement(ifcBuildingElement);
+                                IfcBuildingStorey ifcBuildingStorey = Architectural.IFC.Convert.ToIFC(level, result);
+                                ifcRelAggregates.RelatedObjects.Add(ifcBuildingStorey);
 
-                                System.Guid guid = panel.SAMTypeGuid;
-                                if (guid != System.Guid.Empty)
+                                foreach (Panel panel in dictionary_Levels[level])
                                 {
-                                    if (!dictionary.TryGetValue(guid, out Dictionary<PanelType, List<IfcBuildingElement>> dictionary_PanelType))
+                                    IfcBuildingElement ifcBuildingElement = panel.ToIFC(result);
+                                    ifcBuildingStorey.AddElement(ifcBuildingElement);
+
+                                    System.Guid guid = panel.SAMTypeGuid;
+                                    if (guid != System.Guid.Empty)
                                     {
-                                        dictionary_PanelType = new Dictionary<PanelType, List<IfcBuildingElement>>();
-                                        dictionary[guid] = dictionary_PanelType;
+                                        if (!dictionary.TryGetValue(guid, out Dictionary<PanelType, List<IfcBuildingElement>> dictionary_PanelType))
+                                        {
+                                            dictionary_PanelType = new Dictionary<PanelType, List<IfcBuildingElement>>();
+                                            dictionary[guid] = dictionary_PanelType;
+                                        }
+
+                                        PanelType panelType = panel.PanelType;
+
+                                        if (!dictionary_PanelType.TryGetValue(panelType, out List<IfcBuildingElement> ifcBuildingElements))
+                                        {
+                                            ifcBuildingElements = new List<IfcBuildingElement>();
+                                            dictionary_PanelType[panelType] = ifcBuildingElements;
+                                        }
+
+                                        ifcBuildingElements.Add(ifcBuildingElement);
                                     }
-
-                                    PanelType panelType = panel.PanelType;
-
-                                    if (!dictionary_PanelType.TryGetValue(panelType, out List<IfcBuildingElement> ifcBuildingElements))
-                                    {
-                                        ifcBuildingElements = new List<IfcBuildingElement>();
-                                        dictionary_PanelType[panelType] = ifcBuildingElements;
-                                    }
-
-                                    ifcBuildingElements.Add(ifcBuildingElement);
                                 }
                             }
-
+                            
                             transaction.Commit();
                         }
-
 
                         List<Construction> constructions = adjacencyCluster.GetConstructions();
                         using (ITransaction transaction = result.BeginTransaction("Create Building Element Types"))

@@ -5,17 +5,7 @@ namespace SAM.Core.IFC
 {
     public static partial class Modify
     {
-        public static void SetIfcPropertySets(this IfcProduct ifcProduct, SAMInstance sAMInstance)
-        {
-            SetIfcPropertySets((IfcObjectDefinition)ifcProduct, (SAMObject)sAMInstance);
-        }
-
-        public static void SetIfcPropertySets(this IfcTypeProduct ifcTypeProduct, SAMType sAMType)
-        {
-            SetIfcPropertySets((IfcObjectDefinition)ifcTypeProduct, (SAMObject)sAMType);
-        }
-
-        private static void SetIfcPropertySets(this IfcObjectDefinition ifcObjectDefinition, SAMObject sAMObject)
+        public static void SetIfcPropertySets(this IfcObjectDefinition ifcObjectDefinition, SAMObject sAMObject)
         {
             if (ifcObjectDefinition == null || sAMObject == null)
             {

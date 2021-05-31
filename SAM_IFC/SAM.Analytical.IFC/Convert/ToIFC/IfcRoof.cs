@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using Xbim.Ifc4.GeometricConstraintResource;
-using Xbim.Ifc4.RepresentationResource;
-using Xbim.Ifc4.SharedBldgElements;
+﻿using Xbim.Ifc4.SharedBldgElements;
 
 namespace SAM.Analytical.IFC
 {

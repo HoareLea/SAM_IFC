@@ -12,6 +12,7 @@ namespace SAM.Analytical.IFC
             }
 
             IfcSlabType result = model.Instances.New<IfcSlabType>();
+            result.PredefinedType = Xbim.Ifc4.Interfaces.IfcSlabTypeEnum.FLOOR;
             result.SetIfcBuildingElementType(construction);
             Core.IFC.Modify.SetIfcPropertySets(result, construction);
 

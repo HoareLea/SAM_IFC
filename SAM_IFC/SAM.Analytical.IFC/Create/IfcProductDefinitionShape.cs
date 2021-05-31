@@ -20,13 +20,17 @@ namespace SAM.Analytical.IFC
                 return null;
             }
 
-            Extrusion extrusion = Query.Extrusion(panel, tolerance);
+            Extrusion extrusion = Query.Extrusion(panel);
             if(extrusion == null)
             {
                 return null;
             }
 
-            IfcExtrudedAreaSolid ifcExtrudedAreaSolid = Geometry.IFC.Convert.ToIFC(extrusion, model);
+            IfcExtrudedAreaSolid ifcExtrudedAreaSolid = Geometry.IFC.Convert.ToIFC(extrusion, model, tolerance);
+            if(ifcExtrudedAreaSolid == null)
+            {
+                return null;
+            }
 
             IfcShapeRepresentation ifcShapeRepresentation = model.Instances.New<IfcShapeRepresentation>();
             ifcShapeRepresentation.ContextOfItems = ifcGeometricRepresentationContext;

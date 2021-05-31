@@ -6,7 +6,7 @@ namespace SAM.Geometry.IFC
 {
     public static partial class Create
     {
-        public static IfcProfileDef IfcProfileDef(this Xbim.Common.IModel model, Planar.Face2D face2D, IfcProfileTypeEnum ifcProfileTypeEnum)
+        public static IfcProfileDef IfcProfileDef(this Xbim.Common.IModel model, Planar.Face2D face2D, IfcProfileTypeEnum ifcProfileTypeEnum, double tolerance = Core.Tolerance.Distance)
         {
             if(face2D == null || model == null)
             {
@@ -22,9 +22,10 @@ namespace SAM.Geometry.IFC
                     return null;
                 }
 
-                if(externalEdge2D is Planar.Rectangle2D)
+                bool rectangular = Planar.Query.Rectangular(externalEdge2D, out Planar.Rectangle2D rectangle2D, tolerance);
+                if (rectangular)
                 {
-                    return IfcRectangleProfileDef(model, (Planar.Rectangle2D)externalEdge2D, ifcProfileTypeEnum);
+                    return IfcRectangleProfileDef(model, rectangle2D, ifcProfileTypeEnum);
                 }
                 else
                 {
@@ -35,8 +36,6 @@ namespace SAM.Geometry.IFC
             {
                 return IfcArbitraryProfileDefWithVoids(model, face2D, ifcProfileTypeEnum);
             }
-
-            return null;
         }
     }
 }

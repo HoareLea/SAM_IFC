@@ -16,5 +16,20 @@ namespace SAM.Geometry.IFC
 
             return result;
         }
+
+        public static IfcAxis2Placement3D IfcAxis2Placement3D(this Xbim.Common.IModel model, Spatial.Plane plane)
+        {
+            if (plane == null || model == null)
+            {
+                return null;
+            }
+
+            IfcAxis2Placement3D result = model.Instances.New<IfcAxis2Placement3D>();
+            result.Location = plane.Origin.ToIFC(model);
+            result.RefDirection = plane.AxisX.ToIFC(model);
+            result.Axis = plane.AxisZ.ToIFC(model);
+
+            return result;
+        }
     }
 }

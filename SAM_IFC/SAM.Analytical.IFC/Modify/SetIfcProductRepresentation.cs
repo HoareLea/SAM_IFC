@@ -24,6 +24,11 @@ namespace SAM.Analytical.IFC
             IfcGeometricRepresentationContext ifcGeometricRepresentationContext = model.Instances.OfType<IfcGeometricRepresentationContext>().FirstOrDefault();
 
             IfcProductDefinitionShape ifcProductDefinitionShape = Create.IfcProductDefinitionShape(ifcGeometricRepresentationContext, panel);
+            if(ifcProductDefinitionShape == null)
+            {
+                return;
+            }
+
             ifcBuildingElement.Representation = ifcProductDefinitionShape;
 
             IfcLocalPlacement ifcLocalPlacement = Geometry.IFC.Create.IfcLocalPlacement(model, new Point3D(0, 0, 0), Vector3D.WorldX, Vector3D.WorldZ);

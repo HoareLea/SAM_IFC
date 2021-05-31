@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using Xbim.Ifc4.GeometricConstraintResource;
-using Xbim.Ifc4.RepresentationResource;
-using Xbim.Ifc4.SharedBldgElements;
+﻿using Xbim.Ifc4.SharedBldgElements;
 
 namespace SAM.Analytical.IFC
 {
@@ -15,6 +12,7 @@ namespace SAM.Analytical.IFC
             }
 
             IfcSlabStandardCase result = model.Instances.New<IfcSlabStandardCase>();
+            result.PredefinedType = Xbim.Ifc4.Interfaces.IfcSlabTypeEnum.FLOOR;
             result.SetIfcBuildingElement(panel);
             result.SetIfcProductRepresentation(panel);
             Core.IFC.Modify.SetIfcPropertySets(result, panel);

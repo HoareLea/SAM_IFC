@@ -65,7 +65,6 @@
     <Compile Include="Convert\ToIFC\IfcSlab.cs" />
     <Compile Include="Convert\ToIFC\IfcCurtainWall.cs" />
     <Compile Include="Convert\ToIFC\IfcWall.cs" />
-    <Compile Include="Convert\ToIFC\IfcSlabStandardCase.cs" />
     <Compile Include="Convert\ToIFC\IfcWallType.cs" />
     <Compile Include="Convert\ToIFC\IfcBuilding.cs" />
     <Compile Include="Convert\ToIFC\IfcWallStandardCase .cs" />

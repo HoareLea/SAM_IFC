@@ -12,6 +12,7 @@ namespace SAM.Analytical.IFC
             }
 
             IfcWallType result = model.Instances.New<IfcWallType>();
+            result.PredefinedType = Xbim.Ifc4.Interfaces.IfcWallTypeEnum.STANDARD;
             result.SetIfcBuildingElementType(construction);
             Core.IFC.Modify.SetIfcPropertySets(result, construction);
 

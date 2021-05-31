@@ -11,7 +11,13 @@ namespace SAM.Analytical.IFC
                 return null;
             }
 
-            return panel.ToIFC_IfcSlabStandardCase(model);
+            IfcSlab result = model.Instances.New<IfcSlab>();
+            result.PredefinedType = Xbim.Ifc4.Interfaces.IfcSlabTypeEnum.FLOOR;
+            result.SetIfcBuildingElement(panel);
+            result.SetIfcProductRepresentation(panel);
+            Core.IFC.Modify.SetIfcPropertySets(result, panel);
+
+            return result;
         }
     }
 }

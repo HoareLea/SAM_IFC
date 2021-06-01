@@ -60,7 +60,7 @@ namespace SAM.Analytical.Grasshopper.IFC
             get
             {
                 List<GH_SAMParam> result = new List<GH_SAMParam>();
-                result.Add(new GH_SAMParam(new GooIfcStoreParam() { Name = "ifcStore", NickName = "ifcStore", Description = "IfcStore", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
+                result.Add(new GH_SAMParam(new GooDatabaseIfcParam() { Name = "databaseIfc", NickName = "databaseIfc", Description = "DatabaseIfc", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
                 result.Add(new GH_SAMParam(new global::Grasshopper.Kernel.Parameters.Param_Boolean() { Name = "successful", NickName = "successful", Description = "Successful", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
                 return result.ToArray();
             }
@@ -101,18 +101,18 @@ namespace SAM.Analytical.Grasshopper.IFC
                 return;
             }
 
-            Xbim.Ifc.IfcStore ifcStore = Analytical.IFC.Convert.ToIFC(analyticalModel);
+            GeometryGym.Ifc.DatabaseIfc databaseIc = Analytical.IFC.Convert.ToIFC(analyticalModel);
 
-            index = Params.IndexOfOutputParam("ifcStore");
+            index = Params.IndexOfOutputParam("databaseIfc");
             if(index != -1)
             {
-                dataAccess.SetData(index, ifcStore);
+                dataAccess.SetData(index, databaseIc);
             }
 
             index = Params.IndexOfOutputParam("successful");
             if (index != -1)
             {
-                dataAccess.SetData(index, ifcStore != null);
+                dataAccess.SetData(index, databaseIc != null);
             }
 
         }

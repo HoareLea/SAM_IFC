@@ -1,190 +1,137 @@
-﻿using SAM.Analytical;
-using SAM.Core;
+﻿using SAM.Core;
 using System.Collections.Generic;
 using System.Linq;
-using Xbim.Common;
-using Xbim.Ifc;
-using Xbim.Ifc4.Kernel;
-using Xbim.Ifc4.MaterialResource;
-using Xbim.Ifc4.ProductExtension;
-using Xbim.Ifc4.RepresentationResource;
-using Xbim.Ifc4.SharedBldgElements;
+using GeometryGym.Ifc;
 
 namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcStore ToIFC(this AnalyticalModel analyticalModel)
+        public static DatabaseIfc ToIFC(this AnalyticalModel analyticalModel)
         {
             if(analyticalModel == null)
             {
                 return null;
             }
 
-            XbimEditorCredentials xbimEditorCredentials = Core.IFC.Query.XbimEditorCredentials();
+            DatabaseIfc result = new DatabaseIfc(ModelView.Ifc4DesignTransfer);
 
-            IfcStore result = IfcStore.Create(xbimEditorCredentials, Xbim.Common.Step21.XbimSchemaVersion.Ifc4, Xbim.IO.XbimStoreType.InMemoryModel);
+            IfcBuilding ifcBuilding = analyticalModel.ToIFC_IfcBuilding(result);
 
-            IfcProject ifcProject = null;
-            using (ITransaction transaction = result.BeginTransaction("Create Project"))
+            IfcProject ifcProject = analyticalModel.ToIFC(ifcBuilding);
+
+
+            IfcGeometricRepresentationContext ifcGeometricRepresentationContext = ifcProject.Extract<IfcGeometricRepresentationContext>().FirstOrDefault();
+
+            Geometry.IFC.Create.IfcGeometricRepresentationSubContext(ifcGeometricRepresentationContext, Geometry.IFC.IfcDefaultContextIdentifier.Axis);
+            Geometry.IFC.Create.IfcGeometricRepresentationSubContext(ifcGeometricRepresentationContext, Geometry.IFC.IfcDefaultContextIdentifier.Body);
+
+            Dictionary<string, IfcMaterial> dictionary_IfcMaterial = new Dictionary<string, IfcMaterial>();
+            List<IMaterial> materials = analyticalModel.MaterialLibrary?.GetMaterials();
+            if (materials != null)
             {
-                ifcProject = analyticalModel.ToIFC(result);
-
-                IfcGeometricRepresentationContext ifcGeometricRepresentationContext = result.Instances.OfType<IfcGeometricRepresentationContext>().FirstOrDefault();
-
-                Geometry.IFC.Create.IfcGeometricRepresentationSubContext(ifcGeometricRepresentationContext, Geometry.IFC.IfcDefaultContextIdentifier.Axis);
-                Geometry.IFC.Create.IfcGeometricRepresentationSubContext(ifcGeometricRepresentationContext, Geometry.IFC.IfcDefaultContextIdentifier.Body);
-
-                transaction.Commit();
+                foreach (IMaterial material in materials)
+                {
+                    IfcMaterial ifcMaterial = Core.IFC.Convert.ToIFC(material, result);
+                }
             }
 
-            using (ITransaction transaction = result.BeginTransaction("Create Materials"))
+            AdjacencyCluster adjacencyCluster = analyticalModel.AdjacencyCluster;
+            if (adjacencyCluster != null)
             {
-                Dictionary<string, IfcMaterial> dictionary_IfcMaterial = new Dictionary<string, IfcMaterial>();
-                List<IMaterial> materials = analyticalModel.MaterialLibrary?.GetMaterials();
-                if (materials != null)
+                Dictionary<System.Guid, Dictionary<PanelType, List<IfcBuiltElement>>> dictionary = new Dictionary<System.Guid, Dictionary<PanelType, List<IfcBuiltElement>>>();
+
+                Dictionary<Architectural.Level, List<Panel>> dictionary_Levels = Query.LevelsDictionary(adjacencyCluster.GetPanels());
+                
+
+                List<Architectural.Level> levels = dictionary_Levels.Keys.ToList();
+                levels.Sort((x, y) => x.Elevation.CompareTo(y.Elevation));
+
+                List<IfcBuildingStorey> IfcBuildingStoreys = new List<IfcBuildingStorey>();
+                foreach (Architectural.Level level in levels)
                 {
-                    foreach (IMaterial material in materials)
+                    IfcBuildingStorey ifcBuildingStorey = Architectural.IFC.Convert.ToIFC(level, ifcBuilding);
+                    IfcBuildingStoreys.Add(ifcBuildingStorey);
+
+                    foreach (Panel panel in dictionary_Levels[level])
                     {
-                        IfcMaterial ifcMaterial = Core.IFC.Convert.ToIFC(material, result);
+                        IfcBuiltElement ifcBuiltElement = panel.ToIFC(ifcBuildingStorey);
+                        ifcBuildingStorey.AddElement(ifcBuiltElement);
+
+                        System.Guid guid = panel.SAMTypeGuid;
+                        if (guid != System.Guid.Empty)
+                        {
+                            if (!dictionary.TryGetValue(guid, out Dictionary<PanelType, List<IfcBuiltElement>> dictionary_PanelType))
+                            {
+                                dictionary_PanelType = new Dictionary<PanelType, List<IfcBuiltElement>>();
+                                dictionary[guid] = dictionary_PanelType;
+                            }
+
+                            PanelType panelType = panel.PanelType;
+
+                            if (!dictionary_PanelType.TryGetValue(panelType, out List<IfcBuiltElement> IfcBuiltElements))
+                            {
+                                IfcBuiltElements = new List<IfcBuiltElement>();
+                                dictionary_PanelType[panelType] = IfcBuiltElements;
+                            }
+
+                            IfcBuiltElements.Add(ifcBuiltElement);
+                        }
                     }
                 }
 
-                transaction.Commit();
-            }
+                IfcRelAggregates ifcRelAggregates = new IfcRelAggregates(ifcBuilding, IfcBuildingStoreys);
 
-            ifcProject = result.Instances.OfType<IfcProject>().FirstOrDefault();
-            if(ifcProject != null)
-            {
-                IfcBuilding ifcBuilding = null;
-                using (ITransaction transaction = result.BeginTransaction("Create Building"))
+                List<Construction> constructions = adjacencyCluster.GetConstructions();
+                foreach (Construction construction in constructions)
                 {
-                    ifcBuilding = analyticalModel.ToIFC_IfcBuilding(result);
-                    ifcProject.AddBuilding(ifcBuilding);
-
-                    transaction.Commit();
-                }
-
-                ifcBuilding = result.Instances.OfType<IfcBuilding>().FirstOrDefault();
-                if(ifcBuilding != null)
-                {
-                    AdjacencyCluster adjacencyCluster = analyticalModel.AdjacencyCluster;
-                    if(adjacencyCluster != null)
+                    if (!dictionary.TryGetValue(construction.Guid, out Dictionary<PanelType, List<IfcBuiltElement>> dictionary_PanelType))
                     {
-                        Dictionary<System.Guid, Dictionary<PanelType, List<IfcBuildingElement>>> dictionary = new Dictionary<System.Guid, Dictionary<PanelType, List<IfcBuildingElement>>>();
-
-                        Dictionary<Architectural.Level, List<Panel>> dictionary_Levels = Query.LevelsDictionary(adjacencyCluster.GetPanels());
-                        using (ITransaction transaction = result.BeginTransaction("Create Building Elements"))
-                        {
-                            IfcRelAggregates ifcRelAggregates = result.Instances.New<IfcRelAggregates>();
-                            ifcRelAggregates.RelatingObject = ifcBuilding;
-
-                            List<Architectural.Level> levels = dictionary_Levels.Keys.ToList();
-                            levels.Sort((x, y) => x.Elevation.CompareTo(y.Elevation));
-
-                            foreach (Architectural.Level level in levels)
-                            {
-                                IfcBuildingStorey ifcBuildingStorey = Architectural.IFC.Convert.ToIFC(level, result);
-                                ifcRelAggregates.RelatedObjects.Add(ifcBuildingStorey);
-
-                                foreach (Panel panel in dictionary_Levels[level])
-                                {
-                                    IfcBuildingElement ifcBuildingElement = panel.ToIFC(result);
-                                    ifcBuildingStorey.AddElement(ifcBuildingElement);
-
-                                    System.Guid guid = panel.SAMTypeGuid;
-                                    if (guid != System.Guid.Empty)
-                                    {
-                                        if (!dictionary.TryGetValue(guid, out Dictionary<PanelType, List<IfcBuildingElement>> dictionary_PanelType))
-                                        {
-                                            dictionary_PanelType = new Dictionary<PanelType, List<IfcBuildingElement>>();
-                                            dictionary[guid] = dictionary_PanelType;
-                                        }
-
-                                        PanelType panelType = panel.PanelType;
-
-                                        if (!dictionary_PanelType.TryGetValue(panelType, out List<IfcBuildingElement> ifcBuildingElements))
-                                        {
-                                            ifcBuildingElements = new List<IfcBuildingElement>();
-                                            dictionary_PanelType[panelType] = ifcBuildingElements;
-                                        }
-
-                                        ifcBuildingElements.Add(ifcBuildingElement);
-                                    }
-                                }
-                            }
-                            
-                            transaction.Commit();
-                        }
-
-                        List<Construction> constructions = adjacencyCluster.GetConstructions();
-                        using (ITransaction transaction = result.BeginTransaction("Create Building Element Types"))
-                        {
-                            
-                            foreach (Construction construction in constructions)
-                            {
-                                if (!dictionary.TryGetValue(construction.Guid, out Dictionary<PanelType, List<IfcBuildingElement>> dictionary_PanelType))
-                                {
-                                    continue;
-                                }
-
-                                IfcMaterialLayerSet ifcMaterialLayerSet = construction.ConstructionLayers.ToIFC(result);
-
-                                IfcRelAssociatesMaterial ifcRelAssociatesMaterial_Type = result.Instances.New<IfcRelAssociatesMaterial>(); ;
-                                ifcRelAssociatesMaterial_Type.RelatingMaterial = ifcMaterialLayerSet;
-
-                                foreach (KeyValuePair<PanelType, List<IfcBuildingElement>> keyValuePair in dictionary_PanelType)
-                                {
-                                    IfcBuildingElementType ifcBuildingElementType = construction.ToIFC(result, keyValuePair.Key);
-                                    if (ifcBuildingElementType == null)
-                                    {
-                                        continue;
-                                    }
-
-                                    if (ifcRelAssociatesMaterial_Type != null)
-                                    {
-                                        ifcRelAssociatesMaterial_Type.RelatedObjects.Add(ifcBuildingElementType);
-                                    }
-
-                                    IfcRelDefinesByType ifcRelDefinesByType = result.Instances.New<IfcRelDefinesByType>();
-                                    ifcRelDefinesByType.RelatingType = ifcBuildingElementType;
-                                    ifcRelDefinesByType.Name = ifcBuildingElementType.Name;
-
-                                    IfcRelAssociatesMaterial ifcRelAssociatesMaterial_Instance = result.Instances.New<IfcRelAssociatesMaterial>();
-                                    IfcMaterialLayerSetUsage ifcMaterialLayerSetUsage = Create.IfcMaterialLayerSetUsage(ifcMaterialLayerSet);
-                                    ifcRelAssociatesMaterial_Instance.RelatingMaterial = ifcMaterialLayerSetUsage;
-
-                                    foreach (IfcBuildingElement ifcBuildingElement in keyValuePair.Value)
-                                    {
-                                        ifcRelDefinesByType.RelatedObjects.Add(ifcBuildingElement);
-                                        ifcRelAssociatesMaterial_Instance.RelatedObjects.Add(ifcBuildingElement);
-                                    }
-                                }
-                            }
-
-                            transaction.Commit();
-                        }
-
-                        List<Space> spaces = adjacencyCluster.GetSpaces();
-                        using (ITransaction transaction = result.BeginTransaction("Create Spaces"))
-                        {
-                            foreach(Space space in spaces)
-                            {
-                                IfcSpace ifcSpace = space?.ToIFC(result, adjacencyCluster);
-                                if(ifcSpace == null)
-                                {
-                                    continue;
-                                }
-
-                                ifcBuilding.AddElement(ifcSpace);
-                            }
-                            
-                            transaction.Commit();
-                        }
-
+                        continue;
                     }
 
+                    IfcMaterialLayerSet ifcMaterialLayerSet = construction.ConstructionLayers.ToIFC(result);
+
+                    IfcRelAssociatesMaterial ifcRelAssociatesMaterial_Type = new IfcRelAssociatesMaterial(ifcMaterialLayerSet);
+
+                    foreach (KeyValuePair<PanelType, List<IfcBuiltElement>> keyValuePair in dictionary_PanelType)
+                    {
+                        IfcBuiltElementType ifcBuildingElementType = construction.ToIFC(result, keyValuePair.Key);
+                        if (ifcBuildingElementType == null)
+                        {
+                            continue;
+                        }
+
+                        if (ifcRelAssociatesMaterial_Type != null)
+                        {
+                            ifcRelAssociatesMaterial_Type.RelatedObjects.Add(ifcBuildingElementType);
+                        }
+
+                        IfcRelDefinesByType ifcRelDefinesByType = new IfcRelDefinesByType(ifcBuildingElementType);
+                        ifcRelDefinesByType.Name = ifcBuildingElementType.Name;
+
+                        IfcRelAssociatesMaterial ifcRelAssociatesMaterial_Instance = new IfcRelAssociatesMaterial(Create.IfcMaterialLayerSetUsage(ifcMaterialLayerSet));
+
+                        foreach (IfcBuiltElement ifcBuiltElement in keyValuePair.Value)
+                        {
+                            ifcRelDefinesByType.RelatedObjects.Add(ifcBuiltElement);
+                            ifcRelAssociatesMaterial_Instance.RelatedObjects.Add(ifcBuiltElement);
+                        }
+                    }
                 }
+
+                List<Space> spaces = adjacencyCluster.GetSpaces();
+                foreach (Space space in spaces)
+                {
+                    IfcSpace ifcSpace = space?.ToIFC(ifcBuilding, adjacencyCluster);
+                    if (ifcSpace == null)
+                    {
+                        continue;
+                    }
+
+                    ifcBuilding.AddElement(ifcSpace);
+                }
+
             }
 
             return result;

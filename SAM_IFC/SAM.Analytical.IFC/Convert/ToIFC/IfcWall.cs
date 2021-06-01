@@ -1,19 +1,26 @@
-﻿using Xbim.Ifc4.SharedBldgElements;
+﻿using GeometryGym.Ifc;
+using System.Linq;
 
 namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcWall ToIFC_IfcWall(this Panel panel, Xbim.Common.IModel model)
+        public static IfcWall ToIFC_IfcWall(this Panel panel, IfcObjectDefinition host, double tolerance = Core.Tolerance.Distance)
         {
-            if(panel == null || model == null)
+            if(panel == null || host == null)
             {
                 return null;
             }
 
-            IfcWall result = model.Instances.New<IfcWall>();
+            Geometry.Spatial.Plane plane = panel.Plane;
+
+            IfcGeometricRepresentationContext ifcGeometricRepresentationContext = host.Database?.Project?.Extract<IfcGeometricRepresentationContext>().FirstOrDefault();
+
+            IfcWall result = new IfcWall(host,
+                Geometry.IFC.Create.IfcLocalPlacement(host.Database, plane),
+                Create.IfcProductDefinitionShape(ifcGeometricRepresentationContext, panel, tolerance));
+
             result.SetIfcBuildingElement(panel);
-            result.SetIfcProductRepresentation(panel);
             Core.IFC.Modify.SetIfcPropertySets(result, panel);
 
             return result;

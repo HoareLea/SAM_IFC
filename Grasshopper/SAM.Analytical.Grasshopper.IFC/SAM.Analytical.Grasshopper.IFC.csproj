@@ -101,6 +101,9 @@
     <PackageReference Include="com.angusj.Clipper">
       <Version>6.4.2</Version>
     </PackageReference>
+    <PackageReference Include="GeometryGymIFC">
+      <Version>0.1.11</Version>
+    </PackageReference>
     <PackageReference Include="Grasshopper">
       <Version>6.32.20340.21001</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
@@ -110,9 +113,6 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Xbim.Ifc">
-      <Version>5.1.323</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

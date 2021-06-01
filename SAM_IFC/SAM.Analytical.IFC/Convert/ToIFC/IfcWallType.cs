@@ -1,18 +1,17 @@
-﻿using Xbim.Ifc4.SharedBldgElements;
+﻿using GeometryGym.Ifc;
 
 namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcWallType ToIFC_IfcWallType(this Construction construction, Xbim.Common.IModel model)
+        public static IfcWallType ToIFC_IfcWallType(this Construction construction, DatabaseIfc databaseIfc)
         {
-            if(construction == null || model == null)
+            if(construction == null || databaseIfc == null)
             {
                 return null;
             }
 
-            IfcWallType result = model.Instances.New<IfcWallType>();
-            result.PredefinedType = Xbim.Ifc4.Interfaces.IfcWallTypeEnum.STANDARD;
+            IfcWallType result = new IfcWallType(databaseIfc, construction.Name, IfcWallTypeEnum.STANDARD);
             result.SetIfcBuildingElementType(construction);
             Core.IFC.Modify.SetIfcPropertySets(result, construction);
 

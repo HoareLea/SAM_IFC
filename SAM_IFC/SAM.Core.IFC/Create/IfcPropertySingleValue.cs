@@ -1,20 +1,17 @@
-﻿using Xbim.Ifc4.PropertyResource;
+﻿using GeometryGym.Ifc;
 
 namespace SAM.Core.IFC
 {
     public static partial class Create
     {
-        public static IfcPropertySingleValue IfcPropertySingleValue(this Xbim.Common.IModel model, string name, object value)
+        public static IfcPropertySingleValue IfcPropertySingleValue(this DatabaseIfc databaseIfc, string name, object value)
         {
-            if(model == null || string.IsNullOrWhiteSpace(name))
+            if(databaseIfc == null || string.IsNullOrWhiteSpace(name))
             {
                 return null;
             }
 
-
-
-            IfcPropertySingleValue result = model.Instances.New<IfcPropertySingleValue>();
-            result.Name = name;
+            IfcPropertySingleValue result = new IfcPropertySingleValue(databaseIfc, name, value as dynamic);
 
             return result;
         }

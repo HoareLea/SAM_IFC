@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using Xbim.Ifc4.GeometricModelResource;
-using Xbim.Ifc4.GeometryResource;
+using GeometryGym.Ifc;
 
 namespace SAM.Geometry.IFC
 {
     public static partial class Convert
     {
-        public static IfcIndexedPolyCurve ToIFC_IfcIndexedPolyCurve(this Spatial.ISegmentable3D segmentable3D, Xbim.Common.IModel model)
+        public static IfcIndexedPolyCurve ToIFC_IfcIndexedPolyCurve(this Spatial.ISegmentable3D segmentable3D, DatabaseIfc databaseIfc)
         {
-            if(segmentable3D == null || model == null)
+            if(segmentable3D == null || databaseIfc == null)
             {
                 return null;
             }
@@ -24,22 +23,19 @@ namespace SAM.Geometry.IFC
                 point3Ds.Add(new Spatial.Point3D(point3Ds[0]));
             }
 
-            IfcCartesianPointList3D ifcCartesianPointList3D = point3Ds.ToIFC_IfcCartesianPointList3D(model);
+            IfcCartesianPointList3D ifcCartesianPointList3D = point3Ds.ToIFC_IfcCartesianPointList3D(databaseIfc);
             if(ifcCartesianPointList3D == null)
             {
                 return null;
             }
 
-            IfcIndexedPolyCurve result = model.Instances.New<IfcIndexedPolyCurve>();
-            result.Points = ifcCartesianPointList3D;
-
-
+            IfcIndexedPolyCurve result = new IfcIndexedPolyCurve(ifcCartesianPointList3D);
             return result;
         }
 
-        public static IfcIndexedPolyCurve ToIFC_IfcIndexedPolyCurve(this Planar.ISegmentable2D segmentable2D, Xbim.Common.IModel model)
+        public static IfcIndexedPolyCurve ToIFC_IfcIndexedPolyCurve(this Planar.ISegmentable2D segmentable2D, DatabaseIfc databaseIfc)
         {
-            if (segmentable2D == null || model == null)
+            if (segmentable2D == null || databaseIfc == null)
             {
                 return null;
             }
@@ -55,15 +51,13 @@ namespace SAM.Geometry.IFC
                 point2Ds.Add(new Planar.Point2D(point2Ds[0]));
             }
 
-            IfcCartesianPointList2D ifcCartesianPointList2D = point2Ds.ToIFC_IfcCartesianPointList2D(model);
+            IfcCartesianPointList2D ifcCartesianPointList2D = point2Ds.ToIFC_IfcCartesianPointList2D(databaseIfc);
             if (ifcCartesianPointList2D == null)
             {
                 return null;
             }
 
-            IfcIndexedPolyCurve result = model.Instances.New<IfcIndexedPolyCurve>();
-            result.Points = ifcCartesianPointList2D;
-
+            IfcIndexedPolyCurve result = new IfcIndexedPolyCurve(ifcCartesianPointList2D);
             return result;
         }
     }

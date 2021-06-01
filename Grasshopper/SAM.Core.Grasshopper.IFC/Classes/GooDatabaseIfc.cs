@@ -4,31 +4,31 @@ using Grasshopper.Kernel.Types;
 using SAM.Core.Grasshopper.IFC.Properties;
 using System;
 using System.Collections.Generic;
-using Xbim.Ifc;
+using GeometryGym.Ifc;
 
 namespace SAM.Core.Grasshopper.IFC
 {
-    public class GooIfcStore : GH_Goo<IfcStore>
+    public class GooDatabaseIfc : GH_Goo<DatabaseIfc>
     {
-        public GooIfcStore()
+        public GooDatabaseIfc()
             : base()
         {
         }
 
-        public GooIfcStore(IfcStore ifcStore)
+        public GooDatabaseIfc(DatabaseIfc databaseIfc)
         {
-            Value = ifcStore;
+            Value = databaseIfc;
         }
 
         public override bool IsValid => Value != null;
 
-        public override string TypeName => typeof(IfcStore).Name;
+        public override string TypeName => typeof(DatabaseIfc).Name;
 
-        public override string TypeDescription => typeof(IfcStore).FullName.Replace(".", " ");
+        public override string TypeDescription => typeof(DatabaseIfc).FullName.Replace(".", " ");
 
         public override IGH_Goo Duplicate()
         {
-            return new GooIfcStore(Value);
+            return new GooDatabaseIfc(Value);
         }
 
         public override bool Write(GH_IWriter writer)
@@ -40,7 +40,7 @@ namespace SAM.Core.Grasshopper.IFC
             string ifc = null;
             try
             {
-                Value.SaveAs(path);
+                Value.WriteFile(path);
                 if(System.IO.File.Exists(path))
                 {
                     ifc = System.IO.File.ReadAllText(path);
@@ -61,7 +61,7 @@ namespace SAM.Core.Grasshopper.IFC
             
             if(ifc != null)
             {
-                writer.SetString(typeof(IfcStore).FullName, ifc);
+                writer.SetString(typeof(DatabaseIfc).FullName, ifc);
                 return true;
             }
 
@@ -71,7 +71,7 @@ namespace SAM.Core.Grasshopper.IFC
         public override bool Read(GH_IReader reader)
         {
             string value = null;
-            if (!reader.TryGetString(typeof(IfcStore).FullName, ref value))
+            if (!reader.TryGetString(typeof(DatabaseIfc).FullName, ref value))
                 return false;
 
             if (string.IsNullOrWhiteSpace(value))
@@ -85,7 +85,7 @@ namespace SAM.Core.Grasshopper.IFC
                 System.IO.File.WriteAllText(path, value);
                 if (System.IO.File.Exists(path))
                 {
-                    Value = IfcStore.Open(path);
+                    Value = new DatabaseIfc(path);
                     result = true;
                 }
 
@@ -108,16 +108,16 @@ namespace SAM.Core.Grasshopper.IFC
 
         public override string ToString()
         {
-            string value = typeof(IfcStore).FullName;
+            string value = typeof(DatabaseIfc).FullName;
 
             return value;
         }
 
         public override bool CastFrom(object source)
         {
-            if (source is IfcStore)
+            if (source is DatabaseIfc)
             {
-                Value = (IfcStore)(object)source;
+                Value = (DatabaseIfc)source;
                 return true;
             }
 
@@ -126,7 +126,7 @@ namespace SAM.Core.Grasshopper.IFC
 
         public override bool CastTo<Y>(ref Y target)
         {
-            if (typeof(Y) == typeof(IfcStore))
+            if (typeof(Y) == typeof(DatabaseIfc))
             {
                 target = (Y)(object)Value;
                 return true;
@@ -142,22 +142,22 @@ namespace SAM.Core.Grasshopper.IFC
         }
     }
 
-    public class GooIfcStoreParam : GH_PersistentParam<GooIfcStore>
+    public class GooDatabaseIfcParam : GH_PersistentParam<GooDatabaseIfc>
     {
         public override Guid ComponentGuid => new Guid("407388bf-2655-4c3d-990b-eb8a64b46c74");
         protected override System.Drawing.Bitmap Icon => Resources.SAM_Small;
 
-        public GooIfcStoreParam()
-            : base(typeof(GooIfcStore).Name, typeof(GooIfcStore).Name, typeof(GooIfcStore).FullName.Replace(".", " "), "Params", "SAM")
+        public GooDatabaseIfcParam()
+            : base(typeof(GooDatabaseIfc).Name, typeof(GooDatabaseIfc).Name, typeof(GooDatabaseIfc).FullName.Replace(".", " "), "Params", "SAM")
         {
         }
 
-        protected override GH_GetterResult Prompt_Plural(ref List<GooIfcStore> values)
+        protected override GH_GetterResult Prompt_Plural(ref List<GooDatabaseIfc> values)
         {
             throw new NotImplementedException();
         }
 
-        protected override GH_GetterResult Prompt_Singular(ref GooIfcStore value)
+        protected override GH_GetterResult Prompt_Singular(ref GooDatabaseIfc value)
         {
             throw new NotImplementedException();
         }

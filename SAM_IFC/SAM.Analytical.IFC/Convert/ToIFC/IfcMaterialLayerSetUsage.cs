@@ -1,25 +1,18 @@
 ﻿using System.Collections.Generic;
-using Xbim.Ifc4.Interfaces;
-using Xbim.Ifc4.MaterialResource;
+using GeometryGym.Ifc;
 
 namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcMaterialLayerSetUsage ToIFC_IfcMaterialLayerSetUsage(this IEnumerable<ConstructionLayer> constructionLayers, Xbim.Common.IModel model)
+        public static IfcMaterialLayerSetUsage ToIFC_IfcMaterialLayerSetUsage(this IEnumerable<ConstructionLayer> constructionLayers, DatabaseIfc databaseIfc)
         {
-            if(constructionLayers == null || model == null)
+            if(constructionLayers == null || databaseIfc == null)
             {
                 return null;
             }
 
-            IfcMaterialLayerSetUsage result = model.Instances.New<IfcMaterialLayerSetUsage>();
-            IfcMaterialLayerSet ifcMaterialLayerSet = constructionLayers.ToIFC(model);
-
-            result.ForLayerSet = ifcMaterialLayerSet;
-            result.LayerSetDirection = IfcLayerSetDirectionEnum.AXIS2;
-            result.DirectionSense = IfcDirectionSenseEnum.NEGATIVE;
-
+            IfcMaterialLayerSetUsage result = new IfcMaterialLayerSetUsage(constructionLayers.ToIFC(databaseIfc), IfcLayerSetDirectionEnum.AXIS2, IfcDirectionSenseEnum.NEGATIVE, 0);
             return result;
         }
     }

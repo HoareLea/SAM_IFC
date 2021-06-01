@@ -1,23 +1,27 @@
-﻿using Xbim.Ifc4.ProductExtension;
+﻿using GeometryGym.Ifc;
+using System.Linq;
 
 namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcSpace ToIFC(this Space space, Xbim.Common.IModel model, AdjacencyCluster adjacencyCluster = null)
+        public static IfcSpace ToIFC(this Space space, IfcSpatialStructureElement host, AdjacencyCluster adjacencyCluster = null)
         {
-            if (space == null || model == null)
+            if (space == null || host == null)
             {
                 return null;
             }
 
-            IfcSpace result = model.Instances.New<IfcSpace>();
-            result.Name = space.Name;
+            IfcGeometricRepresentationContext ifcGeometricRepresentationContext = host.Database.Project.Extract<IfcGeometricRepresentationContext>().FirstOrDefault();
+
+            IfcSpace result = new IfcSpace(host, space.Name, 
+                Geometry.IFC.Create.IfcLocalPlacement(host.Database, space.Location), 
+                Create.IfcProductDefinitionShape(ifcGeometricRepresentationContext, space, adjacencyCluster));
+
             result.LongName = space.Name;
             //result.ObjectType = typeof(Space).Name;
-            result.PredefinedType = Xbim.Ifc4.Interfaces.IfcSpaceTypeEnum.SPACE;
+            result.PredefinedType = IfcSpaceTypeEnum.SPACE;
 
-            Modify.SetIfcProductRepresentation(result, space, adjacencyCluster);
             Core.IFC.Modify.SetIfcPropertySets(result, space);
 
             return result;

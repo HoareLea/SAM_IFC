@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using Xbim.Ifc4.GeometryResource;
-using Xbim.Ifc4.TopologyResource;
+using GeometryGym.Ifc;
 
 namespace SAM.Geometry.IFC
 {
     public static partial class Convert
     {
-        public static IfcPolyLoop ToIFC(this Spatial.IClosedPlanar3D closedPlanar3D, Xbim.Common.IModel model)
+        public static IfcPolyLoop ToIFC(this Spatial.IClosedPlanar3D closedPlanar3D, DatabaseIfc databaseIfc)
         {
-            if(closedPlanar3D == null || model == null)
+            if(closedPlanar3D == null || databaseIfc == null)
             {
                 return null;
             }
@@ -27,18 +26,19 @@ namespace SAM.Geometry.IFC
                     return null;
                 }
 
-                IfcPolyLoop result = model.Instances.New<IfcPolyLoop>();
-                foreach(Spatial.Point3D point3D in point3Ds)
+                List<IfcCartesianPoint> ifcCartesianPoints = new List<IfcCartesianPoint>();
+                foreach (Spatial.Point3D point3D in point3Ds)
                 {
-                    IfcCartesianPoint ifcCartesianPoint = point3D?.ToIFC(model);
+                    IfcCartesianPoint ifcCartesianPoint = point3D?.ToIFC(databaseIfc);
                     if(ifcCartesianPoint == null)
                     {
                         continue;
                     }
 
-                    result.Polygon.Add(ifcCartesianPoint);
+                    ifcCartesianPoints.Add(ifcCartesianPoint);
                 }
 
+                IfcPolyLoop result = new IfcPolyLoop(ifcCartesianPoints);
                 return result;
             }
 

@@ -1,5 +1,4 @@
-﻿using Xbim.Ifc4.Interfaces;
-using Xbim.Ifc4.MaterialResource;
+﻿using GeometryGym.Ifc;
 
 namespace SAM.Analytical.IFC
 {
@@ -12,18 +11,7 @@ namespace SAM.Analytical.IFC
                 return null;
             }
 
-            Xbim.Common.IModel model = ifcMaterialLayerSet.Model;
-            if(model == null)
-            {
-                return null;
-            }
-            
-            IfcMaterialLayerSetUsage result = model.Instances.New<IfcMaterialLayerSetUsage>();
-
-            result.ForLayerSet = ifcMaterialLayerSet;
-            result.LayerSetDirection = IfcLayerSetDirectionEnum.AXIS2;
-            result.DirectionSense = IfcDirectionSenseEnum.NEGATIVE;
-
+            IfcMaterialLayerSetUsage result = new IfcMaterialLayerSetUsage(ifcMaterialLayerSet, IfcLayerSetDirectionEnum.AXIS2, IfcDirectionSenseEnum.NEGATIVE, 0);
             return result;
         }
 

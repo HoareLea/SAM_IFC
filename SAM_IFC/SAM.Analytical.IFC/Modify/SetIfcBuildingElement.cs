@@ -1,19 +1,19 @@
-﻿using Xbim.Ifc4.ProductExtension;
+﻿using GeometryGym.Ifc;
 
 namespace SAM.Analytical.IFC
 {
     public static partial class Modify
     {
-        public static void SetIfcBuildingElement(this IfcBuildingElement ifcBuildingElement, Panel panel)
+        public static void SetIfcBuildingElement(this IfcBuiltElement ifcBuiltElement, Panel panel)
         {
-            if(ifcBuildingElement == null || panel == null)
+            if(ifcBuiltElement == null || panel == null)
             {
                 return;
             }
 
-            ifcBuildingElement.Name = panel.Name;
-            ifcBuildingElement.GlobalId = panel.Guid;
-            ifcBuildingElement.Description = Core.IFC.Query.Description(panel);
+            ifcBuiltElement.Name = panel.Name;
+            ifcBuiltElement.GlobalId = panel.Guid.ToString("N");
+            ifcBuiltElement.Description = Core.IFC.Query.Description(panel);
             //ifcBuildingElement.ObjectType = typeof(Panel).ToString();
         }
     }

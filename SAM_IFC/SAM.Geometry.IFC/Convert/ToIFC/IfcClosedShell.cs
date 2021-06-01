@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
-using Xbim.Ifc4.GeometricModelResource;
-using Xbim.Ifc4.GeometryResource;
-using Xbim.Ifc4.TopologyResource;
+using GeometryGym.Ifc;
 
 namespace SAM.Geometry.IFC
 {
     public static partial class Convert
     {
-        public static IfcClosedShell ToIFC_IfcClosedShell(this Spatial.Shell shell, Xbim.Common.IModel model, double tolerance = Core.Tolerance.Distance)
+        public static IfcClosedShell ToIFC_IfcClosedShell(this Spatial.Shell shell, DatabaseIfc databaseIfc, double tolerance = Core.Tolerance.Distance)
         {
-            if(shell == null || model == null)
+            if(shell == null || databaseIfc == null)
             {
                 return null;
             }
@@ -22,18 +20,19 @@ namespace SAM.Geometry.IFC
                     return null;
                 }
 
-                IfcClosedShell result = model.Instances.New<IfcClosedShell>();
+                List<IfcFace> faces = new List<IfcFace>();
                 foreach (Spatial.Face3D face3D in face3Ds)
                 {
-                    IfcFace ifcFace = face3D?.ToIFC(model);
+                    IfcFace ifcFace = face3D?.ToIFC(databaseIfc);
                     if(ifcFace ==null)
                     {
                         continue;
                     }
 
-                    result.CfsFaces.Add(ifcFace);
+                    faces.Add(ifcFace);
                 }
 
+                IfcClosedShell result = new IfcClosedShell(faces);
                 return result;
             }
 

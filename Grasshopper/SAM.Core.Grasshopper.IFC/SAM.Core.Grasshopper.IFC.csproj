@@ -56,7 +56,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\GooIfcStore.cs" />
+    <Compile Include="Classes\GooDatabaseIfc.cs" />
     <Compile Include="Component\IFCOpen.cs" />
     <Compile Include="Component\IFCSave.cs" />
     <Compile Include="Kernel\AssemblyInfo.cs" />
@@ -101,18 +101,15 @@
     <None Include="Resources\SAM_Names.png" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="GeometryGymIFC">
+      <Version>0.1.11</Version>
+    </PackageReference>
     <PackageReference Include="Grasshopper">
       <Version>6.32.20340.21001</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Xbim.Common">
-      <Version>5.1.323</Version>
-    </PackageReference>
-    <PackageReference Include="Xbim.Ifc">
-      <Version>5.1.323</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

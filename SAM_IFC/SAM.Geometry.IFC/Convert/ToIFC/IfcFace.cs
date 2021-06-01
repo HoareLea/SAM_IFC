@@ -1,41 +1,39 @@
 ﻿using System.Collections.Generic;
-using Xbim.Ifc4.TopologyResource;
+using GeometryGym.Ifc;
 
 namespace SAM.Geometry.IFC
 {
     public static partial class Convert
     {
-        public static IfcFace ToIFC(this Spatial.Face3D face3D, Xbim.Common.IModel model)
+        public static IfcFace ToIFC(this Spatial.Face3D face3D, DatabaseIfc databaseIfc, bool orientation = false)
         {
-            if(face3D == null || model == null)
+            if(face3D == null || databaseIfc == null)
             {
                 return null;
             }
 
-            IfcPolyLoop ifcPolyLoop = face3D.GetExternalEdge3D()?.ToIFC(model);
+            IfcPolyLoop ifcPolyLoop = face3D.GetExternalEdge3D()?.ToIFC(databaseIfc);
             if(ifcPolyLoop == null)
             {
                 return null;
             }
 
-            IfcFaceOuterBound ifcFaceOuterBound = model.Instances.New<IfcFaceOuterBound>();
-            ifcFaceOuterBound.Bound = ifcPolyLoop;
+            IfcFaceOuterBound ifcFaceOuterBound = new IfcFaceOuterBound(ifcPolyLoop, orientation);
 
-            IfcFace result = model.Instances.New<IfcFace>();
-            result.Bounds.Add(ifcFaceOuterBound);
+            IfcFace result = new IfcFace(ifcFaceOuterBound);
              
             List<Spatial.IClosedPlanar3D> internalEdge3Ds = face3D.GetInternalEdge3Ds();
             if(internalEdge3Ds != null && internalEdge3Ds.Count != 0)
             {
                 foreach(Spatial.IClosedPlanar3D internalEdge3D in internalEdge3Ds)
                 {
-                    ifcPolyLoop = internalEdge3D?.ToIFC(model);
+                    ifcPolyLoop = internalEdge3D?.ToIFC(databaseIfc);
                     if(ifcPolyLoop == null)
                     {
                         continue;
                     }
 
-                    IfcFaceBound ifcFaceBound = model.Instances.New<IfcFaceBound>();
+                    IfcFaceBound ifcFaceBound = new IfcFaceBound(ifcPolyLoop, orientation);
                     ifcFaceBound.Bound = ifcPolyLoop;
                     result.Bounds.Add(ifcFaceBound);
                 }

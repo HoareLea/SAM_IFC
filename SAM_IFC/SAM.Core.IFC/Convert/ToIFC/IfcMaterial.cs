@@ -1,18 +1,17 @@
-﻿using Xbim.Ifc4.MaterialResource;
+﻿using GeometryGym.Ifc;
 
 namespace SAM.Core.IFC
 {
     public static partial class Convert
     {
-        public static IfcMaterial ToIFC(this IMaterial material, Xbim.Common.IModel model)
+        public static IfcMaterial ToIFC(this IMaterial material, DatabaseIfc databaseIfc)
         {
-            if(material == null || model == null)
+            if(material == null || databaseIfc == null)
             {
                 return null;
             }
 
-            IfcMaterial result = model.Instances.New<IfcMaterial>();
-            result.Name = material.Name;
+            IfcMaterial result = new IfcMaterial(databaseIfc, material.Name);
 
             return result;
         }

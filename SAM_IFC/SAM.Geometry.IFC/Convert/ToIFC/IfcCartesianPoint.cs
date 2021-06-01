@@ -1,33 +1,28 @@
-﻿using Xbim.Ifc;
-using Xbim.Ifc4.GeometryResource;
+﻿using GeometryGym.Ifc;
 
 namespace SAM.Geometry.IFC
 {
     public static partial class Convert
     {
-        public static IfcCartesianPoint ToIFC(this Spatial.Point3D point3D, Xbim.Common.IModel model)
+        public static IfcCartesianPoint ToIFC(this Spatial.Point3D point3D, DatabaseIfc databaseIfc)
         {
-            if(point3D == null || model == null)
+            if(point3D == null || databaseIfc == null)
             {
                 return null;
             }
 
-            IfcCartesianPoint result = model.Instances.New<IfcCartesianPoint>();
-            result.SetXYZ(point3D.X, point3D.Y, point3D.Z);
-
+            IfcCartesianPoint result = new IfcCartesianPoint(databaseIfc, point3D.X, point3D.Y, point3D.Z);
             return result;
         }
 
-        public static IfcCartesianPoint ToIFC(this Planar.Point2D point2D, Xbim.Common.IModel model)
+        public static IfcCartesianPoint ToIFC(this Planar.Point2D point2D, DatabaseIfc databaseIfc)
         {
-            if (point2D == null || model == null)
+            if (point2D == null || databaseIfc == null)
             {
                 return null;
             }
 
-            IfcCartesianPoint result = model.Instances.New<IfcCartesianPoint>();
-            result.SetXY(point2D.X, point2D.Y);
-
+            IfcCartesianPoint result = new IfcCartesianPoint(databaseIfc, point2D.X, point2D.Y);
             return result;
         }
     }

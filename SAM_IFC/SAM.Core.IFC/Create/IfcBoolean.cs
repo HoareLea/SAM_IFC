@@ -1,4 +1,4 @@
-﻿using Xbim.Ifc4.MeasureResource;
+﻿using GeometryGym.Ifc;
 
 namespace SAM.Core.IFC
 {

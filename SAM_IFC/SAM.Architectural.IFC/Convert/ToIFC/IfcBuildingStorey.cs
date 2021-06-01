@@ -1,22 +1,20 @@
-﻿using Xbim.Ifc4.ProductExtension;
+﻿using GeometryGym.Ifc;
 
 namespace SAM.Architectural.IFC
 {
     public static partial class Convert
     {
-        public static IfcBuildingStorey ToIFC(this Level level, Xbim.Common.IModel model)
+        public static IfcBuildingStorey ToIFC(this Level level, IfcFacility ifcFacility)
         {
-            if(level == null || model == null)
+            if(level == null || ifcFacility == null)
             {
                 return null;
             }
 
-            IfcBuildingStorey result = model.Instances.New<IfcBuildingStorey>();
-            result.Name = level.Name;
+            IfcBuildingStorey result = new IfcBuildingStorey(ifcFacility, level.Name, level.Elevation);
             result.LongName = level.Name;
-            result.GlobalId = level.Guid;
+            result.GlobalId = level.Guid.ToString("N");
             //result.ObjectType = level.GetType().ToString();
-            result.Elevation = level.Elevation;
             Core.IFC.Modify.SetIfcPropertySets(result, level);
 
             return result;

@@ -1,4 +1,4 @@
-﻿using Xbim.Ifc4.RepresentationResource;
+﻿using GeometryGym.Ifc;
 
 namespace SAM.Geometry.IFC
 {
@@ -11,17 +11,16 @@ namespace SAM.Geometry.IFC
                 return null;
             }
 
-            Xbim.Common.IModel model = ifcGeometricRepresentationContext.Model;
-            if(model == null)
+            DatabaseIfc databaseIfc = ifcGeometricRepresentationContext.Database;
+            if(databaseIfc == null)
             {
                 return null;
             }
 
-            IfcGeometricRepresentationSubContext result = model.Instances.New<IfcGeometricRepresentationSubContext>();
+            IfcGeometricRepresentationSubContext result = new IfcGeometricRepresentationSubContext(ifcGeometricRepresentationContext, IfcGeometricProjectionEnum.MODEL_VIEW);
             result.ParentContext = ifcGeometricRepresentationContext;
             result.ContextIdentifier = Core.Query.Description(ifcDefaultContextIdentifier);
             result.ContextType = ifcGeometricRepresentationContext.ContextType;
-            result.TargetView = Xbim.Ifc4.Interfaces.IfcGeometricProjectionEnum.MODEL_VIEW;
 
             return result;
         }

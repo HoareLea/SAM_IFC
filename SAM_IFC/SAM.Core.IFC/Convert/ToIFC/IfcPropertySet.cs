@@ -1,18 +1,17 @@
-﻿using Xbim.Ifc4.Kernel;
+﻿using GeometryGym.Ifc;
 
 namespace SAM.Core.IFC
 {
     public static partial class Convert
     {
-        public static IfcPropertySet ToIFC(this ParameterSet parameterSet, Xbim.Common.IModel model)
+        public static IfcPropertySet ToIFC(this ParameterSet parameterSet, DatabaseIfc databaseIfc)
         {
-            if(parameterSet == null || model == null)
+            if(parameterSet == null || databaseIfc == null)
             {
                 return null;
             }
 
-            IfcPropertySet result = model.Instances.New<IfcPropertySet>();
-            result.Name = parameterSet.Name;
+            IfcPropertySet result = new IfcPropertySet(databaseIfc, parameterSet.Name);
 
             foreach(string name in parameterSet.Names)
             {

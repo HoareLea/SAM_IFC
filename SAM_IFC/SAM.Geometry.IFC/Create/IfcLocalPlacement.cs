@@ -1,49 +1,43 @@
-﻿using Xbim.Ifc4.GeometricConstraintResource;
-using Xbim.Ifc4.GeometryResource;
+﻿using GeometryGym.Ifc;
 
 namespace SAM.Geometry.IFC
 {
     public static partial class Create
     {
-        public static IfcLocalPlacement IfcLocalPlacement(this Xbim.Common.IModel model, Spatial.Point3D location, Spatial.Vector3D xAxis = null, Spatial.Vector3D zAxis = null)
+        public static IfcLocalPlacement IfcLocalPlacement(this DatabaseIfc databaseIfc, Spatial.Point3D location, Spatial.Vector3D xAxis = null, Spatial.Vector3D zAxis = null)
         {
-            if(location == null || model == null)
+            if(location == null || databaseIfc == null)
             {
                 return null;
             }
 
-            IfcLocalPlacement result = model.Instances.New<IfcLocalPlacement>();
-
-            IfcAxis2Placement3D ifcAxis2Placement3D = IfcAxis2Placement3D(model, location);
+            IfcAxis2Placement3D ifcAxis2Placement3D = IfcAxis2Placement3D(databaseIfc, location);
             if(xAxis != null)
             {
-                ifcAxis2Placement3D.RefDirection = xAxis.ToIFC(model);
+                ifcAxis2Placement3D.RefDirection = xAxis.ToIFC(databaseIfc);
             }
 
             if(zAxis != null)
             {
-                ifcAxis2Placement3D.Axis = zAxis.ToIFC(model);
+                ifcAxis2Placement3D.Axis = zAxis.ToIFC(databaseIfc);
             }
 
-            result.RelativePlacement = ifcAxis2Placement3D;
-
+            IfcLocalPlacement result = new IfcLocalPlacement(ifcAxis2Placement3D);
             return result;
         }
 
-        public static IfcLocalPlacement IfcLocalPlacement(this Xbim.Common.IModel model, Spatial.Plane plane)
+        public static IfcLocalPlacement IfcLocalPlacement(this DatabaseIfc databaseIfc, Spatial.Plane plane)
         {
-            if (plane == null || model == null)
+            if (plane == null || databaseIfc == null)
             {
                 return null;
             }
 
-            IfcLocalPlacement result = model.Instances.New<IfcLocalPlacement>();
+            IfcAxis2Placement3D ifcAxis2Placement3D = IfcAxis2Placement3D(databaseIfc, plane.Origin);
+            ifcAxis2Placement3D.RefDirection = plane.AxisX.ToIFC(databaseIfc);
+            ifcAxis2Placement3D.Axis = plane.AxisZ.ToIFC(databaseIfc);
 
-            IfcAxis2Placement3D ifcAxis2Placement3D = IfcAxis2Placement3D(model, plane.Origin);
-            ifcAxis2Placement3D.RefDirection = plane.AxisX.ToIFC(model);
-            ifcAxis2Placement3D.Axis = plane.AxisZ.ToIFC(model);
-
-            result.RelativePlacement = ifcAxis2Placement3D;
+            IfcLocalPlacement result = new IfcLocalPlacement(ifcAxis2Placement3D);
 
             return result;
         }

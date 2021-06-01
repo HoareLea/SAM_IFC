@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using Xbim.Ifc4.RepresentationResource;
+using GeometryGym.Ifc;
 
 namespace SAM.Geometry.IFC
 {
     public static partial class Query
     {
-        public static IfcGeometricRepresentationSubContext IfcGeometricRepresentationSubContext(this Xbim.Common.IModel model, IfcDefaultContextIdentifier ifcDefaultContextIdentifier)
+        public static IfcGeometricRepresentationSubContext IfcGeometricRepresentationSubContext(this IfcProject ifcProject, IfcDefaultContextIdentifier ifcDefaultContextIdentifier)
         {
-            if (ifcDefaultContextIdentifier == IfcDefaultContextIdentifier.Undefined || model == null)
+            if (ifcDefaultContextIdentifier == IfcDefaultContextIdentifier.Undefined || ifcProject == null)
             {
                 return null;
             }
@@ -19,7 +19,7 @@ namespace SAM.Geometry.IFC
             }
 
 
-            IEnumerable<IfcGeometricRepresentationSubContext> ifcGeometricRepresentationSubContexts = model.Instances.OfType<IfcGeometricRepresentationSubContext>();
+            IEnumerable<IfcGeometricRepresentationSubContext> ifcGeometricRepresentationSubContexts = ifcProject.Extract<IfcGeometricRepresentationSubContext>();
             if(ifcGeometricRepresentationSubContexts == null)
             {
                 return null;
@@ -54,13 +54,13 @@ namespace SAM.Geometry.IFC
                 return null;
             }
 
-            Xbim.Common.IModel model = ifcGeometricRepresentationContext.Model;
-            if(model == null)
+            IfcProject ifcProject = ifcGeometricRepresentationContext.Database?.Project;
+            if(ifcProject == null)
             {
                 return null;
             }
 
-            IEnumerable<IfcGeometricRepresentationSubContext> ifcGeometricRepresentationSubContexts = model.Instances.OfType<IfcGeometricRepresentationSubContext>();
+            IEnumerable<IfcGeometricRepresentationSubContext> ifcGeometricRepresentationSubContexts = ifcProject.Extract<IfcGeometricRepresentationSubContext>();
             if (ifcGeometricRepresentationSubContexts == null)
             {
                 return null;
@@ -79,7 +79,7 @@ namespace SAM.Geometry.IFC
                     continue;
                 }
 
-                if(ifcGeometricRepresentationContext_Parent.EntityLabel != ifcGeometricRepresentationContext.EntityLabel)
+                if(ifcGeometricRepresentationContext_Parent.Index != ifcGeometricRepresentationContext.Index)
                 {
                     continue;
                 }

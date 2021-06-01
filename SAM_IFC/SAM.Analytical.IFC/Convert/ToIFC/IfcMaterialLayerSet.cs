@@ -1,27 +1,25 @@
 ﻿using System.Collections.Generic;
-using Xbim.Ifc4.MaterialResource;
+using GeometryGym.Ifc;
 
 namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcMaterialLayerSet ToIFC(this IEnumerable<ConstructionLayer> constructionLayers, Xbim.Common.IModel model)
+        public static IfcMaterialLayerSet ToIFC(this IEnumerable<ConstructionLayer> constructionLayers, DatabaseIfc databaseIfc)
         {
-            if(constructionLayers == null || model == null)
+            if(constructionLayers == null || databaseIfc == null)
             {
                 return null;
             }
 
-            IfcMaterialLayerSet result = model.Instances.New<IfcMaterialLayerSet>();
+            IEnumerable<IfcMaterial> ifcMaterials = databaseIfc.Project?.Extract<IfcMaterial>();
 
-            IEnumerable<IfcMaterial> ifcMaterials = model.Instances.OfType<IfcMaterial>();
-
+            List<IfcMaterialLayer> ifcMaterialLayers = new List<IfcMaterialLayer>();
             foreach (ConstructionLayer constructionLayer in constructionLayers)
             {
-                IfcMaterialLayer ifcMaterialLayer = model.Instances.New<IfcMaterialLayer>();
-                ifcMaterialLayer.LayerThickness = constructionLayer.Thickness;
-
                 string materialName = constructionLayer.Name;
+
+                IfcMaterialLayer ifcMaterialLayer = new IfcMaterialLayer(databaseIfc, constructionLayer.Thickness, materialName);
 
                 if (ifcMaterials != null && !string.IsNullOrWhiteSpace(materialName))
                 {
@@ -35,9 +33,11 @@ namespace SAM.Analytical.IFC
                     }
                 }
 
-                result.MaterialLayers.Add(ifcMaterialLayer);
+
+                ifcMaterialLayers.Add(ifcMaterialLayer);
             }
 
+            IfcMaterialLayerSet result = new IfcMaterialLayerSet(ifcMaterialLayers, string.Empty);
             return result;
         }
     }

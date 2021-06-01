@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Xbim.Ifc4.Kernel;
+using GeometryGym.Ifc;
 
 namespace SAM.Core.IFC
 {
@@ -12,8 +12,8 @@ namespace SAM.Core.IFC
                 return;
             }
 
-            Xbim.Common.IModel model = ifcObjectDefinition.Model;
-            if (model == null)
+            DatabaseIfc databaseIfc = ifcObjectDefinition.Database;
+            if (databaseIfc == null)
             {
                 return;
             }
@@ -24,10 +24,8 @@ namespace SAM.Core.IFC
 
             foreach (ParameterSet parameterSet in parameterSets)
             {
-                IfcPropertySet ifcPropertySet = parameterSet.ToIFC(model);
-                IfcRelDefinesByProperties ifcRelDefinesByProperties = model.Instances.New<IfcRelDefinesByProperties>();
-                ifcRelDefinesByProperties.RelatedObjects.Add(ifcObjectDefinition);
-                ifcRelDefinesByProperties.RelatingPropertyDefinition = ifcPropertySet;
+                IfcPropertySet ifcPropertySet = parameterSet.ToIFC(databaseIfc);
+                IfcRelDefinesByProperties ifcRelDefinesByProperties = new IfcRelDefinesByProperties(ifcObjectDefinition, ifcPropertySet);
             }
         }
     }

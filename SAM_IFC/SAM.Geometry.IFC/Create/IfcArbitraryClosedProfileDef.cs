@@ -1,19 +1,17 @@
-﻿using Xbim.Ifc4.Interfaces;
-using Xbim.Ifc4.ProfileResource;
+﻿using GeometryGym.Ifc;
 
 namespace SAM.Geometry.IFC
 {
     public static partial class Create
     {
-        public static IfcArbitraryClosedProfileDef IfcArbitraryClosedProfileDef(this Xbim.Common.IModel model, Planar.Polygon2D polygon2D, IfcProfileTypeEnum ifcProfileTypeEnum)
+        public static IfcArbitraryClosedProfileDef IfcArbitraryClosedProfileDef(this DatabaseIfc databaseIfc, Planar.Polygon2D polygon2D, IfcProfileTypeEnum ifcProfileTypeEnum)
         {
-            if(polygon2D == null || model == null)
+            if(polygon2D == null || databaseIfc == null)
             {
                 return null;
             }
 
-            IfcArbitraryClosedProfileDef result = model.Instances.New<IfcArbitraryClosedProfileDef>();
-            result.OuterCurve = polygon2D.ToIFC_IfcPolyline(model);
+            IfcArbitraryClosedProfileDef result = new IfcArbitraryClosedProfileDef(string.Empty, polygon2D.ToIFC_IfcPolyline(databaseIfc));
             result.ProfileType = ifcProfileTypeEnum;
 
             return result;

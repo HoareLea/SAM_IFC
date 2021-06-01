@@ -1,22 +1,20 @@
-﻿using Xbim.Ifc4.GeometricModelResource;
-using Xbim.Ifc4.TopologyResource;
+﻿using GeometryGym.Ifc;
 
 namespace SAM.Geometry.IFC
 {
     public static partial class Convert
     {
-        public static IfcFacetedBrep ToIFC(this Spatial.Shell shell, Xbim.Common.IModel model, double tolerance = Core.Tolerance.Distance)
+        public static IfcFacetedBrep ToIFC(this Spatial.Shell shell, DatabaseIfc databaseIfc, double tolerance = Core.Tolerance.Distance)
         {
-            if(shell == null || model == null)
+            if(shell == null || databaseIfc == null)
             {
                 return null;
             }
 
-            IfcClosedShell ifcClosedShell = shell.ToIFC_IfcClosedShell(model, tolerance);
+            IfcClosedShell ifcClosedShell = shell.ToIFC_IfcClosedShell(databaseIfc, tolerance);
             if(ifcClosedShell != null)
             {
-                IfcFacetedBrep result = model.Instances.New<IfcFacetedBrep>();
-                result.Outer = ifcClosedShell;
+                IfcFacetedBrep result = new IfcFacetedBrep(ifcClosedShell);
                 return result;
             }
 

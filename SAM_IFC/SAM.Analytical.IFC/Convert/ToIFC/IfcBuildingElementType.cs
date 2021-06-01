@@ -1,22 +1,22 @@
-﻿using Xbim.Ifc4.ProductExtension;
+﻿using GeometryGym.Ifc;
 
 namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcBuildingElementType ToIFC_IfcBuildingElementType(this Panel panel, Xbim.Common.IModel model)
+        public static IfcBuiltElementType ToIFC_IfcBuiltElementType(this Panel panel, DatabaseIfc databaseIfc)
         {
-            if (panel == null || model == null)
+            if (panel == null || databaseIfc == null)
             {
                 return null;
             }
 
-            return ToIFC(panel.Construction, model, panel.PanelType);
+            return ToIFC(panel.Construction, databaseIfc, panel.PanelType);
         }
 
-        public static IfcBuildingElementType ToIFC(this Construction construction, Xbim.Common.IModel model, PanelType panelType = PanelType.Undefined)
+        public static IfcBuiltElementType ToIFC(this Construction construction, DatabaseIfc databaseIfc, PanelType panelType = PanelType.Undefined)
         {
-            if(construction == null || model == null)
+            if(construction == null || databaseIfc == null)
             {
                 return null;
             }
@@ -26,26 +26,26 @@ namespace SAM.Analytical.IFC
             if(panelType_Temp == PanelType.Undefined)
                 panelType_Temp = construction.PanelType();
 
-            IfcBuildingElementType result = null;
+            IfcBuiltElementType result = null;
 
             if (panelType_Temp == PanelType.CurtainWall)
             {
-                result = ToIFC_IfcCurtainWallType(construction, model);
+                result = ToIFC_IfcCurtainWallType(construction, databaseIfc);
             }
             else
             {
                 switch (panelType_Temp.PanelGroup())
                 {
                     case PanelGroup.Wall:
-                        result = ToIFC_IfcWallType(construction, model);
+                        result = ToIFC_IfcWallType(construction, databaseIfc);
                         break;
 
                     case PanelGroup.Roof:
-                        result = ToIFC_IfcRoofType(construction, model);
+                        result = ToIFC_IfcRoofType(construction, databaseIfc);
                         break;
 
                     case PanelGroup.Floor:
-                        result = ToIFC_IfcSlabType(construction, model);
+                        result = ToIFC_IfcSlabType(construction, databaseIfc);
                         break;
 
                 }

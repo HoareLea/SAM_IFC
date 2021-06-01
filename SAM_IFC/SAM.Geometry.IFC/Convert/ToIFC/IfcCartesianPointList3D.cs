@@ -1,33 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Xbim.Common;
-using Xbim.Ifc4.GeometricModelResource;
-using Xbim.Ifc4.MeasureResource;
+﻿using System;
+using System.Collections.Generic;
+using GeometryGym.Ifc;
 
 namespace SAM.Geometry.IFC
 {
     public static partial class Convert
     {
-        public static IfcCartesianPointList3D ToIFC_IfcCartesianPointList3D(this IEnumerable<Spatial.Point3D> point3Ds, Xbim.Common.IModel model)
+        public static IfcCartesianPointList3D ToIFC_IfcCartesianPointList3D(this IEnumerable<Spatial.Point3D> point3Ds, DatabaseIfc databaseIfc)
         {
-            if(point3Ds == null || model == null)
+            if (point3Ds == null || databaseIfc == null)
             {
                 return null;
             }
 
-            IfcCartesianPointList3D result = model.Instances.New<IfcCartesianPointList3D>();
-            for(int i=0; i < point3Ds.Count(); i++)
+            List<Tuple<double, double, double>> tuples = new List<Tuple<double, double, double>>();
+            foreach (Spatial.Point3D point3D in point3Ds)
             {
-                Spatial.Point3D point3D = point3Ds.ElementAt(i);
-                if(point3D != null)
-                {
-                    IItemSet<IfcLengthMeasure> ifcLengthMeasures = result.CoordList.GetAt(i);
-                    ifcLengthMeasures.Add(point3D[0]);
-                    ifcLengthMeasures.Add(point3D[1]);
-                    ifcLengthMeasures.Add(point3D[2]);
-                }
+                tuples.Add(new Tuple<double, double, double>(point3D[0], point3D[1], point3D[2]));
             }
 
+            IfcCartesianPointList3D result = new IfcCartesianPointList3D(databaseIfc, tuples);
             return result;
         }
     }

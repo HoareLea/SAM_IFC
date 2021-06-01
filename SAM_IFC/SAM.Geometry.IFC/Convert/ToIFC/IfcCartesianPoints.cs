@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using Xbim.Ifc4.GeometryResource;
+using GeometryGym.Ifc;
 
 namespace SAM.Geometry.IFC
 {
     public static partial class Convert
     {
-        public static List<IfcCartesianPoint> ToIFC(this IEnumerable<Spatial.Point3D> point3Ds, Xbim.Common.IModel model)
+        public static List<IfcCartesianPoint> ToIFC(this IEnumerable<Spatial.Point3D> point3Ds, DatabaseIfc databaseIfc)
         {
-            if(point3Ds == null || model == null)
+            if(point3Ds == null || databaseIfc == null)
             {
                 return null;
             }
@@ -15,15 +15,15 @@ namespace SAM.Geometry.IFC
             List<IfcCartesianPoint> result = new List<IfcCartesianPoint>();
             foreach (Spatial.Point3D point3D in point3Ds)
             {
-                result.Add(point3D?.ToIFC(model));
+                result.Add(point3D?.ToIFC(databaseIfc));
             }
 
             return result;
         }
 
-        public static List<IfcCartesianPoint> ToIFC(this IEnumerable<Planar.Point2D> point2Ds, Xbim.Common.IModel model)
+        public static List<IfcCartesianPoint> ToIFC(this IEnumerable<Planar.Point2D> point2Ds, DatabaseIfc databaseIfc)
         {
-            if (point2Ds == null || model == null)
+            if (point2Ds == null || databaseIfc == null)
             {
                 return null;
             }
@@ -31,7 +31,7 @@ namespace SAM.Geometry.IFC
             List<IfcCartesianPoint> result = new List<IfcCartesianPoint>();
             foreach (Planar.Point2D point2D in point2Ds)
             {
-                result.Add(point2D?.ToIFC(model));
+                result.Add(point2D?.ToIFC(databaseIfc));
             }
 
             return result;

@@ -1,22 +1,26 @@
 ﻿using System.Linq;
-using Xbim.Ifc4.GeometricConstraintResource;
-using Xbim.Ifc4.RepresentationResource;
-using Xbim.Ifc4.SharedBldgElements;
+using GeometryGym.Ifc;
 
 namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcCurtainWall ToIFC_IfcCurtainWall(this Panel panel, Xbim.Common.IModel model)
+        public static IfcCurtainWall ToIFC_IfcCurtainWall(this Panel panel, IfcObjectDefinition host, double tolerance = Core.Tolerance.Distance)
         {
-            if(panel == null || model == null)
+            if(panel == null || host == null)
             {
                 return null;
             }
 
-            IfcCurtainWall result = model.Instances.New<IfcCurtainWall>();
+            Geometry.Spatial.Plane plane = panel.Plane;
+
+            IfcGeometricRepresentationContext ifcGeometricRepresentationContext = host.Database?.Project?.Extract<IfcGeometricRepresentationContext>().FirstOrDefault();
+
+            IfcCurtainWall result = new IfcCurtainWall(host, 
+                Geometry.IFC.Create.IfcLocalPlacement(host.Database, plane), 
+                Create.IfcProductDefinitionShape(ifcGeometricRepresentationContext, panel, tolerance));
+
             result.SetIfcBuildingElement(panel);
-            result.SetIfcProductRepresentation(panel);
             Core.IFC.Modify.SetIfcPropertySets(result, panel);
 
             return result;

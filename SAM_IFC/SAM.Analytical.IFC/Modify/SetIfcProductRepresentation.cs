@@ -8,7 +8,7 @@ namespace SAM.Analytical.IFC
 {
     public static partial class Modify
     {
-        public static void SetIfcProductRepresentation(this IfcBuildingElement ifcBuildingElement, Panel panel)
+        public static void SetIfcProductRepresentation(this IfcBuildingElement ifcBuildingElement, Panel panel, double tolerance = Core.Tolerance.Distance)
         {
             if(ifcBuildingElement == null || panel == null)
             {
@@ -23,7 +23,7 @@ namespace SAM.Analytical.IFC
 
             IfcGeometricRepresentationContext ifcGeometricRepresentationContext = model.Instances.OfType<IfcGeometricRepresentationContext>().FirstOrDefault();
 
-            IfcProductDefinitionShape ifcProductDefinitionShape = Create.IfcProductDefinitionShape(ifcGeometricRepresentationContext, panel);
+            IfcProductDefinitionShape ifcProductDefinitionShape = Create.IfcProductDefinitionShape(ifcGeometricRepresentationContext, panel, tolerance);
             if(ifcProductDefinitionShape == null)
             {
                 return;
@@ -33,6 +33,30 @@ namespace SAM.Analytical.IFC
 
             IfcLocalPlacement ifcLocalPlacement = Geometry.IFC.Create.IfcLocalPlacement(model, new Point3D(0, 0, 0), Vector3D.WorldX, Vector3D.WorldZ);
             ifcBuildingElement.ObjectPlacement = ifcLocalPlacement;
+        }
+
+        public static void SetIfcProductRepresentation(this IfcSpace ifcSpace, Space space, AdjacencyCluster adjacencyCluster = null)
+        {
+            if (ifcSpace == null || space == null)
+            {
+                return;
+            }
+
+            Xbim.Common.IModel model = ifcSpace.Model;
+            if (model == null)
+            {
+                return;
+            }
+
+            IfcGeometricRepresentationContext ifcGeometricRepresentationContext = model.Instances.OfType<IfcGeometricRepresentationContext>().FirstOrDefault();
+
+            IfcProductDefinitionShape ifcProductDefinitionShape = Create.IfcProductDefinitionShape(ifcGeometricRepresentationContext, space, adjacencyCluster);
+            if (ifcProductDefinitionShape != null)
+            {
+                ifcSpace.Representation = ifcProductDefinitionShape;
+            }
+
+            ifcSpace.ObjectPlacement = Geometry.IFC.Create.IfcLocalPlacement(model, space.Location);
         }
     }
 }

@@ -157,6 +157,24 @@ namespace SAM.Analytical.IFC
 
                             transaction.Commit();
                         }
+
+                        List<Space> spaces = adjacencyCluster.GetSpaces();
+                        using (ITransaction transaction = result.BeginTransaction("Create Spaces"))
+                        {
+                            foreach(Space space in spaces)
+                            {
+                                IfcSpace ifcSpace = space?.ToIFC(result, adjacencyCluster);
+                                if(ifcSpace == null)
+                                {
+                                    continue;
+                                }
+
+                                ifcBuilding.AddElement(ifcSpace);
+                            }
+                            
+                            transaction.Commit();
+                        }
+
                     }
 
                 }

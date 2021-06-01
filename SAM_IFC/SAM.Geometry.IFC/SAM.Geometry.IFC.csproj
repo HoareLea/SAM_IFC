@@ -71,6 +71,7 @@
     <Compile Include="Convert\ToIFC\IfcDirection.cs" />
     <Compile Include="Convert\ToIFC\IfcCartesianPoint.cs" />
     <Compile Include="Create\IfcLocalPlacement.cs" />
+    <Compile Include="Create\IfcShapeRepresentation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +89,12 @@
     <PackageReference Include="Xbim.Geometry">
       <Version>5.1.403</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SAM.Core.IFC\SAM.Core.IFC.csproj">
+      <Project>{e10bf13f-8f39-44fd-87dc-118f10221de3}</Project>
+      <Name>SAM.Core.IFC</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

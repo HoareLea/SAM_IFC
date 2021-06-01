@@ -13,7 +13,7 @@ namespace SAM.Geometry.IFC
             }
 
             IfcArbitraryClosedProfileDef result = model.Instances.New<IfcArbitraryClosedProfileDef>();
-            result.OuterCurve = polygon2D.ToIFC(model);
+            result.OuterCurve = polygon2D.ToIFC_IfcPolyline(model);
             result.ProfileType = ifcProfileTypeEnum;
 
             return result;

@@ -5,7 +5,7 @@ namespace SAM.Geometry.IFC
 {
     public static partial class Convert
     {
-        public static IfcPolyline ToIFC(this Spatial.Polygon3D polygon3D, Xbim.Common.IModel model)
+        public static IfcPolyline ToIFC_IfcPolyline(this Spatial.Polygon3D polygon3D, Xbim.Common.IModel model)
         {
             if(polygon3D == null || model == null)
             {
@@ -23,27 +23,27 @@ namespace SAM.Geometry.IFC
             return result;
         }
 
-        public static IfcPolyline ToIFC(this Planar.Polygon2D polygon2D, Xbim.Common.IModel model)
+        public static IfcPolyline ToIFC_IfcPolyline(this Planar.Polygon2D polygon2D, Xbim.Common.IModel model)
         {
-            return ToIFC((Planar.ISegmentable2D)polygon2D, model);
+            return ToIFC_IfcPolyline((Planar.ISegmentable2D)polygon2D, model);
         }
 
-        public static IfcPolyline ToIFC(this Planar.Rectangle2D rectangle2D, Xbim.Common.IModel model)
+        public static IfcPolyline ToIFC_IfcPolyline(this Planar.Rectangle2D rectangle2D, Xbim.Common.IModel model)
         {
-            return ToIFC((Planar.ISegmentable2D)rectangle2D, model);
+            return ToIFC_IfcPolyline((Planar.ISegmentable2D)rectangle2D, model);
         }
 
-        public static IfcPolyline ToIFC(this Planar.Triangle2D triangle2D, Xbim.Common.IModel model)
+        public static IfcPolyline ToIFC_IfcPolyline(this Planar.Triangle2D triangle2D, Xbim.Common.IModel model)
         {
-            return ToIFC((Planar.ISegmentable2D)triangle2D, model);
+            return ToIFC_IfcPolyline((Planar.ISegmentable2D)triangle2D, model);
         }
 
-        public static IfcPolyline ToIFC(this Planar.Polyline2D polyline2D, Xbim.Common.IModel model)
+        public static IfcPolyline ToIFC_IfcPolyline(this Planar.Polyline2D polyline2D, Xbim.Common.IModel model)
         {
-            return ToIFC((Planar.ISegmentable2D)polyline2D, model);
+            return ToIFC_IfcPolyline((Planar.ISegmentable2D)polyline2D, model);
         }
 
-        public static IfcPolyline ToIFC(this Planar.ISegmentable2D segmentable2D, Xbim.Common.IModel model)
+        public static IfcPolyline ToIFC_IfcPolyline(this Planar.ISegmentable2D segmentable2D, Xbim.Common.IModel model)
         {
             if (segmentable2D == null || model == null)
             {

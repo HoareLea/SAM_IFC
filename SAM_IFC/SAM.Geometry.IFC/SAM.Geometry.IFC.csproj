@@ -56,6 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Convert\ToIFC\IfcCartesianPoints.cs" />
+    <Compile Include="Convert\ToIFC\IfcFace.cs" />
+    <Compile Include="Convert\ToIFC\IfcFacetedBrep.cs" />
+    <Compile Include="Convert\ToIFC\IfcClosedShell.cs" />
+    <Compile Include="Convert\ToIFC\IfcPolyLoop.cs" />
     <Compile Include="Convert\ToIFC\IfcPolyline.cs" />
     <Compile Include="Create\IfcArbitraryProfileDefWithVoids.cs" />
     <Compile Include="Create\IfcAxis2Placement2D.cs" />

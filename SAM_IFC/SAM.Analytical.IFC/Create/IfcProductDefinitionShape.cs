@@ -20,22 +20,18 @@ namespace SAM.Analytical.IFC
                 return null;
             }
 
-            Extrusion extrusion = Query.Extrusion(panel);
-            if(extrusion == null)
-            {
-                return null;
-            }
-
-            IfcExtrudedAreaSolid ifcExtrudedAreaSolid = Geometry.IFC.Convert.ToIFC(extrusion, model, tolerance);
-            if(ifcExtrudedAreaSolid == null)
-            {
-                return null;
-            }
-
-            IfcShapeRepresentation ifcShapeRepresentation = Geometry.IFC.Create.IfcShapeRepresentation(ifcGeometricRepresentationContext, ifcExtrudedAreaSolid, "SweptSolid", "Body"); ifcShapeRepresentation.ContextOfItems = ifcGeometricRepresentationContext;
-            
             IfcProductDefinitionShape result = model.Instances.New<IfcProductDefinitionShape>();
-            result.Representations.Add(ifcShapeRepresentation);
+
+            Extrusion extrusion = Query.Extrusion(panel);
+            if(extrusion != null)
+            {
+                IfcExtrudedAreaSolid ifcExtrudedAreaSolid = Geometry.IFC.Convert.ToIFC(extrusion, model, tolerance);
+                if (ifcExtrudedAreaSolid != null)
+                {
+                    IfcShapeRepresentation ifcShapeRepresentation = Geometry.IFC.Create.IfcShapeRepresentation(ifcGeometricRepresentationContext, ifcExtrudedAreaSolid, Geometry.IFC.IfcDefaultContextType.SweptSolid, Geometry.IFC.IfcDefaultContextIdentifier.Body);
+                    result.Representations.Add(ifcShapeRepresentation);
+                }
+            }
 
             return result;
         }
@@ -59,16 +55,14 @@ namespace SAM.Analytical.IFC
                 return null;
             }
 
-            IfcFacetedBrep ifcFacetedBrep = Geometry.IFC.Convert.ToIFC(shell, model);
-            if(ifcFacetedBrep == null)
-            {
-                return null;
-            }
-
-            IfcShapeRepresentation ifcShapeRepresentation = Geometry.IFC.Create.IfcShapeRepresentation(ifcGeometricRepresentationContext, ifcFacetedBrep, "Brep", "Body"); ifcShapeRepresentation.ContextOfItems = ifcGeometricRepresentationContext;
-
             IfcProductDefinitionShape result = model.Instances.New<IfcProductDefinitionShape>();
-            result.Representations.Add(ifcShapeRepresentation);
+
+            IfcFacetedBrep ifcFacetedBrep = Geometry.IFC.Convert.ToIFC(shell, model);
+            if(ifcFacetedBrep != null)
+            {
+                IfcShapeRepresentation ifcShapeRepresentation = Geometry.IFC.Create.IfcShapeRepresentation(ifcGeometricRepresentationContext, ifcFacetedBrep, Geometry.IFC.IfcDefaultContextType.Brep, Geometry.IFC.IfcDefaultContextIdentifier.Body);
+                result.Representations.Add(ifcShapeRepresentation);
+            }
 
             return result;
         }

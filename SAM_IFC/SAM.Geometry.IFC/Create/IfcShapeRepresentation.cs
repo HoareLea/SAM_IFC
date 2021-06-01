@@ -5,9 +5,9 @@ namespace SAM.Geometry.IFC
 {
     public static partial class Create
     {
-        public static IfcShapeRepresentation IfcShapeRepresentation(this IfcGeometricRepresentationContext ifcGeometricRepresentationContext, IfcRepresentationItem ifcRepresentationItem, string representationType, string representationIdentifier)
+        public static IfcShapeRepresentation IfcShapeRepresentation(this IfcGeometricRepresentationContext ifcGeometricRepresentationContext, IfcRepresentationItem ifcRepresentationItem, IfcDefaultContextType ifcDefaultContextType, IfcDefaultContextIdentifier ifcDefaultContextIdentifier)
         {
-            if(ifcGeometricRepresentationContext == null || ifcRepresentationItem == null || string.IsNullOrWhiteSpace(representationType) || string.IsNullOrWhiteSpace(representationIdentifier))
+            if(ifcGeometricRepresentationContext == null || ifcRepresentationItem == null || ifcDefaultContextType == IfcDefaultContextType.Undefined || ifcDefaultContextIdentifier == IfcDefaultContextIdentifier.Undefined)
             {
                 return null;
             }
@@ -18,10 +18,12 @@ namespace SAM.Geometry.IFC
                 return null;
             }
 
+            IfcGeometricRepresentationSubContext ifcGeometricRepresentationSubContext = Query.IfcGeometricRepresentationSubContext(ifcGeometricRepresentationContext, ifcDefaultContextIdentifier);
+
             IfcShapeRepresentation result = model.Instances.New<IfcShapeRepresentation>();
-            result.ContextOfItems = ifcGeometricRepresentationContext;
-            result.RepresentationType = representationType;
-            result.RepresentationIdentifier = representationIdentifier;
+            result.ContextOfItems = ifcGeometricRepresentationSubContext != null ? ifcGeometricRepresentationSubContext : ifcGeometricRepresentationContext;
+            result.RepresentationType = Core.Query.Description(ifcDefaultContextType);
+            result.RepresentationIdentifier = Core.Query.Description(ifcDefaultContextIdentifier);
             result.Items.Add(ifcRepresentationItem);
 
             return result;

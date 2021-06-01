@@ -65,6 +65,7 @@
     <Compile Include="Create\IfcAxis2Placement2D.cs" />
     <Compile Include="Create\IfcAxis2Placement3D.cs" />
     <Compile Include="Create\IfcArbitraryClosedProfileDef.cs" />
+    <Compile Include="Create\IfcGeometricRepresentationSubContext.cs" />
     <Compile Include="Create\IfcProfileDef.cs" />
     <Compile Include="Create\IfcRectangleProfileDef.cs" />
     <Compile Include="Convert\ToIFC\IfcExtrudedAreaSolid.cs" />
@@ -72,15 +73,16 @@
     <Compile Include="Convert\ToIFC\IfcCartesianPoint.cs" />
     <Compile Include="Create\IfcLocalPlacement.cs" />
     <Compile Include="Create\IfcShapeRepresentation.cs" />
+    <Compile Include="Enums\IfcDefaultContextType.cs" />
+    <Compile Include="Enums\IfcDefaultContextIdentifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\IfcGeometricRepresentationSubContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Classes\" />
     <Folder Include="Convert\ToSAM\" />
-    <Folder Include="Enums\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Modify\" />
-    <Folder Include="Query\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">

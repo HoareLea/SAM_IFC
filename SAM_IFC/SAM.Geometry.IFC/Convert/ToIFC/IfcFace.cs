@@ -41,7 +41,7 @@ namespace SAM.Geometry.IFC
                 }
             }
 
-            return null;
+            return result;
         }
     }
 }

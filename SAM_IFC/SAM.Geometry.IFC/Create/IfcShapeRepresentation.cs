@@ -5,7 +5,7 @@ namespace SAM.Geometry.IFC
 {
     public static partial class Create
     {
-        public static IfcShapeRepresentation IfcShapeRepresentation(this IfcGeometricRepresentationContext ifcGeometricRepresentationContext, IfcRepresentationItem ifcRepresentationItem, IfcDefaultContextType ifcDefaultContextType, IfcDefaultContextIdentifier ifcDefaultContextIdentifier)
+        public static IfcShapeRepresentation IfcShapeRepresentation(this IfcGeometricRepresentationContext ifcGeometricRepresentationContext, IfcRepresentationItem ifcRepresentationItem, IfcDefaultContextIdentifier ifcDefaultContextIdentifier, IfcDefaultContextType ifcDefaultContextType)
         {
             if(ifcGeometricRepresentationContext == null || ifcRepresentationItem == null || ifcDefaultContextType == IfcDefaultContextType.Undefined || ifcDefaultContextIdentifier == IfcDefaultContextIdentifier.Undefined)
             {
@@ -22,8 +22,8 @@ namespace SAM.Geometry.IFC
 
             IfcShapeRepresentation result = model.Instances.New<IfcShapeRepresentation>();
             result.ContextOfItems = ifcGeometricRepresentationSubContext != null ? ifcGeometricRepresentationSubContext : ifcGeometricRepresentationContext;
-            result.RepresentationType = Core.Query.Description(ifcDefaultContextType);
             result.RepresentationIdentifier = Core.Query.Description(ifcDefaultContextIdentifier);
+            result.RepresentationType = Core.Query.Description(ifcDefaultContextType);
             result.Items.Add(ifcRepresentationItem);
 
             return result;

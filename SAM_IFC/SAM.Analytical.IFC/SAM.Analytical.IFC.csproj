@@ -48,6 +48,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\SAM\build\SAM.Geometry.dll</HintPath>
     </Reference>
+    <Reference Include="SAM.Math, Version=1.0.7821.30590, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\SAM\build\SAM.Math.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -72,7 +76,6 @@
     <Compile Include="Convert\ToIFC\IfcWall.cs" />
     <Compile Include="Convert\ToIFC\IfcWallType.cs" />
     <Compile Include="Convert\ToIFC\IfcBuilding.cs" />
-    <Compile Include="Convert\ToIFC\IfcWallStandardCase .cs" />
     <Compile Include="Convert\ToIFC\IfcProject.cs" />
     <Compile Include="Convert\ToIFC\IfcStore.cs" />
     <Compile Include="Convert\ToIFC\IfcMaterialLayerSetUsage.cs" />

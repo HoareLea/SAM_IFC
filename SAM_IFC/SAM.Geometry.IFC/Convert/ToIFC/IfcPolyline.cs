@@ -53,7 +53,7 @@ namespace SAM.Geometry.IFC
             IfcPolyline result = model.Instances.New<IfcPolyline>();
 
             List<Planar.Point2D> point2Ds = segmentable2D.GetPoints();
-            if (point2Ds != null && point2Ds.Count == 0)
+            if (point2Ds != null && point2Ds.Count != 0)
             {
                 result.Points.AddRange(point2Ds.ToIFC(model));
             }

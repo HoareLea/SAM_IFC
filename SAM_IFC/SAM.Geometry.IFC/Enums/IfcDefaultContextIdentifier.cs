@@ -7,6 +7,7 @@ namespace SAM.Geometry.IFC
     {
         [Description("Undefined")] Undefined,
         [Description("Body")] Body,
+        [Description("Axis")] Axis,
         [Description("Box")] Box,
         [Description("FootPrint")] FootPrint,
     }

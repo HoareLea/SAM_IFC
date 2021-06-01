@@ -23,6 +23,8 @@ namespace SAM.Analytical.IFC
 
             IfcGeometricRepresentationContext ifcGeometricRepresentationContext = model.Instances.OfType<IfcGeometricRepresentationContext>().FirstOrDefault();
 
+            Plane plane = panel.Plane;
+
             IfcProductDefinitionShape ifcProductDefinitionShape = Create.IfcProductDefinitionShape(ifcGeometricRepresentationContext, panel, tolerance);
             if(ifcProductDefinitionShape == null)
             {
@@ -31,7 +33,7 @@ namespace SAM.Analytical.IFC
 
             ifcBuildingElement.Representation = ifcProductDefinitionShape;
 
-            IfcLocalPlacement ifcLocalPlacement = Geometry.IFC.Create.IfcLocalPlacement(model, new Point3D(0, 0, 0), Vector3D.WorldX, Vector3D.WorldZ);
+            IfcLocalPlacement ifcLocalPlacement = Geometry.IFC.Create.IfcLocalPlacement(model, plane);
             ifcBuildingElement.ObjectPlacement = ifcLocalPlacement;
         }
 

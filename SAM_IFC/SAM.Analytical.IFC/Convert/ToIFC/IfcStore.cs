@@ -7,6 +7,7 @@ using Xbim.Ifc;
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.MaterialResource;
 using Xbim.Ifc4.ProductExtension;
+using Xbim.Ifc4.RepresentationResource;
 using Xbim.Ifc4.SharedBldgElements;
 
 namespace SAM.Analytical.IFC
@@ -28,6 +29,11 @@ namespace SAM.Analytical.IFC
             using (ITransaction transaction = result.BeginTransaction("Create Project"))
             {
                 ifcProject = analyticalModel.ToIFC(result);
+
+                IfcGeometricRepresentationContext ifcGeometricRepresentationContext = result.Instances.OfType<IfcGeometricRepresentationContext>().FirstOrDefault();
+
+                Geometry.IFC.Create.IfcGeometricRepresentationSubContext(ifcGeometricRepresentationContext, Geometry.IFC.IfcDefaultContextIdentifier.Axis);
+                Geometry.IFC.Create.IfcGeometricRepresentationSubContext(ifcGeometricRepresentationContext, Geometry.IFC.IfcDefaultContextIdentifier.Body);
 
                 transaction.Commit();
             }
@@ -114,7 +120,7 @@ namespace SAM.Analytical.IFC
                         List<Construction> constructions = adjacencyCluster.GetConstructions();
                         using (ITransaction transaction = result.BeginTransaction("Create Building Element Types"))
                         {
-                            IfcRelAssociatesMaterial ifcRelAssociatesMaterial = null;
+                            
                             foreach (Construction construction in constructions)
                             {
                                 if (!dictionary.TryGetValue(construction.Guid, out Dictionary<PanelType, List<IfcBuildingElement>> dictionary_PanelType))
@@ -122,15 +128,10 @@ namespace SAM.Analytical.IFC
                                     continue;
                                 }
 
-                                IfcMaterialLayerSetUsage materialLayerSetUsage = construction.ConstructionLayers.ToIFC_IfcMaterialLayerSetUsage(result);
-                                materialLayerSetUsage.ForLayerSet.LayerSetName = construction.Name;
-                                materialLayerSetUsage.ForLayerSet.Description = Core.IFC.Query.Description(construction);
+                                IfcMaterialLayerSet ifcMaterialLayerSet = construction.ConstructionLayers.ToIFC(result);
 
-                                if (ifcRelAssociatesMaterial == null)
-                                {
-                                    ifcRelAssociatesMaterial = result.Instances.New<IfcRelAssociatesMaterial>();
-                                    ifcRelAssociatesMaterial.RelatingMaterial = materialLayerSetUsage;
-                                }
+                                IfcRelAssociatesMaterial ifcRelAssociatesMaterial_Type = result.Instances.New<IfcRelAssociatesMaterial>(); ;
+                                ifcRelAssociatesMaterial_Type.RelatingMaterial = ifcMaterialLayerSet;
 
                                 foreach (KeyValuePair<PanelType, List<IfcBuildingElement>> keyValuePair in dictionary_PanelType)
                                 {
@@ -140,17 +141,23 @@ namespace SAM.Analytical.IFC
                                         continue;
                                     }
 
-                                    if (ifcRelAssociatesMaterial != null)
+                                    if (ifcRelAssociatesMaterial_Type != null)
                                     {
-                                        ifcRelAssociatesMaterial.RelatedObjects.Add(ifcBuildingElementType);
+                                        ifcRelAssociatesMaterial_Type.RelatedObjects.Add(ifcBuildingElementType);
                                     }
 
                                     IfcRelDefinesByType ifcRelDefinesByType = result.Instances.New<IfcRelDefinesByType>();
                                     ifcRelDefinesByType.RelatingType = ifcBuildingElementType;
+                                    ifcRelDefinesByType.Name = ifcBuildingElementType.Name;
+
+                                    IfcRelAssociatesMaterial ifcRelAssociatesMaterial_Instance = result.Instances.New<IfcRelAssociatesMaterial>();
+                                    IfcMaterialLayerSetUsage ifcMaterialLayerSetUsage = Create.IfcMaterialLayerSetUsage(ifcMaterialLayerSet);
+                                    ifcRelAssociatesMaterial_Instance.RelatingMaterial = ifcMaterialLayerSetUsage;
 
                                     foreach (IfcBuildingElement ifcBuildingElement in keyValuePair.Value)
                                     {
                                         ifcRelDefinesByType.RelatedObjects.Add(ifcBuildingElement);
+                                        ifcRelAssociatesMaterial_Instance.RelatedObjects.Add(ifcBuildingElement);
                                     }
                                 }
                             }

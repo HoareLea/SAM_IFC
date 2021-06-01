@@ -15,7 +15,7 @@ namespace SAM.Architectural.IFC
             result.Name = level.Name;
             result.LongName = level.Name;
             result.GlobalId = level.Guid;
-            result.ObjectType = level.GetType().ToString();
+            //result.ObjectType = level.GetType().ToString();
             result.Elevation = level.Elevation;
             Core.IFC.Modify.SetIfcPropertySets(result, level);
 

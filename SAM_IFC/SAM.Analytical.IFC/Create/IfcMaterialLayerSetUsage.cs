@@ -1,20 +1,24 @@
-﻿using System.Collections.Generic;
-using Xbim.Ifc4.Interfaces;
+﻿using Xbim.Ifc4.Interfaces;
 using Xbim.Ifc4.MaterialResource;
 
 namespace SAM.Analytical.IFC
 {
-    public static partial class Convert
+    public static partial class Create
     {
-        public static IfcMaterialLayerSetUsage ToIFC_IfcMaterialLayerSetUsage(this IEnumerable<ConstructionLayer> constructionLayers, Xbim.Common.IModel model)
+        public static IfcMaterialLayerSetUsage IfcMaterialLayerSetUsage(this IfcMaterialLayerSet ifcMaterialLayerSet)
         {
-            if(constructionLayers == null || model == null)
+            if(ifcMaterialLayerSet == null)
             {
                 return null;
             }
 
+            Xbim.Common.IModel model = ifcMaterialLayerSet.Model;
+            if(model == null)
+            {
+                return null;
+            }
+            
             IfcMaterialLayerSetUsage result = model.Instances.New<IfcMaterialLayerSetUsage>();
-            IfcMaterialLayerSet ifcMaterialLayerSet = constructionLayers.ToIFC(model);
 
             result.ForLayerSet = ifcMaterialLayerSet;
             result.LayerSetDirection = IfcLayerSetDirectionEnum.AXIS2;
@@ -22,5 +26,6 @@ namespace SAM.Analytical.IFC
 
             return result;
         }
+
     }
 }

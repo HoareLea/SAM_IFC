@@ -14,7 +14,7 @@ namespace SAM.Analytical.IFC
             IfcSpace result = model.Instances.New<IfcSpace>();
             result.Name = space.Name;
             result.LongName = space.Name;
-            result.ObjectType = typeof(Space).Name;
+            //result.ObjectType = typeof(Space).Name;
             result.PredefinedType = Xbim.Ifc4.Interfaces.IfcSpaceTypeEnum.SPACE;
 
             Modify.SetIfcProductRepresentation(result, space, adjacencyCluster);

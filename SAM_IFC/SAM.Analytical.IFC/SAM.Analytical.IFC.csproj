@@ -79,6 +79,7 @@
     <Compile Include="Convert\ToIFC\IfcProject.cs" />
     <Compile Include="Convert\ToIFC\IfcStore.cs" />
     <Compile Include="Convert\ToIFC\IfcMaterialLayerSetUsage.cs" />
+    <Compile Include="Create\IfcMaterialLayerSetUsage.cs" />
     <Compile Include="Modify\SetIfcBuildingElementType.cs" />
     <Compile Include="Modify\SetIfcBuildingElement.cs" />
     <Compile Include="Modify\SetIfcProductRepresentation.cs" />

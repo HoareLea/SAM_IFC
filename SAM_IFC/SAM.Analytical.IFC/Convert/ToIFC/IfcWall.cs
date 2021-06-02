@@ -14,11 +14,9 @@ namespace SAM.Analytical.IFC
 
             Geometry.Spatial.Plane plane = panel.Plane;
 
-            IfcGeometricRepresentationContext ifcGeometricRepresentationContext = host.Database?.Project?.Extract<IfcGeometricRepresentationContext>().FirstOrDefault();
-
             IfcWall result = new IfcWall(host,
                 Geometry.IFC.Create.IfcLocalPlacement(host.Database, plane),
-                Create.IfcProductDefinitionShape(ifcGeometricRepresentationContext, panel, tolerance));
+                Create.IfcProductDefinitionShape(host.Database, panel, tolerance));
 
             result.SetIfcBuildingElement(panel);
             Core.IFC.Modify.SetIfcPropertySets(result, panel);

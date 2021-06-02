@@ -20,12 +20,6 @@ namespace SAM.Analytical.IFC
 
             IfcProject ifcProject = analyticalModel.ToIFC(ifcBuilding);
 
-
-            IfcGeometricRepresentationContext ifcGeometricRepresentationContext = ifcProject.Extract<IfcGeometricRepresentationContext>().FirstOrDefault();
-
-            Geometry.IFC.Create.IfcGeometricRepresentationSubContext(ifcGeometricRepresentationContext, Geometry.IFC.IfcDefaultContextIdentifier.Axis);
-            Geometry.IFC.Create.IfcGeometricRepresentationSubContext(ifcGeometricRepresentationContext, Geometry.IFC.IfcDefaultContextIdentifier.Body);
-
             Dictionary<string, IfcMaterial> dictionary_IfcMaterial = new Dictionary<string, IfcMaterial>();
             List<IMaterial> materials = analyticalModel.MaterialLibrary?.GetMaterials();
             if (materials != null)
@@ -56,6 +50,11 @@ namespace SAM.Analytical.IFC
                     foreach (Panel panel in dictionary_Levels[level])
                     {
                         IfcBuiltElement ifcBuiltElement = panel.ToIFC(ifcBuildingStorey);
+                        if(ifcBuiltElement == null)
+                        {
+                            continue;
+                        }
+
                         ifcBuildingStorey.AddElement(ifcBuiltElement);
 
                         System.Guid guid = panel.SAMTypeGuid;

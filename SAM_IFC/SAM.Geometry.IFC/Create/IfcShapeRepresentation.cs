@@ -5,24 +5,17 @@ namespace SAM.Geometry.IFC
 {
     public static partial class Create
     {
-        public static IfcShapeRepresentation IfcShapeRepresentation(this IfcGeometricRepresentationContext ifcGeometricRepresentationContext, IfcRepresentationItem ifcRepresentationItem, IfcDefaultContextIdentifier ifcDefaultContextIdentifier, ShapeRepresentationType shapeRepresentationType)
+        public static IfcShapeRepresentation IfcShapeRepresentation(this DatabaseIfc databaseIfc, IfcRepresentationItem ifcRepresentationItem, IfcGeometricRepresentationSubContext.SubContextIdentifier subContextIdentifier, ShapeRepresentationType shapeRepresentationType)
         {
-            if(ifcGeometricRepresentationContext == null || ifcRepresentationItem == null || ifcDefaultContextIdentifier == IfcDefaultContextIdentifier.Undefined)
+            if(databaseIfc == null || ifcRepresentationItem == null)
             {
                 return null;
             }
 
-            DatabaseIfc databaseIfc = ifcGeometricRepresentationContext.Database;
-            if (databaseIfc == null)
-            {
-                return null;
-            }
-
-            IfcGeometricRepresentationSubContext ifcGeometricRepresentationSubContext = Query.IfcGeometricRepresentationSubContext(ifcGeometricRepresentationContext, ifcDefaultContextIdentifier);
+            IfcGeometricRepresentationSubContext ifcGeometricRepresentationSubContext = databaseIfc.Factory.SubContext(subContextIdentifier);
 
             IfcShapeRepresentation result = new IfcShapeRepresentation(ifcGeometricRepresentationSubContext, new List<IfcRepresentationItem>() { ifcRepresentationItem }, shapeRepresentationType);
-            result.ContextOfItems = ifcGeometricRepresentationSubContext != null ? ifcGeometricRepresentationSubContext : ifcGeometricRepresentationContext;
-            result.RepresentationIdentifier = Core.Query.Description(ifcDefaultContextIdentifier);
+            result.RepresentationIdentifier = Core.Query.Description(subContextIdentifier);
             result.Items.Add(ifcRepresentationItem);
 
             return result;

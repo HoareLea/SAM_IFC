@@ -1,5 +1,4 @@
 ﻿using GeometryGym.Ifc;
-using System.Linq;
 
 namespace SAM.Analytical.IFC
 {
@@ -12,11 +11,9 @@ namespace SAM.Analytical.IFC
                 return null;
             }
 
-            IfcGeometricRepresentationContext ifcGeometricRepresentationContext = host.Database.Project.Extract<IfcGeometricRepresentationContext>().FirstOrDefault();
-
             IfcSpace result = new IfcSpace(host, space.Name, 
                 Geometry.IFC.Create.IfcLocalPlacement(host.Database, space.Location), 
-                Create.IfcProductDefinitionShape(ifcGeometricRepresentationContext, space, adjacencyCluster));
+                Create.IfcProductDefinitionShape(host.Database, space, adjacencyCluster));
 
             result.LongName = space.Name;
             //result.ObjectType = typeof(Space).Name;

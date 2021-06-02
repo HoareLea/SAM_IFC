@@ -77,7 +77,7 @@
     <Compile Include="Convert\ToIFC\IfcWallType.cs" />
     <Compile Include="Convert\ToIFC\IfcBuilding.cs" />
     <Compile Include="Convert\ToIFC\IfcProject.cs" />
-    <Compile Include="Convert\ToIFC\IfcStore.cs" />
+    <Compile Include="Convert\ToIFC\DatabaseIfc.cs" />
     <Compile Include="Convert\ToIFC\IfcMaterialLayerSetUsage.cs" />
     <Compile Include="Create\IfcMaterialLayerSetUsage.cs" />
     <Compile Include="Modify\SetIfcBuildingElementType.cs" />

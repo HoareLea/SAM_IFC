@@ -5,14 +5,22 @@ namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcMaterialLayerSet ToIFC(this IEnumerable<ConstructionLayer> constructionLayers, DatabaseIfc databaseIfc)
+        public static IfcMaterialLayerSet ToIFC(this IEnumerable<ConstructionLayer> constructionLayers, DatabaseIfc databaseIfc, IEnumerable<IfcMaterial> ifcMaterials = null)
         {
             if(constructionLayers == null || databaseIfc == null)
             {
                 return null;
             }
 
-            IEnumerable<IfcMaterial> ifcMaterials = databaseIfc.Project?.Extract<IfcMaterial>();
+            List<IfcMaterial> ifcMaterials_Temp = null;
+            if (ifcMaterials != null)
+            {
+                ifcMaterials_Temp = new List<IfcMaterial>(ifcMaterials);
+            }
+            else
+            {
+                ifcMaterials_Temp = new List<IfcMaterial>(databaseIfc.Project?.Extract<IfcMaterial>());
+            }
 
             List<IfcMaterialLayer> ifcMaterialLayers = new List<IfcMaterialLayer>();
             foreach (ConstructionLayer constructionLayer in constructionLayers)
@@ -21,9 +29,9 @@ namespace SAM.Analytical.IFC
 
                 IfcMaterialLayer ifcMaterialLayer = new IfcMaterialLayer(databaseIfc, constructionLayer.Thickness, materialName);
 
-                if (ifcMaterials != null && !string.IsNullOrWhiteSpace(materialName))
+                if (ifcMaterials_Temp != null && !string.IsNullOrWhiteSpace(materialName))
                 {
-                    foreach (IfcMaterial ifcMaterial in ifcMaterials)
+                    foreach (IfcMaterial ifcMaterial in ifcMaterials_Temp)
                     {
                         if (materialName.Equals(ifcMaterial?.Name))
                         {

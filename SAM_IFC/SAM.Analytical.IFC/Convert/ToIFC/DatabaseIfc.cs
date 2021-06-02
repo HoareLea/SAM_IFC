@@ -20,13 +20,17 @@ namespace SAM.Analytical.IFC
 
             IfcProject ifcProject = analyticalModel.ToIFC(ifcBuilding);
 
-            Dictionary<string, IfcMaterial> dictionary_IfcMaterial = new Dictionary<string, IfcMaterial>();
+            List<IfcMaterial> ifcMaterials = new List<IfcMaterial>();
             List<IMaterial> materials = analyticalModel.MaterialLibrary?.GetMaterials();
             if (materials != null)
             {
                 foreach (IMaterial material in materials)
                 {
                     IfcMaterial ifcMaterial = Core.IFC.Convert.ToIFC(material, result);
+                    if (ifcMaterial != null)
+                    {
+                        ifcMaterials.Add(ifcMaterial);
+                    }
                 }
             }
 
@@ -37,7 +41,6 @@ namespace SAM.Analytical.IFC
 
                 Dictionary<Architectural.Level, List<Panel>> dictionary_Levels = Query.LevelsDictionary(adjacencyCluster.GetPanels());
                 
-
                 List<Architectural.Level> levels = dictionary_Levels.Keys.ToList();
                 levels.Sort((x, y) => x.Elevation.CompareTo(y.Elevation));
 
@@ -68,13 +71,13 @@ namespace SAM.Analytical.IFC
 
                             PanelType panelType = panel.PanelType;
 
-                            if (!dictionary_PanelType.TryGetValue(panelType, out List<IfcBuiltElement> IfcBuiltElements))
+                            if (!dictionary_PanelType.TryGetValue(panelType, out List<IfcBuiltElement> ifcBuiltElements))
                             {
-                                IfcBuiltElements = new List<IfcBuiltElement>();
-                                dictionary_PanelType[panelType] = IfcBuiltElements;
+                                ifcBuiltElements = new List<IfcBuiltElement>();
+                                dictionary_PanelType[panelType] = ifcBuiltElements;
                             }
 
-                            IfcBuiltElements.Add(ifcBuiltElement);
+                            ifcBuiltElements.Add(ifcBuiltElement);
                         }
                     }
                 }
@@ -89,7 +92,7 @@ namespace SAM.Analytical.IFC
                         continue;
                     }
 
-                    IfcMaterialLayerSet ifcMaterialLayerSet = construction.ConstructionLayers.ToIFC(result);
+                    IfcMaterialLayerSet ifcMaterialLayerSet = construction.ConstructionLayers.ToIFC(result, ifcMaterials);
 
                     IfcRelAssociatesMaterial ifcRelAssociatesMaterial_Type = new IfcRelAssociatesMaterial(ifcMaterialLayerSet);
 
@@ -116,6 +119,8 @@ namespace SAM.Analytical.IFC
                             ifcRelDefinesByType.RelatedObjects.Add(ifcBuiltElement);
                             ifcRelAssociatesMaterial_Instance.RelatedObjects.Add(ifcBuiltElement);
                         }
+
+                        Core.IFC.Modify.SetIfcPropertySets(keyValuePair.Value, construction, "Type");
                     }
                 }
 

@@ -13,7 +13,7 @@ namespace SAM.Analytical.IFC
 
             IfcRoofType result = new IfcRoofType(databaseIfc, construction.Name, IfcRoofTypeEnum.NOTDEFINED);
             result.SetIfcBuildingElementType(construction);
-            Core.IFC.Modify.SetIfcPropertySets(result, construction);
+            //Core.IFC.Modify.SetIfcPropertySets(result, construction);
 
             return result;
         }

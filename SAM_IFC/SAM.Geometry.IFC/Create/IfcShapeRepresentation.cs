@@ -15,7 +15,6 @@ namespace SAM.Geometry.IFC
             IfcGeometricRepresentationSubContext ifcGeometricRepresentationSubContext = databaseIfc.Factory.SubContext(subContextIdentifier);
 
             IfcShapeRepresentation result = new IfcShapeRepresentation(ifcGeometricRepresentationSubContext, new List<IfcRepresentationItem>() { ifcRepresentationItem }, shapeRepresentationType);
-            result.RepresentationIdentifier = Core.Query.Description(subContextIdentifier);
             result.Items.Add(ifcRepresentationItem);
 
             return result;

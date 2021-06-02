@@ -4,14 +4,18 @@ namespace SAM.Core.IFC
 {
     public static partial class Convert
     {
-        public static IfcPropertySet ToIFC(this ParameterSet parameterSet, DatabaseIfc databaseIfc)
+        public static IfcPropertySet ToIFC(this ParameterSet parameterSet, DatabaseIfc databaseIfc, string sufix = null)
         {
             if(parameterSet == null || databaseIfc == null)
             {
                 return null;
             }
 
-            IfcPropertySet result = new IfcPropertySet(databaseIfc, parameterSet.Name);
+            string parameterSetName = parameterSet.Name;
+            if (!string.IsNullOrWhiteSpace(sufix))
+                parameterSetName = string.Format("{0} [{1}]", parameterSetName, sufix);
+
+            IfcPropertySet result = new IfcPropertySet(databaseIfc, parameterSetName);
 
             foreach(string name in parameterSet.Names)
             {

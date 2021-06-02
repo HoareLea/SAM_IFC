@@ -11,7 +11,7 @@ namespace SAM.Analytical.IFC
                 return;
             }
 
-            ifcBuiltElementType.GlobalId = construction.Guid.ToString("N");
+            //ifcBuiltElementType.GlobalId = construction.Guid.ToString("N");
             ifcBuiltElementType.Name = construction.Name;
             ifcBuiltElementType.Description = Core.IFC.Query.Description(construction);
         }

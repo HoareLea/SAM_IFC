@@ -14,7 +14,7 @@ namespace SAM.Analytical.IFC
                 return null;
             }
 
-            DatabaseIfc result = new DatabaseIfc(ModelView.Ifc4DesignTransfer);
+            DatabaseIfc result = new DatabaseIfc(ModelView.Ifc2x3Coordination);
 
             IfcBuilding ifcBuilding = analyticalModel.ToIFC_IfcBuilding(result);
 

@@ -12,7 +12,7 @@ namespace SAM.Analytical.IFC
             }
 
             ifcBuiltElement.Name = panel.Name;
-            ifcBuiltElement.GlobalId = panel.Guid.ToString("N");
+            //ifcBuiltElement.GlobalId = panel.Guid.ToString("N");
             ifcBuiltElement.Description = Core.IFC.Query.Description(panel);
             //ifcBuildingElement.ObjectType = typeof(Panel).ToString();
         }

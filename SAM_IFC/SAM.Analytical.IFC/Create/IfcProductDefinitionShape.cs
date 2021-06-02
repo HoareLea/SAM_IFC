@@ -85,6 +85,10 @@ namespace SAM.Analytical.IFC
                 return null;
             }
 
+            Transform3D transform3D = Transform3D.GetTranslation(space.Location?.ToVector3D());
+            transform3D.Inverse();
+            shell.Transform(transform3D);
+
             List<IfcShapeModel> ifcShapeModels = new List<IfcShapeModel>();
 
             IfcFacetedBrep ifcFacetedBrep = Geometry.IFC.Convert.ToIFC(shell, databaseIfc);

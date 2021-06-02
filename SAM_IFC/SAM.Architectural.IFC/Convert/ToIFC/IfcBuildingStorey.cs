@@ -13,7 +13,7 @@ namespace SAM.Architectural.IFC
 
             IfcBuildingStorey result = new IfcBuildingStorey(ifcFacility, level.Name, level.Elevation);
             result.LongName = level.Name;
-            result.GlobalId = level.Guid.ToString("N");
+            //result.GlobalId = level.Guid.ToString("N");
             //result.ObjectType = level.GetType().ToString();
             Core.IFC.Modify.SetIfcPropertySets(result, level);
 

@@ -19,7 +19,7 @@ namespace SAM.Core.Grasshopper.IFC
             get
             {
                 //Return a 24x24 pixel bitmap to represent this GHA library.
-                return Properties.Resources.HL_Logo24; ;
+                return Properties.Resources.SAM_IFC; ;
             }
         }
 
@@ -28,7 +28,7 @@ namespace SAM.Core.Grasshopper.IFC
             get
             {
                 //Return a 24x24 pixel bitmap to represent this GHA library.
-                return Properties.Resources.HL_Logo24; ;
+                return Properties.Resources.SAM_IFC; ;
             }
         }
 

@@ -1,5 +1,4 @@
-﻿using GeometryGym.Ifc;
-
+﻿using Xbim.Ifc4.MeasureResource;
 namespace SAM.Core.IFC
 {
     public static partial class Create

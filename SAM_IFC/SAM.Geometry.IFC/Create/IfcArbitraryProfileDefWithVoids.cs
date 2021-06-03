@@ -1,29 +1,30 @@
 ﻿using System.Collections.Generic;
-using GeometryGym.Ifc;
+using Xbim.Ifc4.Interfaces;
+using Xbim.Ifc4.ProfileResource;
 
 namespace SAM.Geometry.IFC
 {
     public static partial class Create
     {
-        public static IfcArbitraryProfileDefWithVoids IfcArbitraryProfileDefWithVoids(this DatabaseIfc databaseIfc, Planar.Face2D face2D, IfcProfileTypeEnum ifcProfileTypeEnum)
+        public static IfcArbitraryProfileDefWithVoids IfcArbitraryProfileDefWithVoids(this Xbim.Common.IModel model, Planar.Face2D face2D, IfcProfileTypeEnum ifcProfileTypeEnum)
         {
-            if(face2D == null || databaseIfc == null)
+            if(face2D == null || model == null)
             {
                 return null;
             }
 
-            List<IfcCurve> ifcCurves = new List<IfcCurve>();
+            IfcArbitraryProfileDefWithVoids result = model.Instances.New<IfcArbitraryProfileDefWithVoids>();
+            result.OuterCurve = (face2D.ExternalEdge2D as dynamic).ToIFC(model);
 
             List<Planar.IClosed2D> internalEdges = face2D.InternalEdge2Ds;
             if(internalEdges != null)
             {
                 foreach(Planar.IClosed2D internalEdge in internalEdges)
                 {
-                    ifcCurves.Add((internalEdge as dynamic).ToIFC(databaseIfc));
+                    result.InnerCurves.Add((internalEdge as dynamic).ToIFC(model));
                 }
             }
 
-            IfcArbitraryProfileDefWithVoids result = new IfcArbitraryProfileDefWithVoids(string.Empty, (face2D.ExternalEdge2D as dynamic).ToIFC(databaseIfc), ifcCurves);
             result.ProfileType = ifcProfileTypeEnum;
 
             return result;

@@ -1,15 +1,22 @@
 ﻿using SAM.Geometry.Spatial;
-using GeometryGym.Ifc;
-using System.Collections.Generic;
+using Xbim.Ifc4.GeometricModelResource;
+using Xbim.Ifc4.GeometryResource;
+using Xbim.Ifc4.RepresentationResource;
 
 namespace SAM.Analytical.IFC
 {
     public static partial class Create
     {
-        public static IfcProductDefinitionShape IfcProductDefinitionShape(this DatabaseIfc databaseIfc, Panel panel, double tolerance = Core.Tolerance.Distance)
+        public static IfcProductDefinitionShape IfcProductDefinitionShape(this IfcGeometricRepresentationContext ifcGeometricRepresentationContext, Panel panel, double tolerance = Core.Tolerance.Distance)
         {
             Face3D face3D = panel?.GetFace3D();
-            if(face3D == null || databaseIfc == null)
+            if(face3D == null)
+            {
+                return null;
+            }
+
+            Xbim.Common.IModel model = ifcGeometricRepresentationContext.Model;
+            if (model == null)
             {
                 return null;
             }
@@ -20,21 +27,21 @@ namespace SAM.Analytical.IFC
                 return null;
             }
 
-            List<IfcShapeModel> ifcShapeModels = new List<IfcShapeModel>();
+            IfcProductDefinitionShape result = model.Instances.New<IfcProductDefinitionShape>();
 
             //Body
-            Extrusion extrusion = Query.Extrusion(panel);
-            if (extrusion != null)
+            Extrusion extrusion = Analytical.Query.Extrusion(panel);
+            if(extrusion != null)
             {
                 Transform3D transform3D = Transform3D.GetOriginToPlane(plane);
                 transform3D.Inverse();
                 extrusion = extrusion.Transform(transform3D);
 
-                IfcExtrudedAreaSolid ifcExtrudedAreaSolid = Geometry.IFC.Convert.ToIFC(extrusion, databaseIfc, tolerance);
+                IfcExtrudedAreaSolid ifcExtrudedAreaSolid = Geometry.IFC.Convert.ToIFC(extrusion, model, tolerance);
                 if (ifcExtrudedAreaSolid != null)
                 {
-                    IfcShapeRepresentation ifcShapeRepresentation = Geometry.IFC.Create.IfcShapeRepresentation(databaseIfc, ifcExtrudedAreaSolid, IfcGeometricRepresentationSubContext.SubContextIdentifier.Body, ShapeRepresentationType.SweptSolid);
-                    ifcShapeModels.Add(ifcShapeRepresentation);
+                    IfcShapeRepresentation ifcShapeRepresentation = Geometry.IFC.Create.IfcShapeRepresentation(ifcGeometricRepresentationContext, ifcExtrudedAreaSolid, Geometry.IFC.IfcDefaultContextIdentifier.Body, Geometry.IFC.IfcDefaultContextType.SweptSolid);
+                    result.Representations.Add(ifcShapeRepresentation);
                 }
             }
 
@@ -45,11 +52,11 @@ namespace SAM.Analytical.IFC
                 Geometry.Planar.Face2D face2D = plane.Convert(face3D);
                 if (face2D != null)
                 {
-                    IfcIndexedPolyCurve ifcIndexedPolyCurve = Geometry.IFC.Convert.ToIFC_IfcIndexedPolyCurve(face2D.ExternalEdge2D as Geometry.Planar.ISegmentable2D, databaseIfc);
+                    IfcIndexedPolyCurve ifcIndexedPolyCurve = Geometry.IFC.Convert.ToIFC_IfcIndexedPolyCurve(face2D.ExternalEdge2D as Geometry.Planar.ISegmentable2D, model);
                     if (ifcIndexedPolyCurve != null)
                     {
-                        IfcShapeRepresentation ifcShapeRepresentation = Geometry.IFC.Create.IfcShapeRepresentation(databaseIfc, ifcIndexedPolyCurve, IfcGeometricRepresentationSubContext.SubContextIdentifier.FootPrint, ShapeRepresentationType.Curve2D);
-                        ifcShapeModels.Add(ifcShapeRepresentation);
+                        IfcShapeRepresentation ifcShapeRepresentation = Geometry.IFC.Create.IfcShapeRepresentation(ifcGeometricRepresentationContext, ifcIndexedPolyCurve, Geometry.IFC.IfcDefaultContextIdentifier.FootPrint, Geometry.IFC.IfcDefaultContextType.Curve2D);
+                        result.Representations.Add(ifcShapeRepresentation);
                     }
                 }
             }
@@ -59,22 +66,21 @@ namespace SAM.Analytical.IFC
                 Geometry.Planar.Segment2D segment2D = Geometry.IFC.Query.Axis(face3D);
                 if (segment2D != null)
                 {
-                    IfcPolyline ifcPolyline = Geometry.IFC.Convert.ToIFC_IfcPolyline(segment2D, databaseIfc);
+                    IfcPolyline ifcPolyline = Geometry.IFC.Convert.ToIFC_IfcPolyline(segment2D, model);
                     if (ifcPolyline != null)
                     {
-                        IfcShapeRepresentation ifcShapeRepresentation = Geometry.IFC.Create.IfcShapeRepresentation(databaseIfc, ifcPolyline, IfcGeometricRepresentationSubContext.SubContextIdentifier.Axis, ShapeRepresentationType.Curve2D);
-                        ifcShapeModels.Add(ifcShapeRepresentation);
+                        IfcShapeRepresentation ifcShapeRepresentation = Geometry.IFC.Create.IfcShapeRepresentation(ifcGeometricRepresentationContext, ifcPolyline, Geometry.IFC.IfcDefaultContextIdentifier.Axis, Geometry.IFC.IfcDefaultContextType.Curve2D);
+                        result.Representations.Add(ifcShapeRepresentation);
                     }
                 }
             }
 
-            IfcProductDefinitionShape result = new IfcProductDefinitionShape(ifcShapeModels);
             return result;
         }
 
-        public static IfcProductDefinitionShape IfcProductDefinitionShape(this DatabaseIfc databaseIfc, Space space, AdjacencyCluster adjacencyCluster = null)
+        public static IfcProductDefinitionShape IfcProductDefinitionShape(this IfcGeometricRepresentationContext ifcGeometricRepresentationContext, Space space, AdjacencyCluster adjacencyCluster = null)
         {
-            if(databaseIfc == null || space == null || adjacencyCluster == null)
+            if(ifcGeometricRepresentationContext == null || space == null || adjacencyCluster == null)
             {
                 return null;
             }
@@ -85,20 +91,25 @@ namespace SAM.Analytical.IFC
                 return null;
             }
 
-            Transform3D transform3D = Transform3D.GetTranslation(space.Location?.ToVector3D());
+            Transform3D transform3D = Transform3D.GetOriginTranslation(space.Location);
             transform3D.Inverse();
-            shell.Transform(transform3D);
+            shell = shell.Transform(transform3D);
 
-            List<IfcShapeModel> ifcShapeModels = new List<IfcShapeModel>();
-
-            IfcFacetedBrep ifcFacetedBrep = Geometry.IFC.Convert.ToIFC(shell, databaseIfc);
-            if(ifcFacetedBrep != null)
+            Xbim.Common.IModel model = ifcGeometricRepresentationContext.Model;
+            if (model == null)
             {
-                IfcShapeRepresentation ifcShapeRepresentation = Geometry.IFC.Create.IfcShapeRepresentation(databaseIfc, ifcFacetedBrep, IfcGeometricRepresentationSubContext.SubContextIdentifier.Body, ShapeRepresentationType.Brep);
-                ifcShapeModels.Add(ifcShapeRepresentation);
+                return null;
             }
 
-            IfcProductDefinitionShape result = new IfcProductDefinitionShape(ifcShapeModels);
+            IfcProductDefinitionShape result = model.Instances.New<IfcProductDefinitionShape>();
+
+            IfcFacetedBrep ifcFacetedBrep = Geometry.IFC.Convert.ToIFC(shell, model);
+            if(ifcFacetedBrep != null)
+            {
+                IfcShapeRepresentation ifcShapeRepresentation = Geometry.IFC.Create.IfcShapeRepresentation(ifcGeometricRepresentationContext, ifcFacetedBrep, Geometry.IFC.IfcDefaultContextIdentifier.Body, Geometry.IFC.IfcDefaultContextType.Brep);
+                result.Representations.Add(ifcShapeRepresentation);
+            }
+
             return result;
         }
     }

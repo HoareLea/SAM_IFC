@@ -1,38 +1,39 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using GeometryGym.Ifc;
+using Xbim.Ifc4.MaterialResource;
 
 namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcMaterialLayerSet ToIFC(this IEnumerable<ConstructionLayer> constructionLayers, DatabaseIfc databaseIfc, IEnumerable<IfcMaterial> ifcMaterials = null)
+        public static IfcMaterialLayerSet ToIFC(this IEnumerable<ConstructionLayer> constructionLayers, Xbim.Common.IModel model)
         {
-            if(constructionLayers == null || databaseIfc == null)
+            if(constructionLayers == null || model == null)
             {
                 return null;
             }
 
-            List<IfcMaterial> ifcMaterials_Temp = null;
-            if (ifcMaterials != null)
-            {
-                ifcMaterials_Temp = new List<IfcMaterial>(ifcMaterials);
-            }
-            else
-            {
-                ifcMaterials_Temp = new List<IfcMaterial>(databaseIfc.OfType<IfcMaterial>());
-            }
+            IfcMaterialLayerSet result = model.Instances.New<IfcMaterialLayerSet>();
 
-            List<IfcMaterialLayer> ifcMaterialLayers = new List<IfcMaterialLayer>();
+            IEnumerable<IfcMaterial> ifcMaterials = model.Instances.OfType<IfcMaterial>();
+
             foreach (ConstructionLayer constructionLayer in constructionLayers)
             {
+                IfcMaterialLayer ifcMaterialLayer = model.Instances.New<IfcMaterialLayer>();
+
+                //Revit Specific Fix for Thickness less than 0.001m
+                double thickness = constructionLayer.Thickness;
+                if (thickness > 0 && thickness < Core.Tolerance.MacroDistance)
+                {
+                    thickness = Core.Tolerance.MacroDistance;
+                }
+
+                ifcMaterialLayer.LayerThickness = thickness;
+
                 string materialName = constructionLayer.Name;
 
-                IfcMaterialLayer ifcMaterialLayer = new IfcMaterialLayer(databaseIfc, constructionLayer.Thickness, materialName);
-
-                if (ifcMaterials_Temp != null && !string.IsNullOrWhiteSpace(materialName))
+                if (ifcMaterials != null && !string.IsNullOrWhiteSpace(materialName))
                 {
-                    foreach (IfcMaterial ifcMaterial in ifcMaterials_Temp)
+                    foreach (IfcMaterial ifcMaterial in ifcMaterials)
                     {
                         if (materialName.Equals(ifcMaterial?.Name))
                         {
@@ -42,11 +43,9 @@ namespace SAM.Analytical.IFC
                     }
                 }
 
-
-                ifcMaterialLayers.Add(ifcMaterialLayer);
+                result.MaterialLayers.Add(ifcMaterialLayer);
             }
 
-            IfcMaterialLayerSet result = new IfcMaterialLayerSet(ifcMaterialLayers, string.Empty);
             return result;
         }
     }

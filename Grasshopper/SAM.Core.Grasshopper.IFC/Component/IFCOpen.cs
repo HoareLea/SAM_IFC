@@ -2,7 +2,7 @@
 using SAM.Core.Grasshopper.IFC.Properties;
 using System;
 using System.Collections.Generic;
-using GeometryGym.Ifc;
+using Xbim.Ifc;
 
 namespace SAM.Core.Grasshopper.IFC
 {
@@ -21,7 +21,7 @@ namespace SAM.Core.Grasshopper.IFC
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon => Resources.SAM_IFC;
+        protected override System.Drawing.Bitmap Icon => Resources.SAM_Small;
 
         /// <summary>
         /// Initializes a new instance of the SAM_point3D class.
@@ -59,7 +59,7 @@ namespace SAM.Core.Grasshopper.IFC
             get
             {
                 List<GH_SAMParam> result = new List<GH_SAMParam>();
-                result.Add(new GH_SAMParam(new GooDatabaseIfcParam() { Name = "databaseIfc", NickName = "databaseIfc", Description = "DatabaseIfc", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
+                result.Add(new GH_SAMParam(new GooIfcStoreParam() { Name = "ifcStore", NickName = "ifcStore", Description = "IfcStore", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
                 result.Add(new GH_SAMParam(new global::Grasshopper.Kernel.Parameters.Param_Boolean() { Name = "successful", NickName = "successful", Description = "Successful", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
                 return result.ToArray();
             }
@@ -100,12 +100,12 @@ namespace SAM.Core.Grasshopper.IFC
                 return;
             }
 
-            DatabaseIfc databaseIfc = new DatabaseIfc(path);
+            IfcStore ifcStore = IfcStore.Open(path);
 
-            index = Params.IndexOfOutputParam("databaseIfc");
+            index = Params.IndexOfOutputParam("ifcStore");
             if(index != -1)
             {
-                dataAccess.SetData(index, databaseIfc);
+                dataAccess.SetData(index, ifcStore);
             }
 
             if (index_Successful != -1)

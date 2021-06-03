@@ -1,20 +1,29 @@
-﻿using GeometryGym.Ifc;
-using System.Collections.Generic;
+﻿using Xbim.Ifc4.GeometryResource;
+using Xbim.Ifc4.RepresentationResource;
 
 namespace SAM.Geometry.IFC
 {
     public static partial class Create
     {
-        public static IfcShapeRepresentation IfcShapeRepresentation(this DatabaseIfc databaseIfc, IfcRepresentationItem ifcRepresentationItem, IfcGeometricRepresentationSubContext.SubContextIdentifier subContextIdentifier, ShapeRepresentationType shapeRepresentationType)
+        public static IfcShapeRepresentation IfcShapeRepresentation(this IfcGeometricRepresentationContext ifcGeometricRepresentationContext, IfcRepresentationItem ifcRepresentationItem, IfcDefaultContextIdentifier ifcDefaultContextIdentifier, IfcDefaultContextType ifcDefaultContextType)
         {
-            if(databaseIfc == null || ifcRepresentationItem == null)
+            if(ifcGeometricRepresentationContext == null || ifcRepresentationItem == null || ifcDefaultContextType == IfcDefaultContextType.Undefined || ifcDefaultContextIdentifier == IfcDefaultContextIdentifier.Undefined)
             {
                 return null;
             }
 
-            IfcGeometricRepresentationSubContext ifcGeometricRepresentationSubContext = databaseIfc.Factory.SubContext(subContextIdentifier);
+            Xbim.Common.IModel model = ifcGeometricRepresentationContext.Model;
+            if (model == null)
+            {
+                return null;
+            }
 
-            IfcShapeRepresentation result = new IfcShapeRepresentation(ifcGeometricRepresentationSubContext, new List<IfcRepresentationItem>() { ifcRepresentationItem }, shapeRepresentationType);
+            IfcGeometricRepresentationSubContext ifcGeometricRepresentationSubContext = Query.IfcGeometricRepresentationSubContext(ifcGeometricRepresentationContext, ifcDefaultContextIdentifier);
+
+            IfcShapeRepresentation result = model.Instances.New<IfcShapeRepresentation>();
+            result.ContextOfItems = ifcGeometricRepresentationSubContext != null ? ifcGeometricRepresentationSubContext : ifcGeometricRepresentationContext;
+            result.RepresentationIdentifier = Core.Query.Description(ifcDefaultContextIdentifier);
+            result.RepresentationType = Core.Query.Description(ifcDefaultContextType);
             result.Items.Add(ifcRepresentationItem);
 
             return result;

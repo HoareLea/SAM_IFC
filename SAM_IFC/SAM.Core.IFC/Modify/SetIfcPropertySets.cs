@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using GeometryGym.Ifc;
+using Xbim.Ifc4.Kernel;
 
 namespace SAM.Core.IFC
 {
@@ -13,48 +12,22 @@ namespace SAM.Core.IFC
                 return;
             }
 
-            DatabaseIfc databaseIfc = ifcObjectDefinition.Database;
-            if (databaseIfc == null)
+            Xbim.Common.IModel model = ifcObjectDefinition.Model;
+            if (model == null)
             {
                 return;
             }
 
             List<ParameterSet> parameterSets = sAMObject.GetParamaterSets();
             if (parameterSets == null)
-            {
                 return;
-            }
 
             foreach (ParameterSet parameterSet in parameterSets)
             {
-                IfcPropertySet ifcPropertySet = parameterSet.ToIFC(databaseIfc);
-                IfcRelDefinesByProperties ifcRelDefinesByProperties = new IfcRelDefinesByProperties(ifcObjectDefinition, ifcPropertySet);
-            }
-        }
-
-        public static void SetIfcPropertySets(this IEnumerable<IfcObjectDefinition> ifcObjectDefinitions, SAMObject sAMObject, string sufix)
-        {
-            if (ifcObjectDefinitions == null || ifcObjectDefinitions.Count() == 0 || sAMObject == null)
-            {
-                return;
-            }
-
-            DatabaseIfc databaseIfc = ifcObjectDefinitions.ElementAt(0)? .Database;
-            if (databaseIfc == null)
-            {
-                return;
-            }
-
-            List<ParameterSet> parameterSets = sAMObject.GetParamaterSets();
-            if (parameterSets == null)
-            {
-                return;
-            }
-
-            foreach (ParameterSet parameterSet in parameterSets)
-            {
-                IfcPropertySet ifcPropertySet = parameterSet.ToIFC(databaseIfc, sufix);
-                IfcRelDefinesByProperties ifcRelDefinesByProperties = new IfcRelDefinesByProperties(ifcObjectDefinitions, ifcPropertySet);
+                IfcPropertySet ifcPropertySet = parameterSet.ToIFC(model);
+                IfcRelDefinesByProperties ifcRelDefinesByProperties = model.Instances.New<IfcRelDefinesByProperties>();
+                ifcRelDefinesByProperties.RelatedObjects.Add(ifcObjectDefinition);
+                ifcRelDefinesByProperties.RelatingPropertyDefinition = ifcPropertySet;
             }
         }
     }

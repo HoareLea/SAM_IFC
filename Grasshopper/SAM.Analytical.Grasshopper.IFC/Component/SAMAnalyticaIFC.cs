@@ -22,7 +22,7 @@ namespace SAM.Analytical.Grasshopper.IFC
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon => Resources.SAM_IFC;
+        protected override System.Drawing.Bitmap Icon => Resources.SAM_Small;
 
         /// <summary>
         /// Initializes a new instance of the SAM_point3D class.
@@ -60,7 +60,7 @@ namespace SAM.Analytical.Grasshopper.IFC
             get
             {
                 List<GH_SAMParam> result = new List<GH_SAMParam>();
-                result.Add(new GH_SAMParam(new GooDatabaseIfcParam() { Name = "databaseIfc", NickName = "databaseIfc", Description = "DatabaseIfc", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
+                result.Add(new GH_SAMParam(new GooIfcStoreParam() { Name = "ifcStore", NickName = "ifcStore", Description = "IfcStore", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
                 result.Add(new GH_SAMParam(new global::Grasshopper.Kernel.Parameters.Param_Boolean() { Name = "successful", NickName = "successful", Description = "Successful", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
                 return result.ToArray();
             }
@@ -101,18 +101,18 @@ namespace SAM.Analytical.Grasshopper.IFC
                 return;
             }
 
-            GeometryGym.Ifc.DatabaseIfc databaseIc = Analytical.IFC.Convert.ToIFC(analyticalModel);
+            Xbim.Ifc.IfcStore ifcStore = Analytical.IFC.Convert.ToIFC(analyticalModel);
 
-            index = Params.IndexOfOutputParam("databaseIfc");
+            index = Params.IndexOfOutputParam("ifcStore");
             if(index != -1)
             {
-                dataAccess.SetData(index, databaseIc);
+                dataAccess.SetData(index, ifcStore);
             }
 
             index = Params.IndexOfOutputParam("successful");
             if (index != -1)
             {
-                dataAccess.SetData(index, databaseIc != null);
+                dataAccess.SetData(index, ifcStore != null);
             }
 
         }

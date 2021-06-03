@@ -1,17 +1,22 @@
-﻿using GeometryGym.Ifc;
+﻿using Xbim.Ifc4.Kernel;
 
 namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcProject ToIFC(this AnalyticalModel analyticalModel, IfcBuilding ifcBuilding)
+        public static IfcProject ToIFC(this AnalyticalModel analyticalModel, Xbim.Common.IModel model)
         {
-            if(analyticalModel == null || ifcBuilding == null)
+            if(analyticalModel == null || model == null)
             {
                 return null;
             }
 
-            IfcProject result = new IfcProject(ifcBuilding, analyticalModel.Name, IfcUnitAssignment.Length.Metre);
+            IfcProject result = model.Instances.New<IfcProject>();
+            result.Initialize(Xbim.Common.ProjectUnits.SIUnitsUK);
+            result.UnitsInContext.SetSiLengthUnits(Xbim.Ifc4.Interfaces.IfcSIUnitName.METRE, null);
+
+            result.Name = analyticalModel.Name;
+
             return result;
         }
     }

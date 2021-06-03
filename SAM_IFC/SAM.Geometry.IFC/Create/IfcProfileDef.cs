@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
-using GeometryGym.Ifc;
+using Xbim.Ifc4.Interfaces;
+using Xbim.Ifc4.ProfileResource;
 
 namespace SAM.Geometry.IFC
 {
     public static partial class Create
     {
-        public static IfcProfileDef IfcProfileDef(this DatabaseIfc databaseIfc, Planar.Face2D face2D, IfcProfileTypeEnum ifcProfileTypeEnum, double tolerance = Core.Tolerance.Distance)
+        public static IfcProfileDef IfcProfileDef(this Xbim.Common.IModel model, Planar.Face2D face2D, IfcProfileTypeEnum ifcProfileTypeEnum, double tolerance = Core.Tolerance.Distance)
         {
-            if(face2D == null || databaseIfc == null)
+            if(face2D == null || model == null)
             {
                 return null;
             }
@@ -24,16 +25,16 @@ namespace SAM.Geometry.IFC
                 bool rectangular = Planar.Query.Rectangular(externalEdge2D, out Planar.Rectangle2D rectangle2D, tolerance);
                 if (rectangular)
                 {
-                    return IfcRectangleProfileDef(databaseIfc, rectangle2D, ifcProfileTypeEnum);
+                    return IfcRectangleProfileDef(model, rectangle2D, ifcProfileTypeEnum);
                 }
                 else
                 {
-                    return IfcArbitraryClosedProfileDef(databaseIfc, externalEdge2D as dynamic, ifcProfileTypeEnum);
+                    return IfcArbitraryClosedProfileDef(model, externalEdge2D as dynamic, ifcProfileTypeEnum);
                 }
             }
             else
             {
-                return IfcArbitraryProfileDefWithVoids(databaseIfc, face2D, ifcProfileTypeEnum);
+                return IfcArbitraryProfileDefWithVoids(model, face2D, ifcProfileTypeEnum);
             }
         }
     }

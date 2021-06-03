@@ -60,6 +60,7 @@
     <Compile Include="Modify\SetValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Description.cs" />
+    <Compile Include="Query\XbimEditorCredentials.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Classes\" />
@@ -67,11 +68,14 @@
     <Folder Include="Interfaces\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GeometryGymIFC">
-      <Version>0.1.11</Version>
-    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xbim.Common">
+      <Version>5.1.323</Version>
+    </PackageReference>
+    <PackageReference Include="Xbim.Essentials">
+      <Version>5.1.323</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

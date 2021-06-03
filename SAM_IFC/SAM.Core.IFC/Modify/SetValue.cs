@@ -1,4 +1,5 @@
-﻿using GeometryGym.Ifc;
+﻿using Xbim.Ifc4.Kernel;
+using Xbim.Ifc4.PropertyResource;
 
 namespace SAM.Core.IFC
 {
@@ -11,19 +12,19 @@ namespace SAM.Core.IFC
                 return false;
             }
 
-            DatabaseIfc databaseIfc = ifcPropertySet.Database;
-            if(databaseIfc == null)
+            Xbim.Common.IModel model = ifcPropertySet.Model;
+            if(model == null)
             {
                 return false;
             }
 
-            IfcPropertySingleValue ifcPropertySingleValue = Create.IfcPropertySingleValue(databaseIfc, name, value);
+            IfcPropertySingleValue ifcPropertySingleValue = Create.IfcPropertySingleValue(model, name, value);
             if(ifcPropertySingleValue == null)
             {
                 return false;
             }
 
-            ifcPropertySet.HasProperties.Add(name, ifcPropertySingleValue);
+            ifcPropertySet.HasProperties.Add(ifcPropertySingleValue);
 
             return true;
         }

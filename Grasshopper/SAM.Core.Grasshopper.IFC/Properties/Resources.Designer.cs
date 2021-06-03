@@ -63,9 +63,59 @@ namespace SAM.Core.Grasshopper.IFC.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap SAM_IFC {
+        internal static System.Drawing.Bitmap HL_Logo24 {
             get {
-                object obj = ResourceManager.GetObject("SAM_IFC", resourceCulture);
+                object obj = ResourceManager.GetObject("HL_Logo24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SAM_Explode {
+            get {
+                object obj = ResourceManager.GetObject("SAM_Explode", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SAM_Get {
+            get {
+                object obj = ResourceManager.GetObject("SAM_Get", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SAM_Get_Filterpng {
+            get {
+                object obj = ResourceManager.GetObject("SAM_Get_Filterpng", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SAM_JSON {
+            get {
+                object obj = ResourceManager.GetObject("SAM_JSON", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SAM_Names {
+            get {
+                object obj = ResourceManager.GetObject("SAM_Names", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -64,7 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Convert\ToIFC\IfcSpace.cs" />
-    <Compile Include="Convert\ToIFC\IfcBuiltElement.cs" />
+    <Compile Include="Convert\ToIFC\IfcBuildingElement.cs" />
     <Compile Include="Convert\ToIFC\IfcBuildingElementType.cs" />
     <Compile Include="Convert\ToIFC\IfcMaterialLayerSet.cs" />
     <Compile Include="Convert\ToIFC\IfcRoofType.cs" />
@@ -77,13 +77,15 @@
     <Compile Include="Convert\ToIFC\IfcWallType.cs" />
     <Compile Include="Convert\ToIFC\IfcBuilding.cs" />
     <Compile Include="Convert\ToIFC\IfcProject.cs" />
-    <Compile Include="Convert\ToIFC\DatabaseIfc.cs" />
+    <Compile Include="Convert\ToIFC\IfcStore.cs" />
     <Compile Include="Convert\ToIFC\IfcMaterialLayerSetUsage.cs" />
     <Compile Include="Create\IfcMaterialLayerSetUsage.cs" />
     <Compile Include="Modify\SetIfcBuildingElementType.cs" />
     <Compile Include="Modify\SetIfcBuildingElement.cs" />
+    <Compile Include="Modify\SetIfcProductRepresentation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Create\IfcProductDefinitionShape.cs" />
+    <Compile Include="Query\IfcSlabTypeEnum.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SAM.Architectural.IFC\SAM.Architectural.IFC.csproj">
@@ -105,14 +107,10 @@
   <ItemGroup>
     <Folder Include="Classes\" />
     <Folder Include="Enums\" />
-    <Folder Include="Query\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="com.angusj.Clipper">
       <Version>6.4.2</Version>
-    </PackageReference>
-    <PackageReference Include="GeometryGymIFC">
-      <Version>0.1.11</Version>
     </PackageReference>
     <PackageReference Include="NetTopologySuite">
       <Version>2.2.0</Version>

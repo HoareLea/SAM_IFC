@@ -73,16 +73,6 @@ namespace SAM.Analytical.Grasshopper.IFC.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap SAM_IFC {
-            get {
-                object obj = ResourceManager.GetObject("SAM_IFC", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap SAM_Small {
             get {
                 object obj = ResourceManager.GetObject("SAM_Small", resourceCulture);

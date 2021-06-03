@@ -124,17 +124,17 @@ namespace SAM.Analytical.IFC
                     }
                 }
 
-                List<Space> spaces = adjacencyCluster.GetSpaces();
-                foreach (Space space in spaces)
-                {
-                    IfcSpace ifcSpace = space?.ToIFC(ifcBuilding, adjacencyCluster);
-                    if (ifcSpace == null)
-                    {
-                        continue;
-                    }
+                //List<Space> spaces = adjacencyCluster.GetSpaces();
+                //foreach (Space space in spaces)
+                //{
+                //    IfcSpace ifcSpace = space?.ToIFC(ifcBuilding, adjacencyCluster);
+                //    if (ifcSpace == null)
+                //    {
+                //        continue;
+                //    }
 
-                    ifcBuilding.AddElement(ifcSpace);
-                }
+                //    ifcBuilding.AddElement(ifcSpace);
+                //}
 
             }
 

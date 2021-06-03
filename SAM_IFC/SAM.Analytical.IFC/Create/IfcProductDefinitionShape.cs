@@ -24,7 +24,7 @@ namespace SAM.Analytical.IFC
 
             //Body
             Extrusion extrusion = Query.Extrusion(panel);
-            if(extrusion != null)
+            if (extrusion != null)
             {
                 Transform3D transform3D = Transform3D.GetOriginToPlane(plane);
                 transform3D.Inverse();
@@ -42,16 +42,16 @@ namespace SAM.Analytical.IFC
             if (normal.AlmostEqual(Vector3D.WorldZ, tolerance) || normal.GetNegated().AlmostEqual(Vector3D.WorldZ, tolerance))
             {
                 //FootPrint
-                //Geometry.Planar.Face2D face2D = plane.Convert(face3D);
-                //if (face2D != null)
-                //{
-                //    IfcIndexedPolyCurve ifcIndexedPolyCurve = Geometry.IFC.Convert.ToIFC_IfcIndexedPolyCurve(face2D.ExternalEdge2D as Geometry.Planar.ISegmentable2D, databaseIfc);
-                //    if (ifcIndexedPolyCurve != null)
-                //    {
-                //        IfcShapeRepresentation ifcShapeRepresentation = Geometry.IFC.Create.IfcShapeRepresentation(databaseIfc, ifcIndexedPolyCurve, IfcGeometricRepresentationSubContext.SubContextIdentifier.FootPrint, ShapeRepresentationType.Curve2D);
-                //        ifcShapeModels.Add(ifcShapeRepresentation);
-                //    }
-                //}
+                Geometry.Planar.Face2D face2D = plane.Convert(face3D);
+                if (face2D != null)
+                {
+                    IfcIndexedPolyCurve ifcIndexedPolyCurve = Geometry.IFC.Convert.ToIFC_IfcIndexedPolyCurve(face2D.ExternalEdge2D as Geometry.Planar.ISegmentable2D, databaseIfc);
+                    if (ifcIndexedPolyCurve != null)
+                    {
+                        IfcShapeRepresentation ifcShapeRepresentation = Geometry.IFC.Create.IfcShapeRepresentation(databaseIfc, ifcIndexedPolyCurve, IfcGeometricRepresentationSubContext.SubContextIdentifier.FootPrint, ShapeRepresentationType.Curve2D);
+                        ifcShapeModels.Add(ifcShapeRepresentation);
+                    }
+                }
             }
             else
             {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using GeometryGym.Ifc;
 
 namespace SAM.Analytical.IFC
@@ -19,7 +20,7 @@ namespace SAM.Analytical.IFC
             }
             else
             {
-                ifcMaterials_Temp = new List<IfcMaterial>(databaseIfc.Project?.Extract<IfcMaterial>());
+                ifcMaterials_Temp = new List<IfcMaterial>(databaseIfc.OfType<IfcMaterial>());
             }
 
             List<IfcMaterialLayer> ifcMaterialLayers = new List<IfcMaterialLayer>();

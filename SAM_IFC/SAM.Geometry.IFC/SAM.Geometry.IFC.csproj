@@ -58,12 +58,16 @@
     <Compile Include="Convert\ToIFC\IfcCartesianPointList2D.cs" />
     <Compile Include="Convert\ToIFC\IfcCartesianPoints.cs" />
     <Compile Include="Convert\ToIFC\IfcCartesianPointList3D.cs" />
+    <Compile Include="Convert\ToIFC\IfcLine.cs" />
+    <Compile Include="Convert\ToIFC\IfcVector.cs" />
     <Compile Include="Convert\ToIFC\IfcFace.cs" />
     <Compile Include="Convert\ToIFC\IfcFacetedBrep.cs" />
     <Compile Include="Convert\ToIFC\IfcClosedShell.cs" />
     <Compile Include="Convert\ToIFC\IfcIndexedPolyCurve.cs" />
     <Compile Include="Convert\ToIFC\IfcPolyLoop.cs" />
     <Compile Include="Convert\ToIFC\IfcPolyline.cs" />
+    <Compile Include="Convert\ToSAM\Point3D.cs" />
+    <Compile Include="Convert\ToXbim\IXbimPoint.cs" />
     <Compile Include="Create\IfcArbitraryProfileDefWithVoids.cs" />
     <Compile Include="Create\IfcAxis2Placement2D.cs" />
     <Compile Include="Create\IfcAxis2Placement3D.cs" />
@@ -84,7 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Classes\" />
-    <Folder Include="Convert\ToSAM\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Modify\" />
   </ItemGroup>

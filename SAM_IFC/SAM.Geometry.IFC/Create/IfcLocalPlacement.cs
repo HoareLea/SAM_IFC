@@ -17,12 +17,12 @@ namespace SAM.Geometry.IFC
             IfcAxis2Placement3D ifcAxis2Placement3D = IfcAxis2Placement3D(model, location);
             if(xAxis != null)
             {
-                ifcAxis2Placement3D.RefDirection = xAxis.ToIFC(model);
+                ifcAxis2Placement3D.RefDirection = xAxis.ToIFC_IfcDirection(model);
             }
 
             if(zAxis != null)
             {
-                ifcAxis2Placement3D.Axis = zAxis.ToIFC(model);
+                ifcAxis2Placement3D.Axis = zAxis.ToIFC_IfcDirection(model);
             }
 
             result.RelativePlacement = ifcAxis2Placement3D;
@@ -40,8 +40,8 @@ namespace SAM.Geometry.IFC
             IfcLocalPlacement result = model.Instances.New<IfcLocalPlacement>();
 
             IfcAxis2Placement3D ifcAxis2Placement3D = IfcAxis2Placement3D(model, plane.Origin);
-            ifcAxis2Placement3D.RefDirection = plane.AxisX.ToIFC(model);
-            ifcAxis2Placement3D.Axis = plane.AxisZ.ToIFC(model);
+            ifcAxis2Placement3D.RefDirection = plane.AxisX.ToIFC_IfcDirection(model);
+            ifcAxis2Placement3D.Axis = plane.AxisZ.ToIFC_IfcDirection(model);
 
             result.RelativePlacement = ifcAxis2Placement3D;
 

@@ -43,7 +43,7 @@ namespace SAM.Geometry.IFC
             IfcExtrudedAreaSolid result = model.Instances.New<IfcExtrudedAreaSolid>();
             result.Position = Create.IfcAxis2Placement3D(model, plane);
             result.Depth = vector3D.Length;
-            result.ExtrudedDirection = direction.ToIFC(model);// extrusion.Vector.GetNormalized().ToIFC(model);
+            result.ExtrudedDirection = direction.ToIFC_IfcDirection(model);// extrusion.Vector.GetNormalized().ToIFC(model);
             result.SweptArea = Create.IfcProfileDef(model, face2D, Xbim.Ifc4.Interfaces.IfcProfileTypeEnum.AREA);
             return result;
 

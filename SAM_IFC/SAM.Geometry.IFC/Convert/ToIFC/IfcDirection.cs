@@ -4,7 +4,7 @@ namespace SAM.Geometry.IFC
 {
     public static partial class Convert
     {
-        public static IfcDirection ToIFC(this Spatial.Vector3D vector3D, Xbim.Common.IModel model)
+        public static IfcDirection ToIFC_IfcDirection(this Spatial.Vector3D vector3D, Xbim.Common.IModel model)
         {
             if(vector3D == null || model == null)
             {
@@ -17,7 +17,7 @@ namespace SAM.Geometry.IFC
             return result;
         }
 
-        public static IfcDirection ToIFC(this Planar.Vector2D vector2D, Xbim.Common.IModel model)
+        public static IfcDirection ToIFC_IfcDirection(this Planar.Vector2D vector2D, Xbim.Common.IModel model)
         {
             IfcDirection result = model.Instances.New<IfcDirection>();
             result.SetXY(vector2D.X, vector2D.Y);

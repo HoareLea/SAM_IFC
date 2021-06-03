@@ -21,7 +21,7 @@ namespace SAM.Analytical.IFC
 
             XbimEditorCredentials xbimEditorCredentials = Core.IFC.Query.XbimEditorCredentials();
 
-            IfcStore result = IfcStore.Create(xbimEditorCredentials, Xbim.Common.Step21.XbimSchemaVersion.Ifc4, Xbim.IO.XbimStoreType.InMemoryModel);
+            IfcStore result = IfcStore.Create(xbimEditorCredentials, Xbim.Common.Step21.XbimSchemaVersion.Ifc4x1, Xbim.IO.XbimStoreType.InMemoryModel);
 
             IfcProject ifcProject = null;
             using (ITransaction transaction = result.BeginTransaction("Create Project"))

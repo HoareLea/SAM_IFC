@@ -16,7 +16,7 @@ namespace SAM.Geometry.IFC
 
             if(xAxis != null)
             {
-                result.RefDirection = xAxis.ToIFC(model);
+                result.RefDirection = xAxis.ToIFC_IfcDirection(model);
             }
 
             return result;

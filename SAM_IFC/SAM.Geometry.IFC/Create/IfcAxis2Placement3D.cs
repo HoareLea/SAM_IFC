@@ -26,8 +26,8 @@ namespace SAM.Geometry.IFC
 
             IfcAxis2Placement3D result = model.Instances.New<IfcAxis2Placement3D>();
             result.Location = plane.Origin.ToIFC(model);
-            result.RefDirection = plane.AxisX.ToIFC(model);
-            result.Axis = plane.AxisZ.ToIFC(model);
+            result.RefDirection = plane.AxisX.ToIFC_IfcDirection(model);
+            result.Axis = plane.AxisZ.ToIFC_IfcDirection(model);
 
             return result;
         }

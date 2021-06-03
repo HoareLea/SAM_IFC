@@ -21,7 +21,7 @@ namespace SAM.Analytical.IFC
 
             XbimEditorCredentials xbimEditorCredentials = Core.IFC.Query.XbimEditorCredentials();
 
-            IfcStore result = IfcStore.Create(xbimEditorCredentials, Xbim.Common.Step21.XbimSchemaVersion.Ifc4x1, Xbim.IO.XbimStoreType.InMemoryModel);
+            IfcStore result = IfcStore.Create(xbimEditorCredentials, Xbim.Common.Step21.XbimSchemaVersion.Ifc4, Xbim.IO.XbimStoreType.InMemoryModel);
 
             IfcProject ifcProject = null;
             using (ITransaction transaction = result.BeginTransaction("Create Project"))
@@ -71,16 +71,19 @@ namespace SAM.Analytical.IFC
                     {
                         Dictionary<System.Guid, Dictionary<PanelType, List<IfcBuildingElement>>> dictionary = new Dictionary<System.Guid, Dictionary<PanelType, List<IfcBuildingElement>>>();
 
-                        Dictionary<Architectural.Level, List<Panel>> dictionary_Levels = SAM.Analytical.Query.LevelsDictionary(adjacencyCluster.GetPanels());
+                        Dictionary<Architectural.Level, List<Panel>> dictionary_Levels = Analytical.Query.LevelsDictionary(adjacencyCluster.GetPanels());
                         using (ITransaction transaction = result.BeginTransaction("Create Building Elements"))
                         {
+                            IfcRelAggregates ifcRelAggregates = result.Instances.New<IfcRelAggregates>();
+                            ifcRelAggregates.RelatingObject = ifcBuilding;
+
                             List<Architectural.Level> levels = dictionary_Levels.Keys.ToList();
                             levels.Sort((x, y) => x.Elevation.CompareTo(y.Elevation));
 
                             foreach (Architectural.Level level in levels)
                             {
                                 IfcBuildingStorey ifcBuildingStorey = Architectural.IFC.Convert.ToIFC(level, result);
-                                ifcBuilding.AddElement(ifcBuildingStorey);
+                                ifcRelAggregates.RelatedObjects.Add(ifcBuildingStorey);
 
                                 foreach (Panel panel in dictionary_Levels[level])
                                 {
@@ -167,6 +170,7 @@ namespace SAM.Analytical.IFC
                             List<IfcBuildingStorey> ifcBuildingStoreys = result.Instances.OfType<IfcBuildingStorey>()?.ToList();
                             ifcBuildingStoreys?.Sort((x, y) => ((double)x.Elevation).CompareTo((double)y.Elevation));
 
+                            Dictionary<IfcBuildingStorey, IfcRelAggregates> dictionary_IfcRelAggregates = new Dictionary<IfcBuildingStorey, IfcRelAggregates>();
 
                             foreach (Space space in spaces)
                             {
@@ -204,7 +208,13 @@ namespace SAM.Analytical.IFC
                                     if (ifcBuildingStorey == null)
                                         ifcBuildingStorey = ifcBuildingStoreys.Last();
 
-                                    ifcBuildingStorey.AddElement(ifcSpace);
+                                    if(!dictionary_IfcRelAggregates.TryGetValue(ifcBuildingStorey, out IfcRelAggregates ifcRelAggregates) || ifcRelAggregates == null)
+                                    {
+                                        ifcRelAggregates = result.Instances.New<IfcRelAggregates>();
+                                        ifcRelAggregates.RelatingObject = ifcBuildingStorey;
+                                    }
+
+                                    ifcRelAggregates.RelatedObjects.Add(ifcSpace);
                                 }
 
                                 

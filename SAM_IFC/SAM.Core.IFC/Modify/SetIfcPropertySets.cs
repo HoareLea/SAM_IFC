@@ -25,9 +25,19 @@ namespace SAM.Core.IFC
             foreach (ParameterSet parameterSet in parameterSets)
             {
                 IfcPropertySet ifcPropertySet = parameterSet.ToIFC(model);
-                IfcRelDefinesByProperties ifcRelDefinesByProperties = model.Instances.New<IfcRelDefinesByProperties>();
-                ifcRelDefinesByProperties.RelatedObjects.Add(ifcObjectDefinition);
-                ifcRelDefinesByProperties.RelatingPropertyDefinition = ifcPropertySet;
+
+                if (ifcObjectDefinition is IfcTypeObject)
+                {
+                    IfcTypeObject ifcTypeObject = (IfcTypeObject)ifcObjectDefinition;
+                    ifcTypeObject.HasPropertySets.Add(ifcPropertySet);
+                }
+                else
+                {
+                    IfcRelDefinesByProperties ifcRelDefinesByProperties = model.Instances.New<IfcRelDefinesByProperties>();
+                    ifcRelDefinesByProperties.RelatedObjects.Add(ifcObjectDefinition);
+                    ifcRelDefinesByProperties.RelatingPropertyDefinition = ifcPropertySet;
+                }
+
             }
         }
     }

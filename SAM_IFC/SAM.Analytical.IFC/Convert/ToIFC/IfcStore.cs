@@ -74,16 +74,13 @@ namespace SAM.Analytical.IFC
                         Dictionary<Architectural.Level, List<Panel>> dictionary_Levels = SAM.Analytical.Query.LevelsDictionary(adjacencyCluster.GetPanels());
                         using (ITransaction transaction = result.BeginTransaction("Create Building Elements"))
                         {
-                            IfcRelAggregates ifcRelAggregates = result.Instances.New<IfcRelAggregates>();
-                            ifcRelAggregates.RelatingObject = ifcBuilding;
-
                             List<Architectural.Level> levels = dictionary_Levels.Keys.ToList();
                             levels.Sort((x, y) => x.Elevation.CompareTo(y.Elevation));
 
                             foreach (Architectural.Level level in levels)
                             {
                                 IfcBuildingStorey ifcBuildingStorey = Architectural.IFC.Convert.ToIFC(level, result);
-                                ifcRelAggregates.RelatedObjects.Add(ifcBuildingStorey);
+                                ifcBuilding.AddElement(ifcBuildingStorey);
 
                                 foreach (Panel panel in dictionary_Levels[level])
                                 {

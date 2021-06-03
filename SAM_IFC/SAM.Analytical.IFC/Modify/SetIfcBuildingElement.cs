@@ -14,7 +14,7 @@ namespace SAM.Analytical.IFC
             ifcBuildingElement.Name = panel.Name;
             ifcBuildingElement.GlobalId = panel.Guid;
             ifcBuildingElement.Description = Core.IFC.Query.Description(panel);
-            //ifcBuildingElement.ObjectType = typeof(Panel).ToString();
+            ifcBuildingElement.ObjectType = typeof(Panel).ToString();
         }
     }
 }

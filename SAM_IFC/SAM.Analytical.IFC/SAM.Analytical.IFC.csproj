@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert\ToIFC\IfcZone.cs" />
     <Compile Include="Convert\ToIFC\IfcSpace.cs" />
     <Compile Include="Convert\ToIFC\IfcBuildingElement.cs" />
     <Compile Include="Convert\ToIFC\IfcBuildingElementType.cs" />

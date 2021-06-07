@@ -81,24 +81,9 @@
     <None Include="Resources\HL_Logo24.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SAM_Explode.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SAM_JSON.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SAM_Get.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SAM_Get.Filterpng.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Convert\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Query\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SAM_Names.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Grasshopper">
@@ -114,6 +99,9 @@
     <PackageReference Include="Xbim.Ifc">
       <Version>5.1.323</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SAM_IFC.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

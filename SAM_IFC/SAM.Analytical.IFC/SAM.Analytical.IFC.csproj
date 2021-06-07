@@ -81,12 +81,15 @@
     <Compile Include="Convert\ToIFC\IfcStore.cs" />
     <Compile Include="Convert\ToIFC\IfcMaterialLayerSetUsage.cs" />
     <Compile Include="Create\IfcMaterialLayerSetUsage.cs" />
+    <Compile Include="Modify\SetIsExternal.cs" />
     <Compile Include="Modify\SetIfcBuildingElementType.cs" />
     <Compile Include="Modify\SetIfcBuildingElement.cs" />
     <Compile Include="Modify\SetIfcProductRepresentation.cs" />
+    <Compile Include="Modify\SetIfcPropertySets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Create\IfcProductDefinitionShape.cs" />
     <Compile Include="Query\IfcSlabTypeEnum.cs" />
+    <Compile Include="Query\IsExternal.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SAM.Architectural.IFC\SAM.Architectural.IFC.csproj">

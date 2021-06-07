@@ -56,9 +56,14 @@
     <Compile Include="Create\IfcText.cs" />
     <Compile Include="Create\IfcPropertySingleValue.cs" />
     <Compile Include="Create\IfcLabel.cs" />
+    <Compile Include="Manager\ActiveSetting.cs" />
+    <Compile Include="Modify\UpdateIfcPropertySet.cs" />
     <Compile Include="Modify\SetIfcPropertySets.cs" />
     <Compile Include="Modify\SetValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\IfcPropertySetDefinitions.cs" />
+    <Compile Include="Query\PropertySetDefs.cs" />
+    <Compile Include="Query\PropertyDefs.cs" />
     <Compile Include="Query\Description.cs" />
     <Compile Include="Query\XbimEditorCredentials.cs" />
   </ItemGroup>
@@ -76,6 +81,9 @@
     </PackageReference>
     <PackageReference Include="Xbim.Essentials">
       <Version>5.1.323</Version>
+    </PackageReference>
+    <PackageReference Include="Xbim.PropertySets">
+      <Version>4.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

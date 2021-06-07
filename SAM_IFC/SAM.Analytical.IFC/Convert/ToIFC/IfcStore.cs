@@ -90,6 +90,8 @@ namespace SAM.Analytical.IFC
                                     IfcBuildingElement ifcBuildingElement = panel.ToIFC(result);
                                     ifcBuildingStorey.AddElement(ifcBuildingElement);
 
+                                    ifcBuildingElement.SetIsExternal(panel, adjacencyCluster);
+
                                     System.Guid guid = panel.SAMTypeGuid;
                                     if (guid != System.Guid.Empty)
                                     {
@@ -139,6 +141,8 @@ namespace SAM.Analytical.IFC
                                     {
                                         continue;
                                     }
+
+                                    ifcBuildingElementType.SetIsExternal(keyValuePair.Key);
 
                                     if (ifcRelAssociatesMaterial_Type != null)
                                     {

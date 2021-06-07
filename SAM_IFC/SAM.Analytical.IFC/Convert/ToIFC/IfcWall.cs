@@ -14,7 +14,7 @@ namespace SAM.Analytical.IFC
             IfcWall result = model.Instances.New<IfcWall>();
             result.SetIfcBuildingElement(panel);
             result.SetIfcProductRepresentation(panel);
-            Core.IFC.Modify.SetIfcPropertySets(result, panel);
+            Modify.SetIfcPropertySets(result, panel);
 
             return result;
         }

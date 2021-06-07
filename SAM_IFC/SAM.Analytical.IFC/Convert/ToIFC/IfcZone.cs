@@ -17,7 +17,7 @@ namespace SAM.Analytical.IFC
 
             IfcZone result = model.Instances.New<IfcZone>();
             result.Name = zone.Name;
-            result.ObjectType = typeof(Zone).Name;
+            //result.ObjectType = typeof(Zone).Name;
 
             Core.IFC.Modify.SetIfcPropertySets(result, zone);
 

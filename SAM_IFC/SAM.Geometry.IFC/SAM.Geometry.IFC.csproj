@@ -83,6 +83,7 @@
     <Compile Include="Enums\IfcDefaultContextType.cs" />
     <Compile Include="Enums\IfcDefaultContextIdentifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\Simplyfy.cs" />
     <Compile Include="Query\IfcGeometricRepresentationSubContext.cs" />
     <Compile Include="Query\Axis.cs" />
   </ItemGroup>

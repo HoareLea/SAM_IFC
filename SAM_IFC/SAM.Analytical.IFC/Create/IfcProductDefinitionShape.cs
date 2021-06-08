@@ -9,7 +9,7 @@ namespace SAM.Analytical.IFC
     {
         public static IfcProductDefinitionShape IfcProductDefinitionShape(this IfcGeometricRepresentationContext ifcGeometricRepresentationContext, Panel panel, double tolerance = Core.Tolerance.Distance)
         {
-            Face3D face3D = panel?.GetFace3D();
+            Face3D face3D = Geometry.IFC.Query.Simplify(panel?.GetFace3D());
             if(face3D == null)
             {
                 return null;
@@ -100,6 +100,8 @@ namespace SAM.Analytical.IFC
             {
                 return null;
             }
+
+            shell = Geometry.IFC.Query.Simplify(shell);
 
             IfcProductDefinitionShape result = model.Instances.New<IfcProductDefinitionShape>();
 

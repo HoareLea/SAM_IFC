@@ -11,10 +11,9 @@ namespace SAM.Core.IFC
                 return null;
             }
 
-
-
             IfcPropertySingleValue result = model.Instances.New<IfcPropertySingleValue>();
             result.Name = name;
+            Modify.SetValue(result, value);
 
             return result;
         }

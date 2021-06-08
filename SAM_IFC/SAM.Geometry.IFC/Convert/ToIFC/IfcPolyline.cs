@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Xbim.Ifc4.GeometryResource;
 
 namespace SAM.Geometry.IFC
@@ -53,11 +54,20 @@ namespace SAM.Geometry.IFC
             IfcPolyline result = model.Instances.New<IfcPolyline>();
 
             List<Planar.Point2D> point2Ds = segmentable2D.GetPoints();
-            if (point2Ds != null && point2Ds.Count != 0)
+            if (point2Ds == null || point2Ds.Count == 0)
             {
-                result.Points.AddRange(point2Ds.ToIFC(model));
+                return result;
             }
 
+            if (segmentable2D is Planar.IClosed2D)
+            {
+                if (point2Ds.Count != 0 && point2Ds.First() != point2Ds.Last())
+                {
+                    point2Ds.Add(new Planar.Point2D(point2Ds[0]));
+                }
+            }
+
+            result.Points.AddRange(point2Ds.ToIFC(model));
             return result;
         }
     }

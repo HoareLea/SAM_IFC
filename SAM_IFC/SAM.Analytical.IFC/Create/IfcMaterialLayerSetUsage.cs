@@ -31,11 +31,13 @@ namespace SAM.Analytical.IFC
         public static IfcMaterialLayerSetUsage IfcMaterialLayerSetUsage(this IfcMaterialLayerSet ifcMaterialLayerSet, PanelGroup panelGroup)
         {
             IfcLayerSetDirectionEnum ifcLayerSetDirectionEnum = IfcLayerSetDirectionEnum.AXIS2;
+            IfcDirectionSenseEnum ifcDirectionSenseEnum = IfcDirectionSenseEnum.POSITIVE;
             double offsetFromReferenceLine = 0;
             switch (panelGroup)
             {
                 case PanelGroup.Roof:
                     ifcLayerSetDirectionEnum = IfcLayerSetDirectionEnum.AXIS3;
+                    ifcDirectionSenseEnum = IfcDirectionSenseEnum.NEGATIVE;
                     break;
                 
                 case PanelGroup.Floor:
@@ -55,7 +57,7 @@ namespace SAM.Analytical.IFC
                     break;
             }
 
-            return IfcMaterialLayerSetUsage(ifcMaterialLayerSet, ifcLayerSetDirectionEnum, IfcDirectionSenseEnum.POSITIVE, offsetFromReferenceLine);
+            return IfcMaterialLayerSetUsage(ifcMaterialLayerSet, ifcLayerSetDirectionEnum, ifcDirectionSenseEnum, offsetFromReferenceLine);
         }
 
     }

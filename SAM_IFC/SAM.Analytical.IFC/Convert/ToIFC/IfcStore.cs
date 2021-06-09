@@ -91,6 +91,11 @@ namespace SAM.Analytical.IFC
                                     foreach (Panel panel in dictionary_Levels[level])
                                     {
                                         IfcBuildingElement ifcBuildingElement = panel.ToIFC(result);
+                                        if(ifcBuildingElement == null)
+                                        {
+                                            continue;
+                                        }
+
                                         ifcBuildingStorey.AddElement(ifcBuildingElement);
 
                                         ifcBuildingElement.SetIsExternal(panel, adjacencyCluster);

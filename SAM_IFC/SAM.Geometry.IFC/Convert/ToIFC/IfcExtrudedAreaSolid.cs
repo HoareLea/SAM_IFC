@@ -12,7 +12,7 @@ namespace SAM.Geometry.IFC
                 return null;
             }
 
-            Face3D face3D = extrusion.Face3D;
+            Face3D face3D = extrusion.Face3D?.Simplify();
             if(face3D == null)
             {
                 return null;

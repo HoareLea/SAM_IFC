@@ -1,5 +1,4 @@
-﻿using Xbim.Ifc4.Kernel;
-using Xbim.Ifc4.ProductExtension;
+﻿using Xbim.Ifc4.ProductExtension;
 
 namespace SAM.Analytical.IFC
 {

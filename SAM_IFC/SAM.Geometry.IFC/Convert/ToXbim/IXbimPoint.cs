@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Xbim.Common.Geometry;
+﻿using Xbim.Common.Geometry;
 using Xbim.Geometry.Engine.Interop;
 using Xbim.Ifc4.GeometryResource;
 

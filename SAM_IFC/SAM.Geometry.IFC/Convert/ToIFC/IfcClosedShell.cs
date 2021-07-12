@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Xbim.Ifc4.GeometricModelResource;
-using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.TopologyResource;
 
 namespace SAM.Geometry.IFC

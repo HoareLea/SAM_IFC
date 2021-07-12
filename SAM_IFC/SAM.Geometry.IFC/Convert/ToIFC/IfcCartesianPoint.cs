@@ -1,5 +1,4 @@
-﻿using Xbim.Ifc;
-using Xbim.Ifc4.GeometryResource;
+﻿using Xbim.Ifc4.GeometryResource;
 
 namespace SAM.Geometry.IFC
 {

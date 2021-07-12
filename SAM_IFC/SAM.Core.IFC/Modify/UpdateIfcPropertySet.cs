@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Xbim.Ifc4.Kernel;
+﻿using Xbim.Ifc4.Kernel;
 
 namespace SAM.Core.IFC
 {

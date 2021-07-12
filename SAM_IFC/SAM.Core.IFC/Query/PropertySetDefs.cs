@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Xbim.Ifc4.SharedBldgElements;
 using Xbim.Properties;
 
 namespace SAM.Core.IFC

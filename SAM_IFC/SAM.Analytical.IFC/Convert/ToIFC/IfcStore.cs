@@ -100,7 +100,7 @@ namespace SAM.Analytical.IFC
 
                                         ifcBuildingElement.SetIsExternal(panel, adjacencyCluster);
 
-                                        System.Guid guid = panel.SAMTypeGuid;
+                                        System.Guid guid = panel.TypeGuid;
                                         if (guid != System.Guid.Empty)
                                         {
                                             if (!dictionary.TryGetValue(guid, out Dictionary<PanelType, List<IfcBuildingElement>> dictionary_PanelType))

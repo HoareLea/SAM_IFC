@@ -74,7 +74,7 @@ namespace SAM.Analytical.IFC
                         List<Panel> panels = adjacencyCluster.GetPanels();
                         if(panels != null && panels.Count != 0)
                         {
-                            Dictionary<Architectural.Level, List<Panel>> dictionary_Levels = Analytical.Query.LevelsDictionary(panels);
+                            Dictionary<Architectural.Level, List<Panel>> dictionary_Levels = Architectural.Query.LevelsDictionary(panels);
                             using (ITransaction transaction = result.BeginTransaction("Create Building Elements"))
                             {
                                 IfcRelAggregates ifcRelAggregates = result.Instances.New<IfcRelAggregates>();

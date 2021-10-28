@@ -4,7 +4,7 @@ namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcSpace ToIFC(this Space space, Xbim.Common.IModel model, AdjacencyCluster adjacencyCluster = null)
+        public static IfcSpace ToIFC(this Space space, Xbim.Common.IModel model, ArchitecturalModel architecturalModel)
         {
             if (space == null || model == null)
             {
@@ -16,7 +16,7 @@ namespace SAM.Analytical.IFC
             result.LongName = space.Name;
             //result.ObjectType = typeof(Space).Name;
             result.PredefinedType = Xbim.Ifc4.Interfaces.IfcSpaceTypeEnum.SPACE;
-            Modify.SetIfcProductRepresentation(result, space, adjacencyCluster);
+            Modify.SetIfcProductRepresentation(result, space, architecturalModel);
             Core.IFC.Modify.SetIfcPropertySets(result, space);
 
             return result;

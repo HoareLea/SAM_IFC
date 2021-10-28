@@ -75,6 +75,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Convert\ToIFC\IfcBuildingStorey.cs" />
+    <Compile Include="Convert\ToIFC\IfcMaterialLayerSet.cs" />
+    <Compile Include="Convert\ToIFC\IfcMaterialLayerSetUsage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

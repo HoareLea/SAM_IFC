@@ -11,7 +11,7 @@ namespace SAM.Geometry.IFC
             if(closed2D is Polygon2D)
             {
                 Polygon2D polygon2D = (Polygon2D)closed2D;
-                polygon2D = Planar.Query.SimplifyBySAM_Angle(polygon2D, tolerance_Angle);
+                polygon2D = Planar.Query.SimplifyByAngle(polygon2D, tolerance_Angle);
                 return polygon2D;
             }
 

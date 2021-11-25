@@ -12,9 +12,9 @@ namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcStore ToIFC(this ArchitecturalModel architecturalModel)
+        public static IfcStore ToIFC(this BuildingModel buildingModel)
         {
-            if(architecturalModel == null)
+            if(buildingModel == null)
             {
                 return null;
             }
@@ -26,7 +26,7 @@ namespace SAM.Analytical.IFC
             IfcProject ifcProject = null;
             using (ITransaction transaction = result.BeginTransaction("Create Project"))
             {
-                ifcProject = architecturalModel.ToIFC(result);
+                ifcProject = buildingModel.ToIFC(result);
 
                 IfcGeometricRepresentationContext ifcGeometricRepresentationContext = result.Instances.OfType<IfcGeometricRepresentationContext>().FirstOrDefault();
 
@@ -39,7 +39,7 @@ namespace SAM.Analytical.IFC
             using (ITransaction transaction = result.BeginTransaction("Create Materials"))
             {
                 Dictionary<string, IfcMaterial> dictionary_IfcMaterial = new Dictionary<string, IfcMaterial>();
-                List<IMaterial> materials = architecturalModel.GetMaterials();
+                List<IMaterial> materials = buildingModel.GetMaterials();
                 if (materials != null)
                 {
                     foreach (IMaterial material in materials)
@@ -57,7 +57,7 @@ namespace SAM.Analytical.IFC
                 IfcBuilding ifcBuilding = null;
                 using (ITransaction transaction = result.BeginTransaction("Create Building"))
                 {
-                    ifcBuilding = architecturalModel.ToIFC_IfcBuilding(result);
+                    ifcBuilding = buildingModel.ToIFC_IfcBuilding(result);
                     ifcProject.AddBuilding(ifcBuilding);
 
                     transaction.Commit();
@@ -68,7 +68,7 @@ namespace SAM.Analytical.IFC
                 {
                     Dictionary<System.Guid, Dictionary<PartitionAnalyticalType, List<IfcBuildingElement>>> dictionary = new Dictionary<System.Guid, Dictionary<PartitionAnalyticalType, List<IfcBuildingElement>>>();
 
-                    List<IPartition> partitions = architecturalModel.GetPartitions();
+                    List<IPartition> partitions = buildingModel.GetPartitions();
                     if (partitions != null && partitions.Count != 0)
                     {
                         Dictionary<Architectural.Level, List<IPartition>> dictionary_Levels = Architectural.Query.LevelsDictionary(partitions);
@@ -87,7 +87,7 @@ namespace SAM.Analytical.IFC
 
                                 foreach (IPartition partition in dictionary_Levels[level])
                                 {
-                                    IfcBuildingElement ifcBuildingElement = partition.ToIFC(result, architecturalModel);
+                                    IfcBuildingElement ifcBuildingElement = partition.ToIFC(result, buildingModel);
                                     if (ifcBuildingElement == null)
                                     {
                                         continue;
@@ -95,7 +95,7 @@ namespace SAM.Analytical.IFC
 
                                     ifcBuildingStorey.AddElement(ifcBuildingElement);
 
-                                    ifcBuildingElement.SetIsExternal(partition, architecturalModel);
+                                    ifcBuildingElement.SetIsExternal(partition, buildingModel);
 
                                     if(partition is IHostPartition)
                                     {
@@ -108,7 +108,7 @@ namespace SAM.Analytical.IFC
                                                 dictionary[guid] = dictionary_PartitionAnalyticalType;
                                             }
 
-                                            PartitionAnalyticalType partitionAnalyticalType = architecturalModel.PartitionAnalyticalType(partition);
+                                            PartitionAnalyticalType partitionAnalyticalType = buildingModel.PartitionAnalyticalType(partition);
 
                                             if (!dictionary_PartitionAnalyticalType.TryGetValue(partitionAnalyticalType, out List<IfcBuildingElement> ifcBuildingElements))
                                             {
@@ -128,7 +128,7 @@ namespace SAM.Analytical.IFC
                         }
                     }
 
-                    List<HostPartitionType> hostPartitionTypes = architecturalModel.GetHostPartitionTypes();
+                    List<HostPartitionType> hostPartitionTypes = buildingModel.GetHostPartitionTypes();
                     if (hostPartitionTypes != null && hostPartitionTypes.Count != 0)
                     {
                         using (ITransaction transaction = result.BeginTransaction("Create Building Element Types"))
@@ -166,7 +166,7 @@ namespace SAM.Analytical.IFC
                                     }
 
 
-                                    IfcBuildingElementType ifcBuildingElementType = hostPartitionType.ToIFC(result, architecturalModel);
+                                    IfcBuildingElementType ifcBuildingElementType = hostPartitionType.ToIFC(result, buildingModel);
                                     if (ifcBuildingElementType == null)
                                     {
                                         continue;
@@ -208,7 +208,7 @@ namespace SAM.Analytical.IFC
                         }
                     }
 
-                    List<Space> spaces = architecturalModel.GetSpaces();
+                    List<Space> spaces = buildingModel.GetSpaces();
                     if (spaces != null && spaces.Count != 0)
                     {
                         using (ITransaction transaction = result.BeginTransaction("Create Spaces"))
@@ -220,7 +220,7 @@ namespace SAM.Analytical.IFC
 
                             foreach (Space space in spaces)
                             {
-                                IfcSpace ifcSpace = space?.ToIFC(result, architecturalModel);
+                                IfcSpace ifcSpace = space?.ToIFC(result, buildingModel);
                                 if (ifcSpace == null)
                                 {
                                     continue;

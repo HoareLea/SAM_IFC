@@ -4,7 +4,7 @@ namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcWall ToIFC_IfcWall(this Wall wall, Xbim.Common.IModel model, ArchitecturalModel architecturalModel)
+        public static IfcWall ToIFC_IfcWall(this Wall wall, Xbim.Common.IModel model, BuildingModel buildingModel)
         {
             if(wall == null || model == null)
             {
@@ -15,9 +15,9 @@ namespace SAM.Analytical.IFC
             result.SetIfcBuildingElement(wall);
             result.SetIfcProductRepresentation(wall);
 
-            if (architecturalModel != null)
+            if (buildingModel != null)
             {
-                Modify.SetIfcPropertySets(result, wall, architecturalModel);
+                Modify.SetIfcPropertySets(result, wall, buildingModel);
             }
 
             return result;

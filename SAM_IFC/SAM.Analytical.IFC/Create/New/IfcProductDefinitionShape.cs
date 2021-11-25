@@ -82,14 +82,14 @@ namespace SAM.Analytical.IFC
             return result;
         }
 
-        public static IfcProductDefinitionShape IfcProductDefinitionShape(this IfcGeometricRepresentationContext ifcGeometricRepresentationContext, Space space, ArchitecturalModel architecturalModel)
+        public static IfcProductDefinitionShape IfcProductDefinitionShape(this IfcGeometricRepresentationContext ifcGeometricRepresentationContext, Space space, BuildingModel buildingModel)
         {
-            if (ifcGeometricRepresentationContext == null || space == null || architecturalModel == null)
+            if (ifcGeometricRepresentationContext == null || space == null || buildingModel == null)
             {
                 return null;
             }
 
-            Shell shell = architecturalModel.GetShell(space);
+            Shell shell = buildingModel.GetShell(space);
             if (shell == null)
             {
                 return null;

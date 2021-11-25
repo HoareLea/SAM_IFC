@@ -4,9 +4,9 @@ namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcProject ToIFC(this ArchitecturalModel architecturalModel, Xbim.Common.IModel model)
+        public static IfcProject ToIFC(this BuildingModel buildingModel, Xbim.Common.IModel model)
         {
-            if(architecturalModel == null || model == null)
+            if(buildingModel == null || model == null)
             {
                 return null;
             }
@@ -15,7 +15,7 @@ namespace SAM.Analytical.IFC
             result.Initialize(Xbim.Common.ProjectUnits.SIUnitsUK);
             result.UnitsInContext.SetSiLengthUnits(Xbim.Ifc4.Interfaces.IfcSIUnitName.METRE, null);
 
-            result.Name = architecturalModel.Name;
+            result.Name = buildingModel.Name;
 
             return result;
         }

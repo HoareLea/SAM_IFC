@@ -4,17 +4,17 @@ namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcBuildingElementType ToIFC_IfcBuildingElementType(this IHostPartition hostPartition, Xbim.Common.IModel model, ArchitecturalModel architecturalModel)
+        public static IfcBuildingElementType ToIFC_IfcBuildingElementType(this IHostPartition hostPartition, Xbim.Common.IModel model, BuildingModel buildingModel)
         {
             if (hostPartition == null || model == null)
             {
                 return null;
             }
 
-            return ToIFC(hostPartition.Type(), model, architecturalModel);
+            return ToIFC(hostPartition.Type(), model, buildingModel);
         }
 
-        public static IfcBuildingElementType ToIFC(this HostPartitionType hostPartitionType, Xbim.Common.IModel model, ArchitecturalModel architecturalModel)
+        public static IfcBuildingElementType ToIFC(this HostPartitionType hostPartitionType, Xbim.Common.IModel model, BuildingModel buildingModel)
         {
             if(hostPartitionType == null || model == null)
             {
@@ -25,9 +25,9 @@ namespace SAM.Analytical.IFC
 
             if (hostPartitionType is WallType)
             {
-                if(architecturalModel != null)
+                if(buildingModel != null)
                 {
-                    if(architecturalModel.GetMaterialType(hostPartitionType) == Core.MaterialType.Transparent)
+                    if(buildingModel.GetMaterialType(hostPartitionType) == Core.MaterialType.Transparent)
                     {
                         return ToIFC_IfcCurtainWallType((WallType)hostPartitionType, model);
                     }

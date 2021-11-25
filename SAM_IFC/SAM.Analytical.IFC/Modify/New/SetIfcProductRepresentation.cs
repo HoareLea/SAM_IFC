@@ -37,7 +37,7 @@ namespace SAM.Analytical.IFC
             ifcBuildingElement.ObjectPlacement = ifcLocalPlacement;
         }
 
-        public static void SetIfcProductRepresentation(this IfcSpace ifcSpace, Space space, ArchitecturalModel architecturalModel)
+        public static void SetIfcProductRepresentation(this IfcSpace ifcSpace, Space space, BuildingModel buildingModel)
         {
             if (ifcSpace == null || space == null)
             {
@@ -52,7 +52,7 @@ namespace SAM.Analytical.IFC
 
             IfcGeometricRepresentationContext ifcGeometricRepresentationContext = model.Instances.OfType<IfcGeometricRepresentationContext>().FirstOrDefault();
 
-            IfcProductDefinitionShape ifcProductDefinitionShape = Create.IfcProductDefinitionShape(ifcGeometricRepresentationContext, space, architecturalModel);
+            IfcProductDefinitionShape ifcProductDefinitionShape = Create.IfcProductDefinitionShape(ifcGeometricRepresentationContext, space, buildingModel);
             if (ifcProductDefinitionShape != null)
             {
                 ifcSpace.Representation = ifcProductDefinitionShape;

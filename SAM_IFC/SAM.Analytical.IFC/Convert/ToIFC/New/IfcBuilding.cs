@@ -4,15 +4,15 @@ namespace SAM.Analytical.IFC
 {
     public static partial class Convert
     {
-        public static IfcBuilding ToIFC_IfcBuilding(this ArchitecturalModel architecturalModel, Xbim.Common.IModel model)
+        public static IfcBuilding ToIFC_IfcBuilding(this BuildingModel buildingModel, Xbim.Common.IModel model)
         {
-            if(architecturalModel == null || model == null)
+            if(buildingModel == null || model == null)
             {
                 return null;
             }
 
             IfcBuilding result = model.Instances.New<IfcBuilding>();
-            result.Name = architecturalModel.Name;
+            result.Name = buildingModel.Name;
             result.CompositionType = Xbim.Ifc4.Interfaces.IfcElementCompositionEnum.ELEMENT;
 
             Geometry.Spatial.Point3D point3D = Geometry.Spatial.Create.Point3D(0, 0, 0);

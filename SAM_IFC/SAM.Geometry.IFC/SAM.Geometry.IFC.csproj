@@ -113,10 +113,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.1</Version>
+      <Version>13.0.2</Version>
     </PackageReference>
     <PackageReference Include="Xbim.Geometry">
-      <Version>5.1.403</Version>
+      <Version>5.1.437</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

@@ -18,7 +18,7 @@ namespace SAM.Core.IFC
                 return;
             }
 
-            List<ParameterSet> parameterSets = sAMObject.GetParamaterSets();
+            List<ParameterSet> parameterSets = sAMObject.GetParameterSets();
             if (parameterSets == null)
                 return;
 

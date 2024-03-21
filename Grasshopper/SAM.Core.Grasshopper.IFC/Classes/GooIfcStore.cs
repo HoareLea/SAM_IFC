@@ -147,6 +147,8 @@ namespace SAM.Core.Grasshopper.IFC
         public override Guid ComponentGuid => new Guid("407388bf-2655-4c3d-990b-eb8a64b46c74");
         protected override System.Drawing.Bitmap Icon => Resources.SAM_Small;
 
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
+
         public GooIfcStoreParam()
             : base(typeof(GooIfcStore).Name, typeof(GooIfcStore).Name, typeof(GooIfcStore).FullName.Replace(".", " "), "Params", "SAM")
         {

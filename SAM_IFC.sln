@@ -1,11 +1,9 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29519.87
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SAM_IFC", "SAM_IFC", "{4FDEDAD6-FCEC-4426-9A3B-086BF3C99CC0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dynamo", "Dynamo", "{A81D37DE-E647-4EF9-84B4-478BFD860184}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Grasshopper", "Grasshopper", "{B365D5A7-F4F1-4C45-9565-5F6CFC1134A4}"
 EndProject
@@ -13,13 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Analytical.Grasshopper.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Core.Grasshopper.IFC", "Grasshopper\SAM.Core.Grasshopper.IFC\SAM.Core.Grasshopper.IFC.csproj", "{E9DB1C97-CDD6-472B-AF44-FA1209E24551}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Analytical.IFC", "SAM_IFC\SAM.Analytical.IFC\SAM.Analytical.IFC.csproj", "{71B3ADA2-467D-4EFD-B9A8-9C9527CBE58A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAM.Analytical.IFC", "SAM_IFC\SAM.Analytical.IFC\SAM.Analytical.IFC.csproj", "{71B3ADA2-467D-4EFD-B9A8-9C9527CBE58A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Core.IFC", "SAM_IFC\SAM.Core.IFC\SAM.Core.IFC.csproj", "{E10BF13F-8F39-44FD-87DC-118F10221DE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAM.Core.IFC", "SAM_IFC\SAM.Core.IFC\SAM.Core.IFC.csproj", "{E10BF13F-8F39-44FD-87DC-118F10221DE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Geometry.IFC", "SAM_IFC\SAM.Geometry.IFC\SAM.Geometry.IFC.csproj", "{26B0269A-5123-4D06-9AF0-1C28C6D5D3DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAM.Geometry.IFC", "SAM_IFC\SAM.Geometry.IFC\SAM.Geometry.IFC.csproj", "{26B0269A-5123-4D06-9AF0-1C28C6D5D3DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Architectural.IFC", "SAM_IFC\SAM.Architectural.IFC\SAM.Architectural.IFC.csproj", "{22B4CDDE-7CF8-4537-99D3-090B89555EA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAM.Architectural.IFC", "SAM_IFC\SAM.Architectural.IFC\SAM.Architectural.IFC.csproj", "{22B4CDDE-7CF8-4537-99D3-090B89555EA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

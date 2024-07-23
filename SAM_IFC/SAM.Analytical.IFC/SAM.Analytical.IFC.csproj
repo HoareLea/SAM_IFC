@@ -1,55 +1,30 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{71B3ADA2-467D-4EFD-B9A8-9C9527CBE58A}</ProjectGuid>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SAM.Analytical.IFC</RootNamespace>
-    <AssemblyName>SAM.Analytical.IFC</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
     <Deterministic>false</Deterministic>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyTitle>SAM.Analytical</AssemblyTitle>
+    <Product>SAM.Analytical</Product>
+    <Copyright>Copyright ©  2020</Copyright>
+    <AssemblyVersion>1.0.%2a</AssemblyVersion>
+    <FileVersion>1.0.%2a</FileVersion>
+	  <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	  <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
     <OutputPath>..\..\build\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\build\SAM.Analytical.IFC.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
     <OutputPath>..\build\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\build\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DocumentationFile>..\..\build\SAM.Analytical.IFC.xml</DocumentationFile>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\..\build\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SAM.Analytical">
@@ -71,92 +46,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\SAM\build\SAM.Math.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Convert\ToIFC\IfcZone.cs" />
-    <Compile Include="Convert\ToIFC\IfcSpace.cs" />
-    <Compile Include="Convert\ToIFC\IfcBuildingElement.cs" />
-    <Compile Include="Convert\ToIFC\IfcBuildingElementType.cs" />
-    <Compile Include="Convert\ToIFC\IfcMaterialLayerSet.cs" />
-    <Compile Include="Convert\ToIFC\IfcRoofType.cs" />
-    <Compile Include="Convert\ToIFC\IfcRoof.cs" />
-    <Compile Include="Convert\ToIFC\IfcSlabType.cs" />
-    <Compile Include="Convert\ToIFC\IfcCurtainWallType.cs" />
-    <Compile Include="Convert\ToIFC\IfcSlab.cs" />
-    <Compile Include="Convert\ToIFC\IfcCurtainWall.cs" />
-    <Compile Include="Convert\ToIFC\IfcWall.cs" />
-    <Compile Include="Convert\ToIFC\IfcWallType.cs" />
-    <Compile Include="Convert\ToIFC\IfcBuilding.cs" />
-    <Compile Include="Convert\ToIFC\IfcProject.cs" />
-    <Compile Include="Convert\ToIFC\IfcStore.cs" />
-    <Compile Include="Convert\ToIFC\IfcMaterialLayerSetUsage.cs" />
-    <Compile Include="Convert\ToIFC\New\IfcBuilding.cs" />
-    <Compile Include="Convert\ToIFC\New\IfcBuildingElement.cs" />
-    <Compile Include="Convert\ToIFC\New\IfcBuildingElementType.cs" />
-    <Compile Include="Convert\ToIFC\New\IfcCurtainWall.cs" />
-    <Compile Include="Convert\ToIFC\New\IfcCurtainWallType.cs" />
-    <Compile Include="Convert\ToIFC\New\IfcProject.cs" />
-    <Compile Include="Convert\ToIFC\New\IfcRoof.cs" />
-    <Compile Include="Convert\ToIFC\New\IfcRoofType.cs" />
-    <Compile Include="Convert\ToIFC\New\IfcSlab.cs" />
-    <Compile Include="Convert\ToIFC\New\IfcSlabType.cs" />
-    <Compile Include="Convert\ToIFC\New\IfcSpace.cs" />
-    <Compile Include="Convert\ToIFC\New\IfcStore.cs" />
-    <Compile Include="Convert\ToIFC\New\IfcWall.cs" />
-    <Compile Include="Convert\ToIFC\New\IfcWallType.cs" />
-    <Compile Include="Create\IfcMaterialLayerSetUsage.cs" />
-    <Compile Include="Create\New\IfcMaterialLayerSetUsage.cs" />
-    <Compile Include="Create\New\IfcProductDefinitionShape.cs" />
-    <Compile Include="Modify\New\SetIfcBuildingElement.cs" />
-    <Compile Include="Modify\New\SetIfcBuildingElementType.cs" />
-    <Compile Include="Modify\New\SetIfcProductRepresentation.cs" />
-    <Compile Include="Modify\New\SetIfcPropertySets.cs" />
-    <Compile Include="Modify\New\SetIsExternal.cs" />
-    <Compile Include="Modify\SetIfcRelSpaceBoundary.cs" />
-    <Compile Include="Modify\SetIsExternal.cs" />
-    <Compile Include="Modify\SetIfcBuildingElementType.cs" />
-    <Compile Include="Modify\SetIfcBuildingElement.cs" />
-    <Compile Include="Modify\SetIfcProductRepresentation.cs" />
-    <Compile Include="Modify\SetIfcPropertySets.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Create\IfcProductDefinitionShape.cs" />
-    <Compile Include="Query\IfcSlabTypeEnum.cs" />
-    <Compile Include="Query\IsExternal.cs" />
+    <ProjectReference Include="..\SAM.Architectural.IFC\SAM.Architectural.IFC.csproj" />
+    <ProjectReference Include="..\SAM.Core.IFC\SAM.Core.IFC.csproj" />
+    <ProjectReference Include="..\SAM.Geometry.IFC\SAM.Geometry.IFC.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SAM.Architectural.IFC\SAM.Architectural.IFC.csproj">
-      <Project>{22b4cdde-7cf8-4537-99d3-090b89555ea7}</Project>
-      <Name>SAM.Architectural.IFC</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SAM.Core.IFC\SAM.Core.IFC.csproj">
-      <Project>{E10BF13F-8F39-44FD-87DC-118F10221DE3}</Project>
-      <Name>SAM.Core.IFC</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SAM.Geometry.IFC\SAM.Geometry.IFC.csproj">
-      <Project>{26b0269a-5123-4d06-9af0-1c28c6d5d3dd}</Project>
-      <Name>SAM.Geometry.IFC</Name>
-    </ProjectReference>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Classes\" />
-    <Folder Include="Enums\" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.2</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

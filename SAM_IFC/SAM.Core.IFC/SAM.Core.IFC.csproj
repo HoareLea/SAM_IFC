@@ -39,10 +39,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xbim.Common">
-      <Version>5.1.341</Version>
+      <Version>6.0.521</Version>
     </PackageReference>
     <PackageReference Include="Xbim.Essentials">
-      <Version>5.1.341</Version>
+      <Version>6.0.521</Version>
     </PackageReference>
     <PackageReference Include="Xbim.PropertySets">
       <Version>4.0.1</Version>

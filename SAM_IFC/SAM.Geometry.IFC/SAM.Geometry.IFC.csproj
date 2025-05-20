@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xbim.Geometry">
-      <Version>5.1.437</Version>
+      <Version>5.1.820</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

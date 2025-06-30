@@ -11,6 +11,7 @@
     <FileVersion>1.0.%2a</FileVersion>
 	  <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	  <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\..\build\</OutputPath>
@@ -39,10 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xbim.Common">
-      <Version>5.1.341</Version>
+      <Version>6.0.521</Version>
     </PackageReference>
     <PackageReference Include="Xbim.Essentials">
-      <Version>5.1.341</Version>
+      <Version>6.0.521</Version>
     </PackageReference>
     <PackageReference Include="Xbim.PropertySets">
       <Version>4.0.1</Version>

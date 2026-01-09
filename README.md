@@ -3,20 +3,79 @@
 
 # SAM_IFC
 
-<a href="https://github.com/HoareLea/SAM_Excel"><img src="https://github.com/HoareLea/SAM/blob/master/Grasshopper/SAM.Core.Grasshopper/Resources/SAM_Small.png" align="left" hspace="10" vspace="6"></a>
+<a href="https://github.com/SAM-BIM/SAM">
+  <img src="https://github.com/SAM-BIM/SAM/blob/master/Grasshopper/SAM.Core.Grasshopper/Resources/SAM_Small.png"
+       align="left" hspace="10" vspace="6">
+</a>
 
-**SAM** is part of SAM Toolkit that is designed to help engneers to create Analytical Model. Welcome and let's make the opensource journey continue. :handshake:
+**SAM_IFC** is part of the **SAM (Sustainable Analytical Model) Toolkit** —  
+an open-source collection of tools designed to help engineers create, manage,
+and process analytical building models for energy and environmental analysis.
+
+This repository provides **IFC export utilities for SAM analytical models**
+using the **xBIM Toolkit**.
+It enables analytical model data created within SAM workflows
+to be translated into Industry Foundation Classes (IFC) format
+for interoperability with BIM authoring and coordination tools.
+
+The export focuses on representing analytical and derived building information
+in a structured IFC form suitable for coordination, exchange, and downstream use.
+
+Welcome — and let’s keep the open-source journey going. 🤝
+
+---
+
+## Features
+
+- Export of SAM analytical models to IFC format
+- Use of the **xBIM Toolkit** for IFC generation
+- Mapping of analytical elements to IFC entities
+- Support for interoperability with BIM tools and workflows
+
+---
+
+## References
+
+- 🧱 **xBIM Toolkit:** https://docs.xbim.net/  
+- 🏗 **IFC (buildingSMART):** https://technical.buildingsmart.org/  
+
+---
 
 ## Resources
-* [Wiki](https://github.com/HoareLea/SAM/wiki)
+- 📘 **SAM Wiki:** https://github.com/SAM-BIM/SAM/wiki  
+- 🧠 **SAM Core:** https://github.com/SAM-BIM/SAM  
+
+---
 
 ## Installing
 
-To install **SAM** from .exe just download and run [latest installer](https://github.com/SAM-BIM/SAM_Deploy/releases/latest) otherwise rebuild using VS [SAM](https://github.com/HoareLea/SAM)
+To install **SAM** using the Windows installer, download and run the  
+[latest installer](https://github.com/SAM-BIM/SAM_Deploy/releases/latest).
 
-## Licence ##
+Alternatively, you can build the toolkit from source using Visual Studio.  
+See the main repository for details:  
+👉 https://github.com/SAM-BIM/SAM
 
-SAM is free software licenced under GNU Lesser General Public Licence - [https://www.gnu.org/licenses/lgpl-3.0.html](https://www.gnu.org/licenses/lgpl-3.0.html)  
-Each contributor holds copyright over their respective contributions.
-The project versioning (Git) records all such contribution source information.
-See [LICENSE](https://github.com/HoareLea/SAM_Template/blob/master/LICENSE) and [COPYRIGHT_HEADER](https://github.com/HoareLea/SAM/blob/master/COPYRIGHT_HEADER.txt).
+---
+
+## Development notes
+
+- Target framework: **.NET / C#**
+- IFC export follows SAM-BIM analytical modelling conventions
+- IFC generation is implemented using the xBIM Toolkit
+- New or modified `.cs` files must include the SPDX header from `COPYRIGHT_HEADER.txt`
+
+---
+
+## Licence
+
+This repository is free software licensed under the  
+**GNU Lesser General Public License v3.0 or later (LGPL-3.0-or-later)**.
+
+Each contributor retains copyright to their respective contributions.  
+The project history (Git) records authorship and provenance of all changes.
+
+See:
+- `LICENSE`
+- `NOTICE`
+- `COPYRIGHT_HEADER.txt`

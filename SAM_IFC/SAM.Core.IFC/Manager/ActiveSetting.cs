@@ -11,7 +11,7 @@ namespace SAM.Core.IFC
 
         }
 
-        private static Setting setting = Load();
+        private static Setting setting = null;
 
         private static Definitions<PropertySetDef> definitions;
 
@@ -19,7 +19,9 @@ namespace SAM.Core.IFC
         {
             Setting setting = ActiveManager.GetSetting(Assembly.GetExecutingAssembly());
             if (setting == null)
+            {
                 setting = GetDefault();
+            }
 
             return setting;
         }
@@ -28,6 +30,11 @@ namespace SAM.Core.IFC
         {
             get
             {
+                if(setting == null)
+                {
+                    setting = Load();
+                }
+
                 return setting;
             }
         }

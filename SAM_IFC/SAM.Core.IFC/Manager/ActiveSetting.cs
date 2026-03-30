@@ -11,11 +11,12 @@ namespace SAM.Core.IFC
     {
         public static class Name
         {
-
         }
 
-        private static Setting setting = null;
+        private static readonly object settingLock = new object();
+        private static readonly object definitionsLock = new object();
 
+        private static Setting setting = null;
         private static Definitions<PropertySetDef> definitions;
 
         private static Setting Load()
@@ -33,9 +34,15 @@ namespace SAM.Core.IFC
         {
             get
             {
-                if(setting == null)
+                if (setting == null)
                 {
-                    setting = Load();
+                    lock (settingLock)
+                    {
+                        if (setting == null)
+                        {
+                            setting = Load();
+                        }
+                    }
                 }
 
                 return setting;
@@ -45,7 +52,6 @@ namespace SAM.Core.IFC
         public static Setting GetDefault()
         {
             Setting setting = new Setting(Assembly.GetExecutingAssembly());
-
             return setting;
         }
 
@@ -53,10 +59,16 @@ namespace SAM.Core.IFC
         {
             get
             {
-                if(definitions == null)
+                if (definitions == null)
                 {
-                    definitions = new Definitions<PropertySetDef>(Version.IFC4);
-                    definitions.LoadAllDefault();
+                    lock (definitionsLock)
+                    {
+                        if (definitions == null)
+                        {
+                            definitions = new Definitions<PropertySetDef>(Version.IFC4);
+                            definitions.LoadAllDefault();
+                        }
+                    }
                 }
 
                 return definitions?.DefinitionSets;
